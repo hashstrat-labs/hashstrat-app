@@ -1,0 +1,17 @@
+{
+    "1": "ethereum",
+    "3": "ropsten",
+    "4": "rinkeby",
+    "5": "goerli",
+    "10": "optimism",
+    "42": "kovan",
+    "56": "binance",
+    "69": "optimism kovan testnet",
+    "100": "gnosis",
+    "137": "polygon",
+    "420": "optimism goerli",
+    "1337": "local",
+    "42161": "arbitrum",
+    "421611": "arbitrum test"
+}
+

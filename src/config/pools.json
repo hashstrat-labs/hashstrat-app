@@ -1,0 +1,76 @@
+{
+    "polygon": [
+        {
+            "poolId": "pool01v3a",
+            "name": "Rebalancing [BTC]",
+            "description": "A self-balancing strategy targeting an allocation of 60% BTC and 40% USDC",
+            "detail": "Provides a good exposure to BTC. Allows to acquire more at lower prices and offload some risk at higher prices.",
+            "scope": "Works best during periods of significant market volatility, in either direction.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC"],
+            "strategy": "rebalance_01",
+            "upkeep": "https://automation.chain.link/polygon/91005646385663633827425535784957699372696464746208977816837453310329957060170",
+            "disabled": "false"
+        },
+        {
+            "poolId": "pool02v3a",
+            "name": "Rebalancing [ETH]",
+            "description": "A self-balancing strategy targeting an allocation of 60% ETH and 40% USDC",
+            "detail": "Provides a good exposure to ETH. Allows to acquire more at lower prices and offload some risk at higher prices.",
+            "scope": "Works best during periods of significant market volatility, in either direction.",
+            "depositToken": "USDC",
+            "investTokens": ["WETH"],
+            "strategy": "rebalance_01",
+            "upkeep": "https://automation.chain.link/polygon/103517938643315103689615196084595022812086193533833118622635924439886524371",
+            "disabled": "false"
+        },
+        {
+            "poolId": "pool03v3a",
+            "name": "Mean Reversion [BTC]",
+            "description": "Strategy dollar-cost averaging in and out BTC according to its long-term trend",
+            "detail": "Designed to accumulate BTC when its price is significantly undervalued, and progressively divest when it's significantly overvalued.",
+            "scope": "Works best when the market is forming a bottom or a top.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC"],
+            "strategy": "meanrev_01",
+            "upkeep": "https://automation.chain.link/polygon/68329869876839050088077824993505930823446630439340028225947687618812452348767",
+            "disabled": "false"
+        },
+        {
+            "poolId": "pool04v3a",
+            "name": "Mean Reversion [ETH]",
+            "description": "Strategy dollar-cost averaging in and out ETH according to its long-term trend",
+            "detail": "Designed to accumulate ETH when its price is significantly undervalued, and progressively divest when it's significantly overvalued.",
+            "scope": "Works best when the market is forming a bottom or a top.",
+            "depositToken": "USDC",
+            "investTokens": ["WETH"],
+            "strategy": "meanrev_01",
+            "upkeep": "https://automation.chain.link/polygon/7950355541882819180691127838721539961890191687059406914937614469331565561438",
+            "disabled": "false"
+        },
+        {
+            "poolId": "pool05v3a",
+            "name": "Trend Following [BTC]",
+            "description": "Strategy allocating to BTC during an uptrend and to USDC otherwise",
+            "detail": "Allows to capture value in BTC during uptrends, and sell into USDC during downtrends.",
+            "scope": "Works best when there is a defined trend in the market.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC"],
+            "strategy": "trendfollow_01",
+            "upkeep": "https://automation.chain.link/polygon/57965953671874927088341633082962703685849252455680241126575028119680182939827",
+            "disabled": "false"
+        },
+        {
+            "poolId": "pool06v3a",
+            "name": "Trend Following [ETH]",
+            "description": "Strategy allocating to ETH during an uptrend and to USDC otherwise",
+            "detail": "Allows to capture value in ETH during uptrends, and sell into USDC during downtrends.",
+            "scope": "Works best when there is a defined trend in the market.",
+            "depositToken": "USDC",
+            "investTokens": ["WETH"],
+            "strategy": "trendfollow_01",
+            "upkeep": "https://automation.chain.link/polygon/16560755243522854817010902474008668623517727569689741184071823583987308893266",
+            "disabled": "false"
+        }
+    ]
+}

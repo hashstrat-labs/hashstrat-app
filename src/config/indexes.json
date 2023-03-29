@@ -1,0 +1,73 @@
+{
+    "polygon": [
+        {
+            "poolId": "index01v3a",
+            "name": "Rebal/MeanRev/TrendFollow [BTC]",
+            "description": "Index over 3 BTC strategies with equal weights",
+            "detail": "Allows to passively invest in BTC for the long-term.",
+            "scope": "Uses a balanced set of strategies designed to work in different market conditions.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC"],
+            "strategy": "rebalance_01,meanrev_01,trendfollow_01",
+            "disabled": "false"
+        },
+        {
+            "poolId": "index02v3a",
+            "name": "Rebal/MeanRev/TrendFollow [ETH]",
+            "description": "Index over 3 ETH strategies with equal weights",
+            "detail": "Allows to passively invest in BTC for the long-term.",
+            "scope": "Uses a balanced set of strategies designed to work in different market conditions.",
+            "depositToken": "USDC",
+            "investTokens": ["WETH"],
+            "strategy": "rebalance_01,meanrev_01,trendfollow_01",
+            "disabled": "false"
+        },
+        {
+            "poolId": "index03v3a",
+            "name": "Rebal/MeanRev/TrendFollow [BTC,ETH]",
+            "description": "Index over 3 BTC and ETH strategies with equal weights",
+            "detail": "Allows to passively invest in BTC and ETH for the long-term.",
+            "scope": "Uses a balanced set of strategies designed to work in different market conditions.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC", "WETH"],
+            "strategy": "rebalance_01,meanrev_01,trendfollow_01",
+            "disabled": "false"
+        },
+
+
+        {
+            "poolId": "index04v3a",
+            "name": "Rebalancing [BTC,ETH]",
+            "description": "Index over the BTC and ETH Rebalancing strategies with equal weights",
+            "detail": "Provides a good exposure to BTC and ETH. Allows to acquire more at lower prices and offload some risk at higher prices.",
+            "scope": "Works best during periods of significant market volatility, in either direction.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC", "WETH"],
+            "strategy": "rebalance_01",
+            "disabled": "false"
+        },
+        {
+            "poolId": "index05v3a",
+            "name": "Mean Reversion [BTC,ETH]",
+            "description": "Index over the BTC and ETH Mean Reversion strategies with equal weights",
+            "detail": "Designed to accumulate BTC and ETH when its price is significantly undervalued, and progressively divest when it's significantly overvalued.",
+            "scope": "Works best when the market is forming a bottom or a top.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC", "WETH"],
+            "strategy": "meanrev_01",
+
+            "disabled": "false"
+        },
+        {
+            "poolId": "index06v3a",
+            "name": "Trend Following [BTC,ETH]",
+            "description": "Index over the BTC and ETH Trend Following strategies with equal weights",
+            "detail": "Allows to capture value in BTC and ETH during uptrends, and sell into USDC during downtrends.",
+            "scope": "Works best when there is a defined trend in the market.",
+            "depositToken": "USDC",
+            "investTokens": ["WBTC", "WETH"],
+            "strategy": "trendfollow_01",
+            "disabled": "false"
+        }
+    ]
+}

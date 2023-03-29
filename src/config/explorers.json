@@ -1,0 +1,10 @@
+{
+    "kovan": {
+        "name": "Etherscan",
+        "host": "kovan.etherscan.io"
+    },
+    "polygon": {
+        "name": "PolygonScan",
+        "host": "polygonscan.com"
+    }
+}

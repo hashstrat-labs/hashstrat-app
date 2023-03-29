@@ -1,0 +1,167 @@
+{
+
+    "polygon": {
+        "pool01v3a": {
+            "pool": "0x8714336322c091924495B08938E368Ec0d19Cc94",
+            "pool_lp": "0x49c3ad1bF4BeFb024607059cb851Eb793c224BaB",
+            "strategy": "0xbfB7A8caF44fD28188673B09aa3B2b00eF301118",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool02v3a": {
+            "pool": "0xD963e4C6BE2dA88a1679A40139C5b75961cc2619",
+            "pool_lp": "0xC27E560E3D1546edeC5DD858D404EbaF2166A763",
+            "strategy": "0xc78BD1257b7fE3Eeb33fC824313C71D145C9754b",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool03v3a": {
+            "pool": "0x63151e56140E09999983CcD8DD05927f9e8be81D",
+            "pool_lp": "0xCdf8886cEea718ad37e02e9a421Eb674F20e5ba1",
+            "strategy": "0x4687faf8e60ca8e532af3173C0225379939261F7",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool04v3a": {
+            "pool": "0xd229428346E5Ba2F08AbAf52fE1d2C941ecB36AD",
+            "pool_lp": "0xe4FF896D756Bdd6aa1208CDf05844335aEA56297",
+            "strategy": "0xB98203780925694BAeAFDC7CB7C6ECb1E6631D17",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool05v3a": {
+            "pool": "0xCfcF4807d10C564204DD131527Ba8fEb08e2cc9e",
+            "pool_lp": "0x80bc0b435b7e7F0Dc3E95C3dEA87c68D5Ade4378",
+            "strategy": "0xBbe4786c0D1cEda012B8EC1ad12a2F7a1A5941f1",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool06v3a": {
+            "pool": "0xa2f3c0FDC55814E70Fdac2296d96bB04840bE132",
+            "pool_lp": "0x2523c4Ab54f5466A8b8eEBCc57D8edC0601faB54",
+            "strategy": "0x62386A92078CC4fEF921F9bb1f515464e2f7918f",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+
+
+        "pool01v3": {
+            "pool": "0xb7BB83e1c826a8945652434DCf1758B46d6A5120",
+            "pool_lp": "0xF87c6838EAD55f40B7d3038FBbb1287767898EeB",
+            "strategy": "0xbaB5E5BAF53A3a47fC07cfCA1F87DC83937c824C",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool02v3": {
+            "pool": "0x12a2aeFfc32e2e2151600693812738eDc7153B2A",
+            "pool_lp": "0x326A17829A9DCA987ae14448Dec7148552f05C22",
+            "strategy": "0xB2018552492F416C9654B6e6ccEd2FC2CfEe2116",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool03v3": {
+            "pool": "0xdE2965dFE6a87fD303E252f44678A7580b4580Da",
+            "pool_lp": "0x1cdD5238d95d06b252dfF2F5b27566f2103291B0",
+            "strategy": "0x05054CfAc64073EB81698c3FC90B94F5D4626B2C",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool04v3": {
+            "pool": "0x45E850A7E3ba7f67196EC1e19aFBEe1Ed0f3E875",
+            "pool_lp": "0x1d8F6DaA2e438BAB778E47f2B5d4aa4C545e0822",
+            "strategy": "0x8ff64E1eC930F071F38446c0A2ceAED42C248889",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool05v3": {
+            "pool": "0xdB1fc68059ca310E51F5Ba6BdD567b08858eb29D",
+            "pool_lp": "0xD95Bd1BD362298624471C15bb959A9E4e883F670",
+            "strategy": "0x1Ab8256AE7E4F7980b26c83B137F2BeFa9aE242A",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool06v3": {
+            "pool": "0x32B4A2F744Ab50e80ffa3E48CF4Caaadd37d7215",
+            "pool_lp": "0xEE41Db28d1224807358e11155bA7Df9d9cEC90F2",
+            "strategy": "0x0B1BDE17Bd1c2DD5C38E28c5af2dd55D198A13a6",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+      
+        "pool01": {
+            "pool": "0x7b8b3fc7563689546217cFa1cfCEC2541077170f",
+            "pool_lp": "0x2EbF538B3E0F556621cc33AB5799b8eF089b2D8C",
+            "strategy": "0x6aa3D1CB02a20cff58B402852FD5e8666f9AD4bd",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool02": {
+            "pool": "0x62464FfFAe0120E662169922730d4e96b7A59700",
+            "pool_lp": "0x26b80F5970bC835751e2Aabf4e9Bc5B873713f17",
+            "strategy": "0xca5B24b63D929Ddd5856866BdCec17cf13bDB359",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool03": {
+            "pool": "0xc60CE76892138d9E0cE722eB552C5d8DE70375a5",
+            "pool_lp": "0xe62A17b61e4E309c491F1BD26bA7BfE9e463610e",
+            "strategy": "0x46cfDDc7ab8348b44b4a0447F0e5077188c4ff14",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool04": {
+            "pool": "0x82314313829B7AF502f9D60a4f215F6b6aFbBE4B",
+            "pool_lp": "0xA9085698662029Ef6C21Bbb23a81d3eB55898926",
+            "strategy": "0x02CF4916Dd9f4bB329AbE5e043569E586fE006E4",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool05": {
+            "pool": "0x742953942d6A3B005e28a451a0D613337D7767b2",
+            "pool_lp": "0x7EB471C4033dd8c25881e9c02ddCE0C382AE8Adb",
+            "strategy": "0x7F7a40fa461931f3aecD183f8B56b2782483B04B",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool06": {
+            "pool": "0x949e118A42D15Aa09d9875AcD22B87BB0E92EB40",
+            "pool_lp": "0x74243293f6642294d3cc94a9C633Ae943d557Cd3",
+            "strategy": "0x26311040c72f08EF1440B784117eb96EA20A2412",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+
+        "usdc": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+        "dai": "",
+        "weth": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+        "wbtc": "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+
+        "hst": "0x969D08DaA45663b6066a172b8Ea57cd1F9d5A3C9",
+        "hst_farm": "0xF3515ED3E4a93185ea16D11A870Cf6Aa65a41Ec7",
+        "hst_farm_disabled": "0x130e249DA0B90378eB07845217d6bB832E16f038",
+        "treasury": "0xD54085586F2eA6080e5e7cc3D6c022A2AEC47f3c",
+        "divs_distributor": "0x5087950307FBE0305CBeC729F752215ad6034f80",
+        "dao_operations": "0x7d49433360930dDed0B118fA0C9cAF9a38D18155",
+        
+        "indexes": {
+            "index01v3a": {
+                "pool": "0xE61bA2eF1057dD90aAF9f021Fdf24F6B57D902AF",
+                "pool_lp": "0x0560Dd521787e27126B93E98568002A3ef84E36c"
+            },
+            "index02v3a": {
+                "pool": "0x1FB4fa664648a458c81A6fFDC7b3c7120CEb4E45",
+                "pool_lp": "0x8A8dD5a0d50887D16303460ee00CB311D255b034"
+            },
+            "index03v3a": {
+                "pool": "0xe0B5AfF7821bbABd48429D2B956A1202e3BA9b42",
+                "pool_lp": "0x9D91628be9BA8B024644fF612d013956C7ADa928"
+            },
+
+            "index04v3a": {
+                "pool": "0x87324A1beeA3B49013C95541036b0e5b5d0aBF15",
+                "pool_lp": "0xE07cCF71Dc5726A608C60e7cc213854d29592938"
+            },
+            "index05v3a": {
+                "pool": "0x7F29b0439015f12a001a0608Db92e84c63b7989f",
+                "pool_lp": "0xDd00b39AeCc0109f6C023696cec1112eA36d7CB6"
+            },
+            "index06v3a": {
+                "pool": "0x4bA87145C1fdBc277bB06D5AE2147C646B760565",
+                "pool_lp": "0x09f1Ab39467a9AE7c598a6659720EF586c7593Aa"
+            }
+
+        },
+        "tokens": {
+            "wbtc": {
+                "address": "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+                "feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+            },
+            "weth": {
+                "address": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+                "feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "hashstrat-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.37",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@testing-library/jest-dom": "github:testing-library/jest-dom",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.41",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@usedapp/core": "^1.1.5",
+    "@walletconnect/web3-provider": "^1.7.8",
+    "apexcharts": "^3.36.3",
+    "assert": "^2.0.0",
+    "ethers": "^5.6.8",
+    "http": "^0.0.1-security",
+    "moment": "^2.29.4",
+    "react": "^17.0.0",
+    "react-apexcharts": "^1.4.0",
+    "react-dom": "^17.0.0",
+    "react-jazzicon": "^1.0.4",
+    "react-material-ui-carousel": "^2.3.11",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "4.0.3",
+    "react-social-icons": "^5.14.0",
+    "recharts": "^2.3.2",
+    "stream": "^0.0.2",
+    "typescript": "^4.7.3",
+    "util": "^0.12.4",
+    "victory": "^36.6.5",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.7.4",
+    "web3modal": "^1.9.8",
+    "xhr2-cookies": "^1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^12.1.5"
+  }
+}
