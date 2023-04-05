@@ -94,7 +94,7 @@ export const ConnectAccountHelper = ( { connectedChainId, userMessage } : Connec
                                 
                                 <Box mt={2} >
                                     { connectPressed && !termsAccepted && 
-                                    <Typography variant="body1" color="error"> Please accept the terms of service to connect </Typography> }
+                                    <Typography variant="body1" color="error"> Please accept the terms of service </Typography> }
                                 </Box>
 
                             </div>

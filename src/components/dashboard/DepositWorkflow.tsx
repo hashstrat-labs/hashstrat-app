@@ -46,7 +46,7 @@ const useStyles = makeStyles( theme => ({
     assetsList: {
         marginTop: 50,
         maxWidth: 900,
-        margin: 'auto',
+        // margin: 'auto',
         [theme.breakpoints.down('xs')]: {
             display: "none"
         },
@@ -377,10 +377,10 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
             <Box pt={0} pb={4} >
 
                 { !isInitialDeposit &&
-                    <Box pt={3} mb={3} pl={2} pr={2} style={{ minWidth: 400}} >
+                    <Box pt={3} mb={3} pl={2} pr={2} style={{ minWidth: 500}} >
                          <Typography variant="h4" align="center">
                             Deposit
-                        </Typography>
+                         </Typography>
                         {/* <Typography variant="body1"  style={{marginTop: 5}} align="center">
                             Select a combination of risk assets and portfolio management strategies for this deposit.
                         </Typography> */}
@@ -389,16 +389,16 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                         <Typography variant="body1" align="center" style={{marginTop: 5}}>
                             {
                                 (selectedAsset === undefined && selectedPool === undefined) && 
-                                <label>Select the risk assets you want to hold</label>
+                                <label>Step 1 of 3 <br/> Select the risk assets you want to hold</label>
                             }
 
                             {
                                (selectedAsset !== undefined && selectedPool === undefined) && 
-                               <label>Select the strategy to manage your assets</label>
+                               <label>Step 2 of 3  <br/> Select the strategy to manage your assets</label>
                             }
                             {
                                (!depositCompleted && selectedAsset !== undefined && selectedPool !== undefined) &&
-                                <label>Now deposit some {depositToken.symbol} and your strategy will invest it</label>
+                                <label>Step 3 of 3  <br/> Deposit {depositToken.symbol} and view your portfolio</label>
                             }
                             {
                                 depositCompleted && <label>Deposit completed!</label>
@@ -418,7 +418,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                             </Button>
                         </Typography>
 
-                        <Popover style={{maxWidth: 400}} id={id0} open={open0} anchorEl={anchorEl0} onClose={handleClose0} anchorOrigin={{vertical: 'bottom', horizontal: 'center' }} >
+                        <Popover style={{maxWidth: 500}} id={id0} open={open0} anchorEl={anchorEl0} onClose={handleClose0} anchorOrigin={{vertical: 'bottom', horizontal: 'center' }} >
                             <Box p={3} style={{ minWidth: '320px'}}>
                                
                                     <Typography variant="body1">
@@ -466,7 +466,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                 { selectedAsset === undefined &&
                 <div>
                     <div className={classes.assetsList}>
-                        <Horizontal align="center">
+                        <Horizontal align="left">
                           {assetViews}
                         </Horizontal>
                     </div>

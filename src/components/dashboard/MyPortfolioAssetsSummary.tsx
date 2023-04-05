@@ -21,10 +21,10 @@ import { DepositWorkflow } from "./DepositWorkflow"
 
 import { Modal } from "../Modal"
 import { StyledAlert } from "../shared/StyledAlert"
-
 import { SnackInfo } from "../SnackInfo"
-
 import { TreeChart } from "../shared/TreeChart"
+import { PortfolioValue } from './PortfolioValue'
+
 
 
 interface MyPortfolioAssetsSummaryProps {
@@ -46,11 +46,11 @@ const useStyles = makeStyles( theme => ({
         },
     },
     portfolioSummary: {
-        maxWidth: 900,
+        // maxWidth: 900,
         margin: "auto"
     },
     portfolioInfo: {
-        maxWidth: 640,
+        // maxWidth: 640,
         margin: "auto",
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
@@ -59,6 +59,18 @@ const useStyles = makeStyles( theme => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(2),
         // border: "1px solid black"
+    },
+
+    strategyMap: {
+        margin: 'auto',
+        marginBottom: 20,
+        maxWidth: 600, 
+
+        [theme.breakpoints.down('xs')]: {
+            // width: '100%', 
+            marginLeft: 10,
+            marginRight: 10,
+        },
     }
 }))
 
@@ -219,51 +231,48 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
 
                         <div className={classes.portfolioSummary} > 
 
-                            <Box>   
-                                <Typography variant="h4" align="center" > Portfolio Summary </Typography>
-                                <Typography variant="body1" align="center" style={{marginTop: 20, marginBottom: 10}}>
-                                    Total value of your portfolio
-                                </Typography>
-                                <Typography variant="h5" align="center" style={{marginTop: 0, marginBottom: 20}}>
-                                ${ utils.commify(totalValueFormatted) }
-                                </Typography>
+                            <Typography variant="h4" align="center" style={{ marginTop: 0, marginBottom: 30 }} > Portfolio Summary </Typography>
+
+                            <Box pb={5} >
+                                <PortfolioValue roi={ Number( roiFormatted ?? 0 ) / 100 }  value={ Number( totalValueFormatted ?? 0) } />
                             </Box>
 
-                            <Horizontal>
-                                <Box className={classes.portfolioInfo} >
-                                {
-                                    tokensBalanceInfo && tokensBalanceInfo.map( asset => {
-                                        const valueFormatted = `${ utils.commify(asset.balance) } ($ ${  utils.commify(asset.value) })`
-                                        return  <TitleValueBox key={asset.symbol} title={asset.symbol} value={ valueFormatted }  mode="small" />
-                                    })
-                                }
-
-                                </Box>
-
-                                <Box className={classes.portfolioInfo}>
-                                    <TitleValueBox mode="small" title="ROI" value={roiFormatted?.toString()??""} suffix="%" />
-                                    <TitleValueBox mode="small" title="My Deposits" value={ utils.commify(totalDepositedFormatted) } suffix={depositToken.symbol} />
-                                    <TitleValueBox mode="small" title="My Withdrawals" value={ utils.commify(totalWithdrawnFormatted) } suffix={depositToken.symbol} />
-                                </Box>
-                            </Horizontal>
-
-
-                            { !showBuildPortfolio &&
-                                <Box mt={4} mb={2} >
-                                    <Horizontal align="center"> 
-                                        <Button variant="contained" onClick={depositButtonPressed} color="primary" size="large" > Deposit </Button>
-                                    </Horizontal>
-                                </Box>
-                            }
-
                             { totalValueFormatted  && Number(totalValueFormatted) > 0 &&
-                                <Box className={classes.portfolioCharts}>
-                                    <Horizontal align="center" >
+
+                                <Horizontal align="center" valign="center">
+
+                                    <Box >
                                         <VPieChart { ...chartValueByAsset } /> 
-                                        <VPieChart  { ...chartValueByPool } />
-                                    </Horizontal>
-                                </Box>
+                                            {/* <VPieChart  { ...chartValueByPool } /> */}
+                                    </Box>
+
+                                    <Box>
+                                        {
+                                            tokensBalanceInfo && tokensBalanceInfo.map( asset => {
+                                                const valueFormatted = `${ utils.commify(asset.balance) } ($ ${  utils.commify(asset.value) })`
+                                                return  <TitleValueBox key={asset.symbol} title={asset.symbol} value={ valueFormatted }  mode="small" />
+                                            })
+                                        }
+
+                                        <Box mt={5}>
+                                            <TitleValueBox mode="small" title="My Deposits" value={ utils.commify(totalDepositedFormatted) } suffix={depositToken.symbol} />
+                                            <TitleValueBox mode="small" title="My Withdrawals" value={ utils.commify(totalWithdrawnFormatted) } suffix={depositToken.symbol} />
+                                       
+                                            { !showBuildPortfolio &&
+                                                <Box mt={4} mb={2} >
+                                                    <Horizontal align="center"> 
+                                                        <Button variant="contained" onClick={depositButtonPressed} color="primary" size="large" > Deposit </Button>
+                                                    </Horizontal>
+                                                </Box>
+                                            }
+                                        </Box>
+
+                                    </Box>
+
+                                </Horizontal>
+    
                             }
+                            
                         </div>
                         
                     }
@@ -273,19 +282,17 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
                     { !showBuildPortfolio && poolsSummaryViews && poolsSummaryViews.length > 0 &&
                         <Box my={4} >
                             <Typography variant="h4" align="center" >Your Management Strategies</Typography>
-                            <Typography variant="body2" align="center" style={{ marginTop: 10 }}>
+
+                            <Typography variant="body2" align="center" style={{ marginTop: 10, marginBottom: 10 }}>
                                 Portfolio view by management strategy
                             </Typography>
-
-                            {/* <Horizontal align="center">
-                                <Box mb={2} style={{width: '100%'}}>
-                                    <TreeChart 
-                                        title=""
-                                        height={350}
-                                        data={portfolioMap}
-                                    />
-                                </Box>
-                            </Horizontal> */}
+                            <Box className={ classes.strategyMap }>
+                                <TreeChart 
+                                    title=""
+                                    height={350}
+                                    data={portfolioMap}
+                                />
+                            </Box>
 
                             <Horizontal align="center" > 
                                 { poolsSummaryViews }

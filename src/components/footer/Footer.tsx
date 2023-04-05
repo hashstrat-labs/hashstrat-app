@@ -37,8 +37,8 @@ export const Footer = () =>  {
                     "space-evenly", flexDirection: "row" }}>
 
                 <Box px={4} py={3} >
-                    <img src={logoImg} style={{ width: 220 }} alt="logo" />
-                    <Typography variant="body2"> © 2023 HashStrat. All rights reserved </Typography>
+                    <img src={logoImg} style={{ width: 170 }} alt="logo" />
+                    <Typography variant="body2"> © 2023 HashStrat. <br/> All rights reserved </Typography>
                 </Box>
                 <Box py={2}>
                     <Socials />
