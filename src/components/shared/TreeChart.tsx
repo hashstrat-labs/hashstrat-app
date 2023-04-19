@@ -40,15 +40,20 @@ export const TreeChart = (chartData: ChartData) => {
         labels: categories,
         legend: {
             show: true,
-            position: 'bottom',
+            // position: 'bottom',
             labels: {
                 useSeriesColors: true
             },
+            floating: false,
+            fontSize: '18px',
+            fontFamily: 'Monroe, Arial',
+            fontWeight: 200,
         },
         chart: {
             toolbar: {
                 show: false,
             },
+            
             animations: {
                 enabled: false,
             }

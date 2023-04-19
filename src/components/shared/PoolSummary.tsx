@@ -88,8 +88,8 @@ export const PoolSummary = ({ chainId, poolId, tokens, depositToken, account } :
 
     const outlineColout = poolId.startsWith("index") ? "primary" : "secondary"
     return (
-      
             <Link component={RouterLink} to={link} style={{ textDecoration: 'none' }} > 
+         
                 <Button variant="outlined" color={`${outlineColout}`} className={classes.container} >
                     <Box className={classes.pool}>
                         <Typography variant="h6" align="center"> {name} </Typography>
@@ -106,6 +106,7 @@ export const PoolSummary = ({ chainId, poolId, tokens, depositToken, account } :
                         }
                     </Box>
                 </Button>
+            
             </Link>
     )
 }

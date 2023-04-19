@@ -5,7 +5,7 @@ interface ChildrenProps {
     children: React.ReactNode,
     align?: "center" | "left"
     valign?: "center" | "top"
-    spacing? : "between"
+    spacing? : "around" | "between"
 }
 
 const useStyles = makeStyles( theme => ({
@@ -51,19 +51,29 @@ const useStyles = makeStyles( theme => ({
         gap: theme.spacing(2),
         width: "100%"
     },
+
+
     verticalCenter: {
         display: "flex",
         flexDirection: "column",
         height: "100%",
         alignItems: "center",
     },
-
     verticalLeft: {
         display: "flex",
         flexDirection: "column",
         height: "100%",
         justifyContent: "space-around",
         flexFlow: "row wrap",
+        gap: theme.spacing(0),
+    },
+    verticalHorizontallyCenteredSpaceBetween: {
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        justifyContent: "space-between",
+        flexFlow: "row wrap",
+        alignItems: "center",
         gap: theme.spacing(0),
     },
 
@@ -94,10 +104,12 @@ export const Horizontal = ({ children, align = "left" , valign, spacing } : Chil
     )
 }
 
-export const Vertical = ({children, align = "left"  } : ChildrenProps ) => {
+export const Vertical = ({children, align = "left", spacing = "around" } : ChildrenProps ) => {
     const classes = useStyles()
     return (
-        <div className={ align === 'center' ? classes.verticalCenter : classes.verticalLeft } >
+        <div className={ 
+            spacing === 'between' ? classes.verticalHorizontallyCenteredSpaceBetween :
+            align === 'center' ? classes.verticalCenter : classes.verticalLeft } >
             {children}
         </div>
     )

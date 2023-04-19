@@ -18,12 +18,16 @@ import { IndexesIds } from "../../utils/pools";
 import { PoolIds } from "../../utils/pools";
 import { fromDecimals } from "../../utils/formatter"
 
+import { Launch } from "@material-ui/icons"
+import { strategyItems } from "../strategies/StrategyInfo"
+
 import wbtc from "../img/wbtc.png"
 import weth from "../img/weth.png"
 
-import { Launch } from "@material-ui/icons"
-
-import { strategyItems } from "../strategies/StrategyInfo"
+import dca from "../img/dca.png"
+import rebalancing from "../img/rebalancing.png"
+import trend from "../img/trend.png"
+import allStrategies from "../img/all-strategies.png"
 
 
 interface DespositWorkflowProps {
@@ -40,13 +44,15 @@ interface DespositWorkflowProps {
 
 const useStyles = makeStyles( theme => ({
     container: {
-      
+    //   backgroundColor: 'red',
+    //   marginLeft: 0,
+    //   marginRight: 0,
     },
 
     assetsList: {
         marginTop: 50,
-        maxWidth: 900,
-        // margin: 'auto',
+        maxWidth: 700,
+        margin: 'auto',
         [theme.breakpoints.down('xs')]: {
             display: "none"
         },
@@ -74,14 +80,20 @@ const useStyles = makeStyles( theme => ({
     asset: {
         margin: "auto",
         // padding: theme.spacing(1),
-        minWidth: 170,
+        minWidth: 150,
+        [theme.breakpoints.down('sm')]: {
+            minWidth: 130,
+        },
     },
 
     strategy: {
-        marginLeft: 70,
-        marginRight: 70,
+        maxWidth: 800,
+        margin: 'auto',
+
+        // marginLeft: 70,
+        // marginRight: 70,
         padding: theme.spacing(2),
-        minWidth: 350,
+        // minWidth: 350,
         border: `1px solid ${theme.palette.secondary.main}`,
         borderRadius: 12,
         paddingBottom: 10,
@@ -90,7 +102,46 @@ const useStyles = makeStyles( theme => ({
             marginLeft: 30,
             marginRight: 30
         },
+    },
+
+    strategyDetail: {
+        display: 'grid', 
+        gridTemplateColumns: '100px auto',
+
+        /// justify-items, align-items, justify-content, and align-content
+        // justifyItems: "start",
+        // alignItems: "flex-start",
+     
+        // justifyContent: "start",
+        // alignContent: "flex-start",
+
+        [theme.breakpoints.down('xs')]: {
+            gridTemplateColumns: '1fr',
+        },
+    }, 
+
+    strategyImage: {
+        width: 100, 
+        height: 100, 
+        [theme.breakpoints.down('xs')]: {
+            margin: "auto",
+        },
+    },
+
+    strategyInfo: {
+        marginTop: 0,
+        paddingTop: 0, 
+        marginLeft: 0, 
+        paddingLeft: 60,
+        paddingRight: 20,
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 20,
+            paddingLeft: 20,
+            paddingRight: 20,
+        },
     }
+
+
 
 }))
 
@@ -111,6 +162,13 @@ const assetNames = {
     "WBTC": "BTC",
     "WETH": "ETH",
     "WBTC,WETH": "BTC + ETH",
+}
+
+const strategyImages = {
+    "rebalance_01": rebalancing,
+    "meanrev_01": dca,
+    "trendfollow_01": trend,
+    "rebalance_01,meanrev_01,trendfollow_01": allStrategies
 }
 
 
@@ -194,23 +252,29 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
 
 
     const poolsViews = poolsForAssets?.map( (poolId, idx) => {
-        const { description, detail, scope  } = PoolInfo(chainId, poolId)
 
+        const { description, detail, scope  } = PoolInfo(chainId, poolId)
         const info = PoolInfo(chainId, poolId)
         const strategyName =  strategyNames[info.strategy as keyof typeof strategyNames] || info.strategy
-
+        const strategyImg =  strategyImages[info.strategy as keyof typeof strategyImages] || ''
         const strategyInfo = strategyItems.find( it => it.name === strategyName)
+
+        console.log("strategyImg", strategyImg, "info.strategy ", info.strategy )
 
         return (
             <Box key={idx} className={classes.strategy}>
 
-                <Typography align="center" variant="h6" style={{ marginTop: 0 }}>{strategyName}</Typography>
-                <ul>
-                    <li><Typography variant="body2" style={{ marginTop: 0 }}>{description}</Typography></li>
-                    <li><Typography variant="body2" style={{ marginTop: 0 }}>{detail}</Typography></li>
-                    <li><Typography variant="body2" style={{ marginTop: 0 }}>{scope}</Typography></li>
-                </ul>
-                
+                <Typography align="center" variant="h6" style={{ marginTop: 0, marginBottom: 20 }}>{strategyName}</Typography>
+
+                <Box className={classes.strategyDetail} >
+                    <img src={strategyImg} className={classes.strategyImage} />
+                    <ul className={classes.strategyInfo} >
+                        <li><Typography variant="body2" style={{ marginTop: 0 }}>{description}</Typography></li>
+                        <li><Typography variant="body2" style={{ marginTop: 0 }}>{detail}</Typography></li>
+                        <li><Typography variant="body2" style={{ marginTop: 0 }}>{scope}</Typography></li>
+                    </ul>
+                </Box>
+
 
                 { strategyInfo && 
                     <Horizontal align='center' valign='center'> 
@@ -372,19 +436,15 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         
 
     return (
-        <Box style={{ width: '100%' }} >
+        <Box style={{ width: '100%' }} className={classes.container} >
       
             <Box pt={0} pb={4} >
 
                 { !isInitialDeposit &&
-                    <Box pt={3} mb={3} pl={2} pr={2} style={{ minWidth: 500}} >
+                    <Box pt={3} mb={3} pl={2} pr={2}  >
                          <Typography variant="h4" align="center">
                             Deposit
                          </Typography>
-                        {/* <Typography variant="body1"  style={{marginTop: 5}} align="center">
-                            Select a combination of risk assets and portfolio management strategies for this deposit.
-                        </Typography> */}
-
 
                         <Typography variant="body1" align="center" style={{marginTop: 5}}>
                             {
@@ -414,7 +474,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
 
                         <Typography variant="h4" align="center">Build your Portfolio
                             <Button onClick={handleClick0} style={{ height: 40, width: 40 }} >
-                                <Info  color="action"/> 
+                                <Info color="action"/> 
                             </Button>
                         </Typography>
 
@@ -422,11 +482,11 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                             <Box p={3} style={{ minWidth: '320px'}}>
                                
                                     <Typography variant="body1">
-                                        Your portfolio will contain a mix of stablecoin (USDC) and your selected risk assets (WBTC, WETH).
+                                        Your portfolio will include a mix of stablecoin (USDC) and your selected risk assets (WBTC, WETH).
                                     </Typography>
                                     <Typography variant="body1"  style={{marginTop: 5}}>
-                                    The allocation to each asset in the portfolio will be managed automatically by the strategy you select,
-                                    with the goal to capture volatility and limit risk.
+                                        The allocation to each asset will be managed automatically by the strategy you select,
+                                        with the goal to generate returns and limit risk.
                                     </Typography>
                             
                             </Box>
@@ -466,25 +526,29 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                 { selectedAsset === undefined &&
                 <div>
                     <div className={classes.assetsList}>
-                        <Horizontal align="left">
+                        <Box style={{ display: 'flex', flexFlow: "row", flexWrap: "wrap", gap: 20}}>
                           {assetViews}
-                        </Horizontal>
+                        </Box>
                     </div>
 
                     <div className={classes.assetsCarousel}>
                         <Box pt={3}  >
-                            <Horizontal align="center">
-                                <Carousel 
-                                    fullHeightHover={false}  
-                                    autoPlay={false}
-                                    navButtonsAlwaysVisible={true}
-                                    cycleNavigation={false}
-                                    swipe={true}
-                                    indicators={true}
-                                >
-                                    {assetViews}
-                                </Carousel>
-                            </Horizontal>
+                            <Carousel 
+                                fullHeightHover={false}  
+                                navButtonsProps={{ 
+                                    style: {
+                                        backgroundColor: '#3F8FE3',
+                                        // borderRadius: 0
+                                    }
+                                }} 
+                                autoPlay={false}
+                                navButtonsAlwaysVisible={true}
+                                cycleNavigation={false}
+                                swipe={true}
+                                indicators={true}
+                            >
+                                {assetViews}
+                            </Carousel>
                         </Box>
                     </div>
                 </div>
@@ -492,25 +556,23 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                 }
                 { poolsViews && poolsViews.length > 0 && selectedAsset !== undefined && selectedPool === undefined &&
                     <Box pt={3}  >
-                        <Horizontal align="center">
-                            <Carousel 
-                                fullHeightHover={false}  
-                                navButtonsProps={{ 
-                                    style: {
-                                        // backgroundColor: 'red',
-                                        // borderRadius: 0
-                                    }
-                                }} 
+                        <Carousel 
+                            fullHeightHover={false}  
+                            navButtonsProps={{ 
+                                style: {
+                                    backgroundColor: '#3F8FE3',
+                                    // borderRadius: 0
+                                }
+                            }} 
 
-                                autoPlay={false}
-                                navButtonsAlwaysVisible={true}
-                                cycleNavigation={false}
-                                swipe={true}
-                                indicators={true}
-                            >
-                                {poolsViews}
-                            </Carousel>
-                        </Horizontal>
+                            autoPlay={false}
+                            navButtonsAlwaysVisible={true}
+                            cycleNavigation={false}
+                            swipe={true}
+                            indicators={true}
+                        >
+                            {poolsViews}
+                        </Carousel>
                     </Box>
                 }
 

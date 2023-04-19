@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react"
 
-import { makeStyles, Box, Link, Typography, Button, Snackbar, CircularProgress } from "@material-ui/core"
+import { makeStyles, Box, Link, Typography, Button, Snackbar, CircularProgress, Divider } from "@material-ui/core"
 
 import { utils } from "ethers"
 import { Alert, AlertTitle } from "@material-ui/lab"
@@ -42,11 +42,12 @@ const useStyles = makeStyles( theme => ({
     container: {
         padding: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
-            padding: theme.spacing(0),
+            paddingLeft: theme.spacing(0),
+            paddingRight: theme.spacing(0),
         },
     },
     portfolioSummary: {
-        // maxWidth: 900,
+        maxWidth: 900,
         margin: "auto"
     },
     portfolioInfo: {
@@ -64,7 +65,7 @@ const useStyles = makeStyles( theme => ({
     strategyMap: {
         margin: 'auto',
         marginBottom: 20,
-        maxWidth: 600, 
+        maxWidth: 800, 
 
         [theme.breakpoints.down('xs')]: {
             // width: '100%', 
@@ -79,8 +80,6 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
     
     const classes = useStyles()
     const tokens = [depositToken, ...investTokens]
-
-
     const { poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool, didLoad } = useDashboardModel(chainId, tokens, depositToken, account)
 
     const totalDeposited = useTotalDeposited(chainId, account)
@@ -184,7 +183,7 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
         }
     })
     
-    console.log(">>> poolsWithFunds: ", poolsWithFunds, ">>>", portfolioMap)
+    // console.log(">>> poolsWithFunds: ", poolsWithFunds, ">>>", portfolioMap)
 
 
     return (
@@ -229,7 +228,7 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
 
                     { !showBuildPortfolio  && 
 
-                        <div className={classes.portfolioSummary} > 
+                        <Box className={classes.portfolioSummary} > 
 
                             <Typography variant="h4" align="center" style={{ marginTop: 0, marginBottom: 30 }} > Portfolio Summary </Typography>
 
@@ -239,7 +238,7 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
 
                             { totalValueFormatted  && Number(totalValueFormatted) > 0 &&
 
-                                <Horizontal align="center" valign="center">
+                                <Horizontal align="center" >
 
                                     <Box >
                                         <VPieChart { ...chartValueByAsset } /> 
@@ -273,18 +272,21 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
     
                             }
                             
-                        </div>
+                        </Box>
                         
                     }
 
-
+                  
 
                     { !showBuildPortfolio && poolsSummaryViews && poolsSummaryViews.length > 0 &&
                         <Box my={4} >
-                            <Typography variant="h4" align="center" >Your Management Strategies</Typography>
 
-                            <Typography variant="body2" align="center" style={{ marginTop: 10, marginBottom: 10 }}>
-                                Portfolio view by management strategy
+                            <Divider style= {{ marginBottom: 40 }}/>
+
+                            <Typography variant="h4" align="center" >My Strategies</Typography>
+
+                            <Typography variant="body2" align="center" style={{ margin:10 }}>
+                                Portfolio view showing what strategies are managing the assets in your portfolio.
                             </Typography>
                             <Box className={ classes.strategyMap }>
                                 <TreeChart 
@@ -302,19 +304,17 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
 
 
                     { showDepositModal && 
-                        <Modal onClose={(e) => hideModalPreseed()}>
-                            <Box pl={2} pr={2}>
-                                <DepositWorkflow  
-                                    chainId={chainId} 
-                                    depositToken={depositToken} 
-                                    investTokens={investTokens} 
-                                    isInitialDeposit={false}
-                                    account={account} 
-                                    onClose={hidePortfolioWorkflow}
-                                    onSuccess={handleSuccess}
-                                    onError={handleError}
-                                />
-                            </Box>
+                        <Modal onClose={(e) => hideModalPreseed()} variant="wide" >
+                            <DepositWorkflow  
+                                chainId={chainId} 
+                                depositToken={depositToken} 
+                                investTokens={investTokens} 
+                                isInitialDeposit={false}
+                                account={account} 
+                                onClose={hidePortfolioWorkflow}
+                                onSuccess={handleSuccess}
+                                onError={handleError}
+                            />
 
                         </Modal>
                     }

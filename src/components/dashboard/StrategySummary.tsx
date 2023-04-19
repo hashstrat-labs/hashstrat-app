@@ -120,12 +120,8 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
 
                 { account && 
                     <Box pt={3}>
-        
                         <TitleValueBox title="Asset Value" value={`$${utils.commify(totalAccountValue)}`} mode="bold" />
                         <TitleValueBox title="ROI" value={roiFormatted} mode="bold" suffix="%" />
-
-                        <Typography variant="body1" align="left" style={{marginTop: 20 }}> Assets </Typography>
-                        {tokenViews}
                     </Box>
                 }
 

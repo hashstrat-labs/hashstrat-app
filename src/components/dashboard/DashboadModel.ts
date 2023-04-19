@@ -39,14 +39,14 @@ export type DashboadModel = {
 export const usePoolsInfo = (chainId: number, poolIds: string[], tokens: Token[], account?: string) : PoolData[] => {
 
     const poolsBalances = useTokensInfoForPools(chainId, poolIds, tokens, account)
-    const poolsInfo : PoolData[] = poolsInfoFromBalances(chainId, poolsBalances)
+    const poolsInfo : PoolData[] = poolsInfoFromBalances(chainId, poolsBalances, account)
     return poolsInfo;
 }
 
 export const useIndexesInfo = (chainId: number, indexIds: string[], tokens: Token[], account?: string) : PoolData[] => {
 
     const indexesBalances = useTokensInfoForIndexes(chainId, indexIds, tokens, account)
-    const indexInfo : PoolData[] = poolsInfoFromBalances(chainId, indexesBalances)
+    const indexInfo : PoolData[] = poolsInfoFromBalances(chainId, indexesBalances, account)
     return indexInfo;
 }
 
@@ -107,16 +107,17 @@ export const useDashboardModel = (chainId: number, tokens: Token[], depositToken
         return (loaded && token.loaded === true)
     }, true )
 
-    // console.log("useDashboardModel = didLoad: ", didLoad, "account: ", account)
 
     const totalValue: BigNumber = Object.values(tokenBalances).reduce( (total, token ) : BigNumber => {
         return total.add(token.value)
     }, BigNumber.from(0))
 
+ 
 
     //// Indexes & Pools Info ////
-    const poolsInfo : PoolData[] = poolsInfoFromBalances(chainId, poolsBalances)
-    const indexesInfo : PoolData[] = poolsInfoFromBalances(chainId, indexesBalances)
+    const poolsInfo : PoolData[] = poolsInfoFromBalances(chainId, poolsBalances, account)
+    const indexesInfo : PoolData[] = poolsInfoFromBalances(chainId, indexesBalances, account)
+
 
     //// Chart1: Asset value % Chart Data  ////
     const valueByAsset : PieChartsData[] = Object.values(tokenBalances).map( (item ) => {
@@ -144,7 +145,7 @@ export const useDashboardModel = (chainId: number, tokens: Token[], depositToken
 
 
 
-const poolsInfoFromBalances = (chainId : number, poolsBalances: TokenBalanceMapforIndexMap ) : PoolData[] => {
+const poolsInfoFromBalances = (chainId : number, poolsBalances: TokenBalanceMapforIndexMap, account: string | undefined ) : PoolData[] => {
 
     return Object.keys(poolsBalances).map( (poolId : string) : PoolData => {
 
@@ -156,7 +157,9 @@ const poolsInfoFromBalances = (chainId : number, poolsBalances: TokenBalanceMapf
         const tokensArrayFiltered = tokenInfoArray.filter( it => poolTokenSymbols.includes(it.symbol) )
 
         const totalValue : BigNumber = tokensArrayFiltered.reduce( (acc, val)  => {
-            if (val.accountValue) acc = acc.add(val.accountValue)
+            if (account && val.accountValue) acc = acc.add(val.accountValue)
+            else if (val.value) acc = acc.add(val.value)
+
             return acc
         }, BigNumber.from(0))
 

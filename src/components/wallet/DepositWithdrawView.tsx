@@ -129,7 +129,7 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
           
 
           { showUDepositWithdrawModal && account && (
-            <Modal onClose={(e) => hideModalPreseed()}>
+            <Modal onClose={(e) => hideModalPreseed()}  >
               { formTypeValue === "deposit" && 
                 <DepositForm
                   balance={formattedTokenBalance}
