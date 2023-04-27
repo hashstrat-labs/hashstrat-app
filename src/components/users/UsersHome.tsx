@@ -9,7 +9,7 @@ import { useUsersForPools, useUsersForIndexes } from '../../hooks/usePoolInfo'
 import { InvestTokens, DepositToken } from "../../utils/pools"
 import { shortenAccount } from "../../utils/formatter"
 import { IndexesIds, PoolIds } from "../../utils/pools"
-import { MyPortfolioAssetsSummary } from "../dashboard/MyPortfolioAssetsSummary"
+import { MyPortfolioSummary } from "../dashboard/MyPortfolioSummary"
 import { Horizontal } from "../Layout";
 
 
@@ -77,7 +77,7 @@ export const UsersHome = ({ chainId } : UsersHomeProps) => {
             <Divider style={{marginTop:30, marginBottom: 30}}/>
 
             { account && 
-                <MyPortfolioAssetsSummary chainId={chainId} connectedChainId={undefined} depositToken={depositToken!} investTokens={investTokens} account={account} />
+                <MyPortfolioSummary chainId={chainId} connectedChainId={undefined} depositToken={depositToken!} investTokens={investTokens} account={account} />
             }
         </div>
     )

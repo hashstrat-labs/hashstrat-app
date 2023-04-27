@@ -12,7 +12,7 @@ import { StrategySummary } from "./StrategySummary"
 import { Horizontal } from "../Layout"
 
 import { TitleValueBox } from "../TitleValueBox"
-import { VPieChart } from "../shared/VPieChart"
+// import { VPieChart } from "../shared/VPieChart"
 import { PoolInfo } from "../../utils/pools"
 
 import { useDashboardModel } from "./DashboadModel"
@@ -24,10 +24,12 @@ import { StyledAlert } from "../shared/StyledAlert"
 import { SnackInfo } from "../SnackInfo"
 import { TreeChart } from "../shared/TreeChart"
 import { PortfolioValue } from './PortfolioValue'
+import { MyAssets } from './MyAssets'
+import { Transactions } from './Transactions'
 
+import myStrategiesSrc from './img/strategies.svg'
 
-
-interface MyPortfolioAssetsSummaryProps {
+interface MyPortfolioSummaryProps {
     chainId: number,
     connectedChainId: number | undefined,
     account?: string,
@@ -47,20 +49,26 @@ const useStyles = makeStyles( theme => ({
         },
     },
     portfolioSummary: {
-        maxWidth: 900,
         margin: "auto"
     },
-    portfolioInfo: {
-        // maxWidth: 640,
-        margin: "auto",
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
+
+
+    assetsTransactions: {
+        marginTop: 50,
+
+        display: "inline-grid",
+        gridTemplateColumns: "2fr  1fr",
+        columnGap: 40,
+
+        [theme.breakpoints.down('sm')]: {
+            gridTemplateColumns: "1fr 1fr",
+        },
+        [theme.breakpoints.down('xs')]: {
+            gridTemplateColumns: "1fr",
+            rowGap: 30,
+        },
     },
-    portfolioCharts: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(2),
-        // border: "1px solid black"
-    },
+
 
     strategyMap: {
         margin: 'auto',
@@ -76,7 +84,7 @@ const useStyles = makeStyles( theme => ({
 }))
 
 
-export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositToken, investTokens, account, onPortfolioLoad } : MyPortfolioAssetsSummaryProps) => {
+export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, investTokens, account, onPortfolioLoad } : MyPortfolioSummaryProps) => {
     
     const classes = useStyles()
     const tokens = [depositToken, ...investTokens]
@@ -183,8 +191,6 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
         }
     })
     
-    // console.log(">>> poolsWithFunds: ", poolsWithFunds, ">>>", portfolioMap)
-
 
     return (
         <div className={classes.container}>
@@ -227,67 +233,41 @@ export const MyPortfolioAssetsSummary = ({ chainId, connectedChainId, depositTok
                     }
 
                     { !showBuildPortfolio  && 
-
                         <Box className={classes.portfolioSummary} > 
-
-                            <Typography variant="h4" align="center" style={{ marginTop: 0, marginBottom: 30 }} > Portfolio Summary </Typography>
-
-                            <Box pb={5} >
+                            <Box pb={5}  px={2}>
                                 <PortfolioValue roi={ Number( roiFormatted ?? 0 ) / 100 }  value={ Number( totalValueFormatted ?? 0) } />
+                                
+                                <Box className={classes.assetsTransactions}>
+                                    <MyAssets title="My Assets" tokens={ tokensBalanceInfo } />
+
+                                    <Transactions 
+                                        deposits={ totalDepositedFormatted } 
+                                        withdrawals={totalWithdrawnFormatted} 
+                                        symbol={depositToken.symbol}
+                                        depositButtonPressed={depositButtonPressed}
+                                    />
+                                </Box>
+
                             </Box>
-
-                            { totalValueFormatted  && Number(totalValueFormatted) > 0 &&
-
-                                <Horizontal align="center" >
-
-                                    <Box >
-                                        <VPieChart { ...chartValueByAsset } /> 
-                                            {/* <VPieChart  { ...chartValueByPool } /> */}
-                                    </Box>
-
-                                    <Box>
-                                        {
-                                            tokensBalanceInfo && tokensBalanceInfo.map( asset => {
-                                                const valueFormatted = `${ utils.commify(asset.balance) } ($ ${  utils.commify(asset.value) })`
-                                                return  <TitleValueBox key={asset.symbol} title={asset.symbol} value={ valueFormatted }  mode="small" />
-                                            })
-                                        }
-
-                                        <Box mt={5}>
-                                            <TitleValueBox mode="small" title="My Deposits" value={ utils.commify(totalDepositedFormatted) } suffix={depositToken.symbol} />
-                                            <TitleValueBox mode="small" title="My Withdrawals" value={ utils.commify(totalWithdrawnFormatted) } suffix={depositToken.symbol} />
-                                       
-                                            { !showBuildPortfolio &&
-                                                <Box mt={4} mb={2} >
-                                                    <Horizontal align="center"> 
-                                                        <Button variant="contained" onClick={depositButtonPressed} color="primary" size="large" > Deposit </Button>
-                                                    </Horizontal>
-                                                </Box>
-                                            }
-                                        </Box>
-
-                                    </Box>
-
-                                </Horizontal>
-    
-                            }
-                            
                         </Box>
-                        
                     }
-
                   
 
                     { !showBuildPortfolio && poolsSummaryViews && poolsSummaryViews.length > 0 &&
-                        <Box my={4} >
+                        <Box mb={4} >
+                            <Box px={1}>
+                                <Horizontal >
+                                    <img style={{ width: 32, height: 32 }}  src={myStrategiesSrc} />
+                                    <Typography  style={{ fontSize: 20, fontWeight: 500}} > My Strategies </Typography> 
+                                </Horizontal> 
 
-                            <Divider style= {{ marginBottom: 40 }}/>
+                                <Divider style= {{ marginTop: 10, marginBottom: 30 }}/>
 
-                            <Typography variant="h4" align="center" >My Strategies</Typography>
-
-                            <Typography variant="body2" align="center" style={{ margin:10 }}>
-                                Portfolio view showing what strategies are managing the assets in your portfolio.
-                            </Typography>
+                                <Typography variant="body1" align="left" style={{ margin:10 }}>
+                                    Portfolio view showing what strategies are managing the assets in your portfolio.
+                                </Typography>
+                            </Box>
+   
                             <Box className={ classes.strategyMap }>
                                 <TreeChart 
                                     title=""

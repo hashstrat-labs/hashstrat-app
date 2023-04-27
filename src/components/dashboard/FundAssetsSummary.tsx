@@ -1,14 +1,10 @@
 
 
 import { makeStyles, Box, Typography } from "@material-ui/core"
-import { utils } from "ethers"
 import { useEthers } from "@usedapp/core";
-
 
 import { Token } from "../../types/Token"
 import { Horizontal } from "../Layout"
-import { TitleValueBox } from "../TitleValueBox"
-import { VPieChart } from "../shared/VPieChart"
 import { useDashboardModel } from "./DashboadModel"
 import { PoolInfo } from "../../utils/pools"
 
@@ -16,7 +12,8 @@ import { fromDecimals } from "../../utils/formatter"
 import { PoolExplorer } from "../invest/PoolExprorer"
 
 import { TreeChart } from "../shared/TreeChart"
-import { PortfolioValue } from './PortfolioValue'
+import { MyAssets } from "./MyAssets"
+import { AssetValue } from './AssetValue'
 
 
 interface FundAssetsSummaryProps {
@@ -72,16 +69,17 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
 
     const poolsWithFunds = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
 
-    const tokenBalancesoFormatted = Object.values(portfolioInfo.tokenBalances).map( (item ) => {
+
+    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances).map( (item ) => {
         return {
             symbol: item.symbol,
-            balance: fromDecimals( item.balance, item.decimals, 4),
+            balance: fromDecimals( item.balance, item.decimals, item.symbol === 'USDC' ? 2 : 4),
             value: fromDecimals( item.value, depositToken.decimals, 2),
             depositTokenSymbol: depositToken.symbol,
             decimals: item.decimals
        }
-
     })
+
  
     const portfolioMap = poolsWithFunds.map ( it => {
         const info = PoolInfo(chainId, it.poolId)
@@ -96,51 +94,18 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
         }
     })
     
-    console.log(">>> poolsWithFunds: ", poolsWithFunds, ">>>", portfolioMap)
-
-
     const totalValueFormatted = portfolioInfo.totalValue && fromDecimals( portfolioInfo.totalValue, depositToken.decimals, 2)
-    
+
     return (
         <div className={classes.container}>
          
-
-        {/* AAAAAA */}
             <Box className={classes.portfolioSummary} > 
-
-                <Typography variant="h5" align="center" >Assets under Management</Typography>
-
-                <Box pt={5}>
-                    <PortfolioValue value={ Number( totalValueFormatted ?? 0) } />
+                <Box pb={5} >
+                    <AssetValue value={ Number( totalValueFormatted ?? 0) } />
                 </Box>
-                <Typography variant="body1" align="center" style={{marginTop: 0, marginBottom: 50}}>
-                    TVL across all Pools &amp; Indexes
-                </Typography>
 
-                { totalValueFormatted  && Number(totalValueFormatted) > 0 &&
-
-                    <Horizontal align="center" >
-
-                        <Box >
-                            <VPieChart { ...chartValueByAsset } /> 
-                                {/* <VPieChart  { ...chartValueByPool } /> */}
-                        </Box>
-
-                        <Box className={classes.portfolioInfo} >
-                            {
-                                tokenBalancesoFormatted && tokenBalancesoFormatted.map( (token : any)=> {
-                                    const valueFormatted = `${utils.commify( token.balance )} ($ ${ utils.commify( token.value )})`
-                                    return  <TitleValueBox key={token.symbol} title={token.symbol} value={valueFormatted}  mode="small" />
-                                })
-                            }
-                        </Box>
-
-                    </Horizontal>
-
-                }
-
+                <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
             </Box>
-
 
             { poolsWithFunds && poolsWithFunds.length > 0 &&
                 <Box>

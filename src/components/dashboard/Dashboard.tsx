@@ -10,7 +10,7 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab"
 import { Token } from "../../types/Token"
 
 import { FundAssetsSummary } from "./FundAssetsSummary"
-import { MyPortfolioAssetsSummary } from "./MyPortfolioAssetsSummary"
+import { MyPortfolioSummary } from "./MyPortfolioSummary"
 import { ConnectAccountHelper } from "./ConnectAccountHelper"
 import { Vertical } from "../Layout"
 
@@ -96,7 +96,7 @@ export const Dashboard = ({ chainId, depositToken, investTokens, account } : Das
                 }
 
                 { !(connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
-                    <MyPortfolioAssetsSummary chainId={chainId} connectedChainId={connectedChainId} depositToken={depositToken} investTokens={investTokens} account={account} onPortfolioLoad={(handleDidLoad)} /> 
+                    <MyPortfolioSummary chainId={chainId} connectedChainId={connectedChainId} depositToken={depositToken} investTokens={investTokens} account={account} onPortfolioLoad={(handleDidLoad)} /> 
                 }
                 </TabPanel>
 
