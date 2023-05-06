@@ -41,6 +41,8 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const useStyles = makeStyles(theme => ({
 	container: {
+		backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
+
 		display: "flex",
         justifyContent: "space-between",
         flexDirection: "row",
@@ -48,7 +50,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         gap: theme.spacing(0),
 		padding: 0,
-		marginLeft: 10,
+		paddingLeft: 10,
 		marginTop: 0,
 
 		[theme.breakpoints.down('xs')]: {
@@ -267,7 +269,7 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 				</div> 
 					
 			</Box>
-
+			<Divider />
 		</header>
 	)
 }

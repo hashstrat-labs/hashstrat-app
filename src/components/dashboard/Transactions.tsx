@@ -13,6 +13,18 @@ interface TransactionsProps {
 }
 
 const useStyles = makeStyles( theme => ({
+    container: {
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
+        roundedBorder: 8,
+        paddingTop: 10,
+        paddingBottom: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 10,
+            paddingRight: 10,
+        },
+    },
     wrapper: {
         display: "flex",
         // justifyContent: "space-around",
@@ -40,7 +52,7 @@ export const Transactions = ( { deposits, withdrawals, symbol, depositButtonPres
     const classes = useStyles()
       
     return (
-        <Box>
+        <Box className={classes.container}>
 
             <Box className={classes.header}>
                 <img style={{ width: 32, height: 32 }}  src={transactionsSrc} />

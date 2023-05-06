@@ -1,18 +1,14 @@
 
 import { useState, useEffect } from "react"
 
-import { makeStyles, Box, Link, Typography, Button, Snackbar, CircularProgress, Divider } from "@material-ui/core"
+import { makeStyles, Box, Link, Typography, Snackbar, CircularProgress, Divider } from "@material-ui/core"
 
-import { utils } from "ethers"
 import { Alert, AlertTitle } from "@material-ui/lab"
 
 import { Token } from "../../types/Token"
 import { fromDecimals } from "../../utils/formatter"
 import { StrategySummary } from "./StrategySummary"
 import { Horizontal } from "../Layout"
-
-import { TitleValueBox } from "../TitleValueBox"
-// import { VPieChart } from "../shared/VPieChart"
 import { PoolInfo } from "../../utils/pools"
 
 import { useDashboardModel } from "./DashboadModel"
@@ -29,6 +25,7 @@ import { Transactions } from './Transactions'
 
 import myStrategiesSrc from './img/strategies.svg'
 
+
 interface MyPortfolioSummaryProps {
     chainId: number,
     connectedChainId: number | undefined,
@@ -43,29 +40,41 @@ interface MyPortfolioSummaryProps {
 const useStyles = makeStyles( theme => ({
     container: {
         padding: theme.spacing(2),
+
         [theme.breakpoints.down('xs')]: {
             paddingLeft: theme.spacing(0),
             paddingRight: theme.spacing(0),
         },
     },
     portfolioSummary: {
-        margin: "auto"
+        marginTop:10,
+    },
+
+    strategies: {
+        marginTop:20,
+        padding: 10,
+        paddingBottom: 0,
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
     },
 
 
     assetsTransactions: {
-        marginTop: 50,
+        marginTop: 30,
+        // backgroundColor: 'red',
 
-        display: "inline-grid",
+        display: "grid",
         gridTemplateColumns: "2fr  1fr",
         columnGap: 40,
 
         [theme.breakpoints.down('sm')]: {
+            marginTop: 30,
             gridTemplateColumns: "1fr 1fr",
         },
         [theme.breakpoints.down('xs')]: {
+            marginTop: 30,
             gridTemplateColumns: "1fr",
             rowGap: 30,
+            columnGap: 0,
         },
     },
 
@@ -76,11 +85,19 @@ const useStyles = makeStyles( theme => ({
         maxWidth: 800, 
 
         [theme.breakpoints.down('xs')]: {
-            // width: '100%', 
             marginLeft: 10,
             marginRight: 10,
         },
+    },
+
+    strategyPools: {
+        padding: theme.spacing(0),
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+        },
     }
+
 }))
 
 
@@ -118,15 +135,38 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
         return acc = acc || PoolInfo(chainId, val.poolId).disabled === 'true'
     }, false)
 
-    const poolsWithFunds = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
-    const poolsSummaryViews = poolsWithFunds.map ( pool => {
+    const poolsWithFunds = [...indexesInfo, ...poolsInfo]
+        .filter( pool => pool.totalValue.isZero() === false )
+        .sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
+     
+    const disabledPoolsSummaryViews = poolsWithFunds
+        .filter( pool => { 
+            return PoolInfo(chainId, pool.poolId).disabled === 'true'
+            // const isV4 =  /v4.?$/.test(pool.poolId) 
+            // return isV4 == false
+        })
+        .map ( pool => {
         return <StrategySummary key={pool.poolId} 
                     chainId={chainId} 
                     poolId={pool.poolId} 
                     tokens={pool.tokenInfoArray} 
                     depositToken={depositToken}
                     account={account}
-                 />
+                />
+    })  
+
+    const enabledPoolsSummaryViews = poolsWithFunds
+        .filter( pool => { 
+            return PoolInfo(chainId, pool.poolId).disabled === 'false'
+        })
+        .map ( pool => {
+        return <StrategySummary key={pool.poolId} 
+                    chainId={chainId} 
+                    poolId={pool.poolId} 
+                    tokens={pool.tokenInfoArray} 
+                    depositToken={depositToken}
+                    account={account}
+                />
     })
 
     const totalValueFormatted = portfolioInfo.totalValue && fromDecimals( portfolioInfo.totalValue, depositToken.decimals, 2)
@@ -165,9 +205,6 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
         setShowSnack(true)
     }
 
-
-
-
     // SNACK
     const [showSnack, setShowSnack] = useState(false)
     const [snackContent, setSnackContent] = useState<SnackInfo>()
@@ -175,8 +212,6 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
     const handleCloseSnack = () => {
         setShowSnack(false)
     }
-
-
   
     const portfolioMap = poolsWithFunds.map ( it => {
         const info = PoolInfo(chainId, it.poolId)
@@ -201,14 +236,13 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                 </div>
             }
          
-
             { userHasDisabledPools && 
                 <Box pb={2} >
                     <Alert severity="warning" > 
-                        <AlertTitle>Upgraded Pools &amp; Indexes</AlertTitle>
-                        New versions of all Pools &amp; Indexes have been deployed and the old versions are now disabled.<br/>
-                        Withdraw your funds from disabled Pools &amp; Indexes and deposit into active ones. <br/>
-                        If you had "staked" your LP tokens remember to "unstake" them before you can withdraw.
+                        <AlertTitle><strong>Strategy upgrade</strong></AlertTitle>
+                        Due to security concerns an old version of your strategies has been disabled.
+                        A new version is now available.<br/>
+                        <strong>Withdraw your funds now</strong> from the disabled strategies below and deposit into the new upgraded strategies.
                     </Alert>
                 </Box>
             }
@@ -234,12 +268,20 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
 
                     { !showBuildPortfolio  && 
                         <Box className={classes.portfolioSummary} > 
-                            <Box pb={5}  px={2}>
-                                <PortfolioValue roi={ Number( roiFormatted ?? 0 ) / 100 }  value={ Number( totalValueFormatted ?? 0) } />
+                            <Box pb={2}>
+                                { roiFormatted !== undefined && 
+                                totalValueFormatted !== undefined && 
+                                totalWithdrawnFormatted !== undefined &&
+                                totalDepositedFormatted !== undefined &&
+                                <PortfolioValue 
+                                    roi={ Number( roiFormatted ?? 0 ) / 100 } 
+                                    value={ Number( totalValueFormatted ?? 0) }
+                                    gains={ Number( totalValueFormatted ?? 0) + Number( totalWithdrawnFormatted ?? 0) - Number( totalDepositedFormatted ?? 0) }
+                                />
+                                }
                                 
                                 <Box className={classes.assetsTransactions}>
                                     <MyAssets title="My Assets" tokens={ tokensBalanceInfo } />
-
                                     <Transactions 
                                         deposits={ totalDepositedFormatted } 
                                         withdrawals={totalWithdrawnFormatted} 
@@ -252,9 +294,14 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                         </Box>
                     }
                   
+                  
 
-                    { !showBuildPortfolio && poolsSummaryViews && poolsSummaryViews.length > 0 &&
-                        <Box mb={4} >
+                    {   !showBuildPortfolio && 
+                        (
+                            (enabledPoolsSummaryViews && enabledPoolsSummaryViews.length > 0) || 
+                            (disabledPoolsSummaryViews && disabledPoolsSummaryViews.length > 0) 
+                        )  &&
+                        <Box mb={4} className={classes.strategies} >
                             <Box px={1}>
                                 <Horizontal >
                                     <img style={{ width: 32, height: 32 }}  src={myStrategiesSrc} />
@@ -275,13 +322,48 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                                     data={portfolioMap}
                                 />
                             </Box>
-
-                            <Horizontal align="center" > 
-                                { poolsSummaryViews }
-                            </Horizontal>
                         </Box>
                     }
 
+
+                    {   !showBuildPortfolio && 
+                        (
+                            (enabledPoolsSummaryViews && enabledPoolsSummaryViews.length > 0) || 
+                            (disabledPoolsSummaryViews && disabledPoolsSummaryViews.length > 0) 
+                        )  &&                       
+                        <Box pb={2}>
+
+                            <Box className={classes.strategyPools}>
+                                <Typography variant="h5" >Strategy Pools</Typography>
+                            </Box>
+
+                            { (enabledPoolsSummaryViews && enabledPoolsSummaryViews.length > 0) &&
+                                <Box pt={4} >
+                                    <Horizontal> 
+                                    { enabledPoolsSummaryViews }
+                                    </Horizontal>
+                                </Box>
+                            }
+                            
+                            { (disabledPoolsSummaryViews && disabledPoolsSummaryViews.length > 0) &&
+                                <>
+                                <Box py={4} >
+                                    <Alert severity="warning" > 
+                                        <AlertTitle><strong> Disabled Strategies 🚫</strong></AlertTitle>
+                                        Withdraw your funds from the disabled strategies below, 
+                                        and deposit into the new upgraded strategies.
+                                    </Alert>
+                                </Box>
+                                <Horizontal> 
+                                    { disabledPoolsSummaryViews }
+                                </Horizontal>
+                                </>
+                            }
+
+                        </Box>
+                    }
+
+              
 
                     { showDepositModal && 
                         <Modal onClose={(e) => hideModalPreseed()} variant="wide" >

@@ -9,13 +9,21 @@ import { Horizontal } from "../Layout"
 interface PortfolioValueProps {
     value: number,
     roi?: number | undefined,
+    gains?: number | undefined,
 }
 
 const useStyles = makeStyles( theme => ({
-
+    container: {
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
+        padding: 20,
+        roundedBorder: 8,
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 10,
+            paddingRight: 10,
+        },
+    },
     avatar: {
-
-         border: `1px solid ${theme.palette.text.secondary}`,
+         border: `1px solid ${ theme.palette.type === 'light' ? '#ccc' :'#aaa' }`,
          borderRadius: 6,
          marginRight: 20,
          paddingTop: 20,
@@ -64,18 +72,19 @@ const useStyles = makeStyles( theme => ({
 }))
 
 
-export const PortfolioValue = ({ value, roi }: PortfolioValueProps ) => {
+export const PortfolioValue = ({ value, gains, roi }: PortfolioValueProps ) => {
 
     const { account } = useEthers()
-
-    const roiFormatted = roi && Math.round( roi * 10000 ) / 100
-    const valueBefore = roi && Math.round(  value / (1 + roi) )
-    const growth = valueBefore && Math.round(value - valueBefore)
-
+    const roiRounded = roi !== undefined ? Math.round( roi * 10000 ) / 100 : 0
+    const gainsRounded = gains !== undefined ? Math.round( gains * 100 ) / 100 : 0
     const classes = useStyles()
 
+    console.log(">>> PortfolioValue value: ", value, "gains",gains, "gainsRounded:", gainsRounded, "roi:", roi, roiRounded)
+
+
     return (
-        <Box textAlign="center">
+        <Box textAlign="center" className={classes.container}>
+
             <Horizontal valign="center">
                 <Box className={classes.avatar}>
                     <Jazzicon diameter={60} seed={jsNumberForAddress( account ?? '0x0')} />
@@ -96,14 +105,14 @@ export const PortfolioValue = ({ value, roi }: PortfolioValueProps ) => {
                         <Box>
                             <Typography className={classes.title}>ROI</Typography>
                         </Box>
-                        { roi && growth &&
+                        { roi !== undefined && gainsRounded !== undefined &&
                             <Box className={classes.roiValue}>
                                 <Typography 
                                     variant="body1" 
                                     color="textPrimary"
                                     align="left"
                                     style={{ fontSize: 24,  fontWeight: 600, color: roi >=0 ? 'green' : 'red' }}  >
-                                        {roi >=0 ? '+' : ''}{ roiFormatted }% (${utils.commify( growth ) }) 
+                                        {roi >=0 ? '+' : ''}{ roiRounded }% (${utils.commify( gainsRounded ) }) 
                                 </Typography>
                             </Box>
                         }

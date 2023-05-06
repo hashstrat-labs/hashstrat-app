@@ -44,7 +44,8 @@ const allStrategies = (chainId: number) : string[]=> {
     const networkName = networksConfig[chainId.toString() as keyof typeof networksConfig]
     const indexes = indexesInfo[networkName as keyof typeof indexesInfo]
     const pools = poolsInfo[networkName as keyof typeof poolsInfo]
-    const enabled = [...indexes, ...pools].filter( (pool: {disabled: string}) => { return (pool.disabled === 'false')} )
+    // const enabled = [...indexes, ...pools].filter( (pool: {disabled: string}) => { return (pool.disabled === 'false')} )
+    const enabled = [...indexes, ...pools]
     const filtered = enabled.map((pool: { strategy: string }) => pool.strategy)
     const deduped = Array.from(new Set(filtered))
     
@@ -61,7 +62,8 @@ const allAssets = (chainId: number) : string[] => {
     const indexes = indexesInfo[networkName as keyof typeof indexesInfo]
     const pools = poolsInfo[networkName as keyof typeof poolsInfo]
 
-    const enabled = [...indexes, ...pools].filter( (pool: {disabled: string}) => { return (pool.disabled === 'false')} )
+    // const enabled = [...indexes, ...pools].filter( (pool: {disabled: string}) => { return (pool.disabled === 'false')} )
+    const enabled = [...indexes, ...pools]
  
     const filtered = enabled.map(pool => pool.investTokens.join(','))
     const deduped = Array.from(new Set(filtered))
@@ -91,21 +93,25 @@ const isMyPool = (pool: PoolData) : boolean => {
 }
 
 
+// Returns the list of PoolData for the "active" pools for the the optional 'asset' and 'strategy', ordered by TVL
 const filterPools = (chainId: number, poolsInfo: PoolData[], strategy: string | undefined, asset: string | undefined, mypools: boolean) => {
-
     const filtered = poolsInfo.filter( pool => { 
-
         const info = PoolInfo(chainId, pool.poolId)
         const includeStrategy = strategy === undefined || info.strategy === strategy
         const includeAsset = asset === undefined || info.investTokens.join(',') === asset
-
         const includeMyPools = mypools === false || isMyPool(pool)
 
+        // return info.disabled === 'false' && includeStrategy && includeAsset && includeMyPools
         return info.disabled === 'false' && includeStrategy && includeAsset && includeMyPools
+    }).sort( (a: PoolData, b: PoolData) => {
+        return b.totalValue.toNumber() - a.totalValue.toNumber()
     })
 
+    console.log("filtered >>> ", filtered)
+    
     return filtered
 }
+
 
 
 const strategyNames = {

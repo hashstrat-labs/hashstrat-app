@@ -27,33 +27,34 @@ const useStyles = makeStyles( theme => ({
     container: {
         paddingTop: 2,
         marginBottom: 10,
-      
+
+        backgroundColor: theme.palette.type === 'light' ? '#F7F7F7' : '#222',
     },
 
-    tabList: { 
-        maxWidth: 1200,
-        padding: 0,
-        margin: "auto",
-        backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.grey[900],
-        borderRadius: "20px 20px 0px 0px",
+    // tabList: { 
+    //     maxWidth: 1200,
+    //     padding: 0,
+    //     margin: "auto",
+    //     backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.grey[900],
+    //     borderRadius: "20px 20px 0px 0px",
 
-        [theme.breakpoints.down('xs')]: {
-            borderRadius: 0,
-        },
-    },
-    tab: { 
-        maxWidth: 1200,
-        padding: 0,
-        margin: "auto",
-        paddingTop: 20,
-        paddingBottom: 20,
-        backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.grey[900],
-        borderRadius: "0px 0px 20px 20px",
+    //     [theme.breakpoints.down('xs')]: {
+    //         borderRadius: 0,
+    //     },
+    // },
+    // tab: { 
+    //     maxWidth: 1200,
+    //     padding: 0,
+    //     margin: "auto",
+    //     paddingTop: 20,
+    //     paddingBottom: 20,
+    //     backgroundColor: theme.palette.type === 'light' ? 'white' : theme.palette.grey[900],
+    //     borderRadius: "0px 0px 20px 20px",
 
-        [theme.breakpoints.down('xs')]: {
-            borderRadius: 0,
-        },
-    }
+    //     [theme.breakpoints.down('xs')]: {
+    //         borderRadius: 0,
+    //     },
+    // }
 }))
 
 
@@ -79,31 +80,20 @@ export const Dashboard = ({ chainId, depositToken, investTokens, account } : Das
     return (
         <div className={classes.container} >
             
-            <TabContext value={selectedTokenIndex.toString()}>
-     
-                <TabList onChange={handleChange} className={classes.tabList}>
-                    <Tab label="My Portfolio" value="0" key={0} />
-                    <Tab label="HashStrat" value="1" key={1}  />
-                </TabList>
 
-                <TabPanel className={classes.tab} value="0" key={0}>
-                { (connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
-                    <Box style={{height: 500}}>
-                        <Vertical >
-                            <ConnectAccountHelper connectedChainId={connectedChainId} userMessage="access your portfolio" />
-                        </Vertical>
-                    </Box>
-                }
+            { (connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
+                <Box style={{height: 500}}>
+                    <Vertical >
+                        <ConnectAccountHelper connectedChainId={connectedChainId} userMessage="access your portfolio" />
+                    </Vertical>
+                </Box>
+            }
 
-                { !(connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
+            { !(connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
+                <Box  style={{ maxWidth: 1200, margin: "auto" }}>
                     <MyPortfolioSummary chainId={chainId} connectedChainId={connectedChainId} depositToken={depositToken} investTokens={investTokens} account={account} onPortfolioLoad={(handleDidLoad)} /> 
-                }
-                </TabPanel>
-
-                <TabPanel className={classes.tab} value="1" key={1}>
-                    <FundAssetsSummary chainId={chainId}  depositToken={depositToken} investTokens={investTokens} />
-                </TabPanel>
-            </TabContext>
+                </Box>
+            }
            
         </div>
     )

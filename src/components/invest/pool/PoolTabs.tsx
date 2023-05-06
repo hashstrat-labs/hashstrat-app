@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react"
-import { Box, Tab, makeStyles } from "@material-ui/core"
-import { TabContext, TabList, TabPanel } from "@material-ui/lab"
-
+import { Box, Tab, makeStyles, Typography } from "@material-ui/core"
+import { TabContext, TabList, TabPanel, Alert, AlertTitle } from "@material-ui/lab"
 import { Token } from "../../../types/Token"
 import { MyStatsView } from "./MyStatsView"
 import { PoolStatsView } from "./PoolStatsView"
@@ -28,9 +27,16 @@ interface PoolTabsProps {
 
 const useStyle = makeStyles( theme => ({
     container: {
-      
         marginTop: 22,
         paddingBottom: 0,
+    },
+    title: {
+        paddingLeft: 20,
+        paddingRight: 20,
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 10,
+            paddingRight: 10,
+        },
     },
     tabList: { 
         padding: 0,
@@ -64,7 +70,7 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
         setSelectedTokenIndex(parseInt(newValue))
     }
 
-    const { strategy } = PoolInfo(chainId, poolId)
+    const { name, strategy, disabled } = PoolInfo(chainId, poolId)
 
     const isRebalanceStrategy = strategy === "rebalance_01" 
     const isMeanRevStrategy = strategy === "meanrev_01"
@@ -73,6 +79,21 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
 
     return (
         <Box className={classes.container}>
+
+            { disabled === 'true' && 
+                <Box pb={2} >
+                    <Alert severity="warning" > 
+                        <AlertTitle><strong>Strategy upgrade</strong></AlertTitle>
+                        Due to security concerns this Strategy is no longer supported and deposits have been disabled. <br/>
+                        <strong>Withdraw</strong> all your funds and re-deposit into the new upgraded pools. <br/>
+                        If you staked your LP tokens you'll need to unstake them before you can withdraw.
+                    </Alert>
+                </Box>
+            }
+
+            <Box className={classes.title}>
+                <Typography variant="h5">{name}</Typography>
+            </Box>
 
             <TabContext value={selectedTokenIndex.toString()}>
                 <TabList onChange={handleChange} className={classes.tabList}>

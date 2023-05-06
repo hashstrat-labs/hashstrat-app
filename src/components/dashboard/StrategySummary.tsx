@@ -1,5 +1,5 @@
 
-import { makeStyles, Link, Box, Typography } from "@material-ui/core"
+import { makeStyles, Link, Box, Typography, Button } from "@material-ui/core"
 import { BigNumber, utils } from "ethers"
 import { Link as RouterLink } from "react-router-dom"
 
@@ -7,6 +7,7 @@ import { useGetDeposits, useGetWithdrawals } from "../../hooks/usePool"
 import { PoolInfo } from "../../utils/pools"
 import { fromDecimals } from "../../utils/formatter"
 import { Token } from "../../types/Token"
+import { ButtonGo } from "../shared/Button"
 
 import { TitleValueBox } from "../TitleValueBox"
 import { TokenInfo } from "../../types/TokenInfo"
@@ -24,38 +25,41 @@ interface PoolSummaryProps {
     tokens: TokenInfo[],
     depositToken: Token,
     account: string | undefined
+
 }
 
 
-const useStyles = makeStyles( theme => ({
-    container: {
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-        border: `1px solid ${theme.palette.secondary.main}`,
-        borderRadius: 12,
-        padding: 20,
-        // marginLeft: 10,
-        // marginRight: 10
-    },
-    pool: {
-        width: 360,
-        color: theme.palette.text.secondary,
-        textTransform: "none",
-        [theme.breakpoints.down("sm")]: {
-            width: 320,
-        },
-    }
-}))
 
 
-
-export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account } : PoolSummaryProps ) => {
+export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account} : PoolSummaryProps ) => {
     
-    const classes = useStyles()
-
+    const { name, description, investTokens, depositToken : depositTokenSymbol, disabled } = PoolInfo(chainId, poolId)
     const deposits = useGetDeposits(chainId, poolId, account)
     const withdrawals = useGetWithdrawals(chainId, poolId, account)
     
-    
+   
+    const useStyles = makeStyles( theme => ({
+        container: {
+            backgroundColor: 
+                theme.palette.type === 'light' && disabled == 'true' ? '#E7E7E7' :
+                theme.palette.type === 'light' && disabled == 'false' ? '#fff' :
+                '#000',
+            borderRadius: 8,
+            padding: 20,
+        },
+        pool: {
+            maxWidth: 400,
+            color: theme.palette.text.secondary,
+            textTransform: "none",
+            [theme.breakpoints.down("sm")]: {
+                margin: 'auto',
+            },
+        }
+    }))
+
+
+    const classes = useStyles()
+
     const totalValues = tokens.reduce( (acc, val) => {
         acc = {
             account: val.accountValue ? acc.account.add(BigNumber.from(val.accountValue)) : acc.account,
@@ -67,22 +71,18 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
 
     const totalAccountValue = fromDecimals(totalValues.account, depositToken.decimals, 2 )
 
-    const { name, description, investTokens, depositToken : depositTokenSymbol, disabled } = PoolInfo(chainId, poolId)
-
-
 
     if (totalAccountValue === '0' && disabled === 'true') {
         return <div></div>
     }
 
+    // const tokenViews = tokens && tokens.map( token => {
+    //     const accountBalanceFormatted = token.accountBalance && fromDecimals(token.accountBalance ?? BigNumber.from(0), token.decimals, 4 )
+    //     const accountValueFormatted = token.accountValue && fromDecimals(token.accountValue ?? BigNumber.from(0), depositToken.decimals, 2 )
+    //     const valueFormatted = accountBalanceFormatted && accountValueFormatted ?  `${accountBalanceFormatted} ($ ${accountValueFormatted})` : '0'
 
-    const tokenViews = tokens && tokens.map( token => {
-        const accountBalanceFormatted = token.accountBalance && fromDecimals(token.accountBalance ?? BigNumber.from(0), token.decimals, 4 )
-        const accountValueFormatted = token.accountValue && fromDecimals(token.accountValue ?? BigNumber.from(0), depositToken.decimals, 2 )
-        const valueFormatted = accountBalanceFormatted && accountValueFormatted ?  `${accountBalanceFormatted} ($ ${accountValueFormatted})` : '0'
-
-        return <TitleValueBox key={token.symbol} title={token.symbol} value={valueFormatted} mode="small" />
-    })
+    //     return <TitleValueBox key={token.symbol} title={token.symbol} value={valueFormatted} mode="small" />
+    // })
 
     const assetImages = [...investTokens, depositTokenSymbol].map( (item, idx) => {
        const imageSrc = item === 'WBTC' ? wbtc : item === 'WETH' ? weth : item === 'USDC' ? usdc : ''
@@ -106,17 +106,15 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
 
 
     return (
-        <Box  color={`${outlineColout}`} className={classes.container} >
+        <Box color={`${outlineColout}`} className={classes.container} >
+            
             <Box className={classes.pool}>
-
                 <Horizontal spacing="between" >
-                    <Typography variant="h5"> {nameFormatted} </Typography>
+                    <Typography variant="h5"> {nameFormatted} { disabled === 'true' && <label>🚫</label>}</Typography>
                     <Box> {assetImages} </Box>
                 </Horizontal>
-
                 
                 <Typography variant="body2" align="left"> {description} </Typography>
-
 
                 { account && 
                     <Box pt={3}>
@@ -126,11 +124,9 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
                 }
 
                 <Box pt={2}> 
-                    <Horizontal align="center" >
-                        <Link component={RouterLink} to={link} style={{ textDecoration: 'none' }} > 
-                                Go to {isIndex ? 'Index' : 'Pool'} &gt;&gt;
-                        </Link>
-                    </Horizontal>
+                    <Link component={RouterLink} to={link} style={{ textDecoration: 'none' }} > 
+                        <ButtonGo fullWidth={true}> Go to Strategy </ButtonGo>
+                    </Link>
                 </Box>
             </Box>
         </Box>

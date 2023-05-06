@@ -76,10 +76,9 @@ export const PoolSummary = ({ chainId, poolId, tokens, depositToken, account } :
     const myShareFormatted = `$ ${utils.commify(totalAccountValueFormatted) } (${accountPercFormatted}%)`
     const link = poolId.startsWith("index") ? `/indexes/${poolId}` : `/pools/${poolId}`
 
-
-    if (totalAccountValueFormatted === '0' && disabled === 'true') {
-        return <div></div>
-    }
+    // if (totalAccountValueFormatted === '0' && disabled === 'true' ) {
+    //     return <div></div>
+    // }
 
     const assetImages = [...investTokens, depositTokenSymbol].map( (item, idx) => {
        const imageSrc = item === 'WBTC' ? wbtc : item === 'WETH' ? weth : item === 'USDC' ? usdc : ''

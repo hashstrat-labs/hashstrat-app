@@ -19,7 +19,7 @@ const useStyle = makeStyles( theme => ({
     social: {
         minWidth: 180,
         display: "grid",
-        gridTemplateColumns: "1fr  auto 15px",
+        gridTemplateColumns: "1fr auto 15px",
         justifyItems: "left",
         alignItems: "center", 
         gap: 5,
@@ -56,52 +56,47 @@ export const Socials = () => {
         <Box className={classes.container}>
 
             <Horizontal align="left" valign="center">
-                
-                <Link target="_blank" href="https://medium.com/@hashstrat" style={{ textDecoration: 'none' }} >
-                    <Box className={classes.social}>
-                        <Horizontal valign="center">
-                            <SocialIcon url="https://medium.com/@hashstrat" style={{width: 30, height: 30}} target="_blank"  bgColor={bgcolor} />
+               
+                <Box className={classes.social}>
+                    <Horizontal valign="center">
+                        <SocialIcon url="https://medium.com/@hashstrat" style={{width: 30, height: 30}} target="_blank"  bgColor={bgcolor} />
+                        <Link target="_blank" href="https://medium.com/@hashstrat">
                             <label className={classes.name}>Medium</label>
-                        </Horizontal>
-                        <img src={arrowLeft} className={classes.icon} />
-                    </Box>
-                </Link> 
+                        </Link> 
+                    </Horizontal>
+                    <img src={arrowLeft} className={classes.icon} />
+                </Box>
+        
 
-                <Link target="_blank" href="https://github.com/orgs/hashstrat-labs/repositories" style={{ textDecoration: 'none' }} >
-                    <Box >
-                        <Box className={classes.social}>
-                            <Horizontal valign="center">
-                                <SocialIcon url="https://github.com/orgs/hashstrat-labs/repositories" style={{width: 30, height: 30}} target="_blank" bgColor={bgcolor} />
-                                <label className={classes.name}>GitHub</label>
-                            </Horizontal>
-                            <img src={arrowLeft} className={classes.icon} />
-                        </Box>
-                    </Box>
-                </Link> 
-
-                <Link target="_blank" href="https://www.linkedin.com/company/hashstrat" style={{ textDecoration: 'none' }} >
-                    <Box >
-                        <Box className={classes.social}>
-                            <Horizontal valign="center">
-                                <SocialIcon url="https://www.linkedin.com/company/hashstrat" style={{width: 30, height: 30}} target="_blank" bgColor={bgcolor} />
-                                <label className={classes.name}>LinkedIn</label>
-                            </Horizontal>
-                            <img src={arrowLeft} className={classes.icon} />
-                        </Box>
-                    </Box>
-                </Link> 
-
-                <Link target="_blank" href="https://t.me/hashstrat_public" style={{ textDecoration: 'none' }} >
-                    <Box >
-                        <Box className={classes.social}>
-                            <Horizontal valign="center">
-                                <SocialIcon url="https://t.me/hashstrat_public" style={{width: 30, height: 30}} target="_blank"  bgColor={bgcolor} />
-                                <label className={classes.name}>Telegram</label>
-                            </Horizontal>
-                            <img src={arrowLeft} className={classes.icon} />
-                        </Box>
-                    </Box>
-                </Link> 
+                <Box className={classes.social}>
+                    <Horizontal valign="center">
+                        <SocialIcon url="https://github.com/orgs/hashstrat-labs/repositories" style={{width: 30, height: 30}} target="_blank" bgColor={bgcolor} />
+                        <Link target="_blank" href="https://github.com/orgs/hashstrat-labs/repositories">
+                            <label className={classes.name}>GitHub</label>
+                        </Link>
+                    </Horizontal>
+                    <img src={arrowLeft} className={classes.icon} />
+                </Box>
+            
+                <Box className={classes.social}>
+                    <Horizontal valign="center">
+                        <SocialIcon url="https://www.linkedin.com/company/hashstrat" style={{width: 30, height: 30}} target="_blank" bgColor={bgcolor} />
+                        <Link target="_blank" href="https://www.linkedin.com/company/hashstrat">
+                            <label className={classes.name}>LinkedIn</label>
+                        </Link> 
+                    </Horizontal>
+                    <img src={arrowLeft} className={classes.icon} />
+                </Box>
+                
+                <Box className={classes.social}>
+                    <Horizontal valign="center">
+                        <SocialIcon url="https://t.me/hashstrat_public" style={{width: 30, height: 30}} target="_blank"  bgColor={bgcolor} />
+                        <Link target="_blank" href="https://t.me/hashstrat_public">
+                            <label className={classes.name}>Telegram</label>
+                        </Link>
+                    </Horizontal>
+                    <img src={arrowLeft} className={classes.icon} />
+                </Box>
 
             </Horizontal>
         </Box>

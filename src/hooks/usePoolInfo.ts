@@ -7,7 +7,7 @@ import { Token } from "../types/Token"
 import { groupBy } from "../utils/formatter"
 
 import { BigNumber, constants } from "ethers"
-import { FarmContract, DisabledFarmContract  } from "../utils/network"
+import { FarmContract  } from "../utils/network"
 
 import { FeedContractsForTokens, ERC20Contract, PoolLPContract, PoolContract } from "../utils/network"
 
@@ -357,7 +357,7 @@ export const useAccountLPBalancesForIndexes = (chainId: number, indexIds: string
         })) ?? []
 
         const stakedLpBalance2Calls = lpTokens2Requests.map(req => ({
-            contract: DisabledFarmContract(chainId),
+            contract: FarmContract(chainId),
             method: 'getStakedBalance',
             args: account? [account, req.lptokenAddress] : [constants.AddressZero, req.lptokenAddress]
         })) ?? []
@@ -809,7 +809,7 @@ const useAccountLPBalancesForPools = (chainId : number, account: string | undefi
 
     // get the LP staked balances for the "disabled" pools
     const stakedLpBalance2Calls = lptokens2Requests.map(req => ({
-        contract: DisabledFarmContract(chainId),
+        contract: FarmContract(chainId),
         method: 'getStakedBalance',
         args: req.account? [req.account, req.lptokenAddress] : [constants.AddressZero, req.lptokenAddress]
     })) ?? []

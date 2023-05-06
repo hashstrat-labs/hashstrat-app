@@ -26,21 +26,24 @@ export type ChartData = {
 
 export const TreeChart = (chartData: ChartData) => {
 
+
     const useStyle = makeStyles(theme => ({
         chart: {
             margin: "auto",
             minHeight: 300,
+            // padding: 50
         }
     }))
 
     const series = chartData.data
     const categories = series?.map(it => it.name)
+
     const options: ApexOptions = {
 
         labels: categories,
         legend: {
             show: true,
-            // position: 'bottom',
+            position: 'bottom',
             labels: {
                 useSeriesColors: true
             },
@@ -53,7 +56,6 @@ export const TreeChart = (chartData: ChartData) => {
             toolbar: {
                 show: false,
             },
-            
             animations: {
                 enabled: false,
             }
@@ -91,7 +93,7 @@ export const TreeChart = (chartData: ChartData) => {
                         enabled: true,
                         y: {
                             formatter: function(value : number, {  }) {
-                                return `$ aaaa ${value}`
+                                return `$${value}`
                             }
                         }
                     }

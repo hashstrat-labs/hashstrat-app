@@ -64,8 +64,8 @@ export const FarmAddress = (chainId: number, poolId?: string) => {
     const networkName = networksConfig[chainId.toString() as keyof typeof networksConfig]
     const deployments = networkMappings as any
 
-    const isDisabled = poolId && (PoolInfo(chainId, poolId).disabled === 'true')
-    if (isDisabled) return deployments[networkName]["hst_farm_disabled"]
+    // const isDisabled = poolId && (PoolInfo(chainId, poolId).disabled === 'true')
+    // if (isDisabled) return deployments[networkName]["hst_farm_disabled"]
 
     return deployments[networkName]["hst_farm"]
 }   
@@ -165,10 +165,12 @@ export const NetworkName = (chainId: number) => {
 export const PoolContract = (chainId: number, poolId: string) => {
     const isIndex = poolId.startsWith("index")
     const isV3 =  /v3.?$/.test(poolId) //poolId.endsWith("v3") 
+    const isV4 =  /v4.?$/.test(poolId) //poolId.endsWith("v3") 
 
     const abi = (isIndex && isV3) ? abis[ "indexV3" as keyof typeof abis ] as any :
                 isIndex ?           abis[ "index" as keyof typeof abis ] as any :
                 isV3 ?              abis[ "poolV3" as keyof typeof abis ] as any :
+                isV4 ?              abis[ "poolV3" as keyof typeof abis ] as any : //FIXME
                                     abis[ "pool" as keyof typeof abis ] as any
 
     return new Contract(PoolAddress(chainId, poolId), new utils.Interface(abi))
@@ -201,10 +203,10 @@ export const FarmContract = (chainId: number, poolId?: string) => {
     return new Contract(FarmAddress(chainId, poolId) , new utils.Interface(abi))
 }
 
-export const DisabledFarmContract = (chainId: number, poolId?: string) => {
-    const abi = abis[ "hst_farm" as keyof typeof abis ] as any
-    return new Contract(FarmAddressDisabled(chainId, poolId) , new utils.Interface(abi))
-}
+// export const DisabledFarmContract = (chainId: number, poolId?: string) => {
+//     const abi = abis[ "hst_farm" as keyof typeof abis ] as any
+//     return new Contract(FarmAddressDisabled(chainId, poolId) , new utils.Interface(abi))
+// }
 
 export const TreasuryContract = (chainId: number) => {
     const abi = abis[ "treasury" as keyof typeof abis ] as any

@@ -40,9 +40,22 @@ export const ButtonSecondary = styled(BaseButton)(({ theme }) => (
         border: `1px solid ${theme.palette.text.primary}`,
     },
 }))
+
+
+export const ButtonGo = styled(BaseButton)(({ theme }) => (
+    {
+        marginLeft: 0,
+        border: `1px solid #EFEFEF`,
+        borderRadius: 4,
+        height: 40, 
+        backgroundColor: theme.palette.type === 'light' ? '#EFEFEF': '#333',
+        textTransform: "none",
+        color: theme.palette.text.primary,
     
-// {
-//     margin: "auto",
-//     border:   `1px solid ${theme.palette.primary.main}`,
-//     borderRadius: 12,
-// }));
+        '&:hover': {
+            backgroundColor: theme.palette.type === 'light' ? 'rgba(0,0,0,0.3)': 'rgba(0,0,0,0.3)',
+            boxShadow: "0 0px 0px 0 rgba(0,0,0,0)",
+            border: `1px solid ${theme.palette.text.primary}`,
+        },
+    }))
+    

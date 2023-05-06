@@ -50,9 +50,12 @@ export const StakingView = ( { chainId, poolId, token, formType, handleSuccess, 
   const { symbol, address } = token
   const { account } = useEthers()
   const tokenBalance = useTokenBalance(address, account)
+
   const formattedTokenBalance = (tokenBalance && fromDecimals(tokenBalance, token.decimals, 2)) || "0.0"
 
   const tokenStakedBalance = useStakedTokenBalance(chainId, poolId, account)
+  console.log("tokenStakedBalance", tokenStakedBalance, poolId)
+
   const formattedTokenStakedBalance = (tokenStakedBalance && fromDecimals(tokenStakedBalance, token.decimals, 2)) || "0.0"
 
   const showModalPressed = () => {
@@ -76,14 +79,13 @@ export const StakingView = ( { chainId, poolId, token, formType, handleSuccess, 
           { formType === 'stake' && Number(formattedTokenBalance) === 0 &&
               <StyledAlert severity="info" color="info" style={{textAlign: "center", marginBottom: 20 }} > 
                   <AlertTitle>No LP tokens to stake</AlertTitle>
-                  Deposit funds into any pool to get LP tokens that you can stake to earn HashStrat DAO tokens (HST).
-                  HST token holders can participate in governance and collect protocol "dividends".
+                  Deposit in this pool to receive LP tokens that you can stake to earn HashStrat DAO tokens (HST).
               </StyledAlert>
           }
           {formType === 'stake' && Number(formattedTokenBalance) > 0  &&
             <Box mb={3}>
                 <Typography>
-                        Stake your LP tokens to earn DAO tokens (HST). HST token holders can participate in governance and collect protocol "dividends".
+                        Stake your LP tokens to earn HashStrat DAO tokens (HST).
                 </Typography>
             </Box>
           }

@@ -333,11 +333,13 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
                 }  
                 { formType === 'unstake' &&
                     <Box mb={2} >
-                        <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
-                            onClick={() => submitForm()}>
-                            { submitButtonTitle }
-                            { isWithdrawMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                        </Button>
+                        { !(userMessage && userMessage.title === 'Unstaking completed') && 
+                            <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
+                                onClick={() => submitForm()}>
+                                { submitButtonTitle }
+                                { isWithdrawMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                            </Button>
+                        }
                         { userMessage && userMessage.title === 'Unstaking completed' &&
                             <Box mt={2} >
                                 <Button variant="contained" color="secondary" fullWidth onClick={onClose} >

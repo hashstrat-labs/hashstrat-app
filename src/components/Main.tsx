@@ -92,7 +92,7 @@ export const Main = ( { lightTheme, toggleTheme } : MainProps  ) =>  {
                             <Dashboard chainId={chainId || defaultChainId} account={account} depositToken={depositToken!} investTokens={investTokens}  /> 
                         } />
                         <Route path="/invest" element={
-                            <InvestHome chainId={chainId || defaultChainId} account={account} depositToken={depositToken!} />
+                            <InvestHome chainId={chainId || defaultChainId} account={account} depositToken={depositToken!} investTokens={investTokens} />
                         } />
                         <Route path="/strategies" element={
                             <StrategiesHome />

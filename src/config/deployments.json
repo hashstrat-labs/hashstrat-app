@@ -1,6 +1,45 @@
 {
 
     "polygon": {
+    
+        "pool01v4": {
+            "pool": "0xaba6D49a6ED92346398b981ffA48157A01c64be1",
+            "pool_lp": "0x472eFE6340652E73fcE7f359e6e0D7697Dacb6b9",
+            "strategy": "0xbbd9c07a5AEfd98A3Ca8b19b1c6936f46e172fe8",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool02v4": {
+            "pool": "0x80694be2C2765211F4D4107cfA71B5756d08D2a7",
+            "pool_lp": "0xDBa7c5fA8BA565914495a56961F06f065d4c1871",
+            "strategy": "0xC2150E00506933809bc4f665523f7e1c10c6b741",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool03v4": {
+            "pool": "0x0322055E90EC6a0386AD475a70F29d4Bcfef2995",
+            "pool_lp": "0xc590EdC5C160cf5d4863AdB277552497e818fE97",
+            "strategy": "0x9445E3e218E2DFC0FE0796DEedc57694712a2453",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool04v4": {
+            "pool": "0xe079B684859b1132c815600BA992E701eEa56737",
+            "pool_lp": "0x42B0e4214332a40a8ea4a4a029212FC3CfdE1c11",
+            "strategy": "0x671e8c79CB4cc708488e381849B26e49511588C1",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool05v4": {
+            "pool": "0x668B59ce0d1811593198dc33Aa3d25E36bDa4611",
+            "pool_lp": "0x16dBE506728359Aa7bF632EC7DF50505456C9A54",
+            "strategy": "0x2E0FA38FAB4f2a02637B3dB2D40292c0635a3C2A",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool06v4": {
+            "pool": "0x2dDc8cc4785bb1A0091c6835E347f6EC0219148c",
+            "pool_lp": "0xa1A3f45613946D49777fB3924d6484D8763CFC45",
+            "strategy": "0x6EF25E06b28660E7eDFC03333A0E50F887E8F7B3",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+
+
         "pool01v3a": {
             "pool": "0x8714336322c091924495B08938E368Ec0d19Cc94",
             "pool_lp": "0x49c3ad1bF4BeFb024607059cb851Eb793c224BaB",
@@ -126,6 +165,35 @@
         "dao_operations": "0x7d49433360930dDed0B118fA0C9cAF9a38D18155",
         
         "indexes": {
+
+            "index01v3b": {
+                "pool": "0x3707d801bf06E0Ba2874b0C0CF27f8953e90De53",
+                "pool_lp": "0x4EA664460531fA1Fbc7d95237B1B2C929754F19B"
+            },
+            "index02v3b": {
+                "pool": "0x244e36cE30d3818FC5f3FaEc6CF796D949c0815A",
+                "pool_lp": "0x928a739c679f4C2B323F6c9764cC7AeBA6c21e75"
+            },
+            "index03v3b": {
+                "pool": "0x47b50e9c779721603D35A9eD463Fcc9B98D5c310",
+                "pool_lp": "0xa427Aca157CEf004eFDa27aA5190da3152c7a26C"
+            },
+
+            "index04v3b": {
+                "pool": "0x2099ac4a985d145C8E591b9Cb82848b8C179242a",
+                "pool_lp": "0xa4A05C95a6cbBC01544b12Ee0dBdA490ae5551c4"
+            },
+            "index05v3b": {
+                "pool": "0x0fB4dC1F74D92E335a45DD1b12c1f8F9d6C8F60e",
+                "pool_lp": "0x0A38B7b2DA5aFA7371bECeE1b928e49f96aA5dB3"
+            },
+            "index06v3b": {
+                "pool": "0xc91d0419539686aA065291aeEeE9d30646896188",
+                "pool_lp": "0x0CFC8Fedd3eEa542c8da35Bc9848fa5c437D2c39"
+            },
+
+
+
             "index01v3a": {
                 "pool": "0xE61bA2eF1057dD90aAF9f021Fdf24F6B57D902AF",
                 "pool_lp": "0x0560Dd521787e27126B93E98568002A3ef84E36c"

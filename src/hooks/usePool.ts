@@ -207,7 +207,6 @@ export const useSwapInfoArray = (chainId: number, poolId: string) => {
 export const useFeesForWithdraw = (chainId: number, poolId: string, lpTokensAmount: string, account?: string) => {
     const amount = lpTokensAmount.trim() === '' ? BigNumber.from(0) : BigNumber.from(lpTokensAmount)
 
-    console.log("useFeesForWithdraw", poolId, lpTokensAmount, account)
     const poolContract = PoolContract(chainId, poolId)
     const { value, error } = useCall({
             contract: poolContract,

@@ -107,14 +107,6 @@ const useStyles = makeStyles( theme => ({
     strategyDetail: {
         display: 'grid', 
         gridTemplateColumns: '100px auto',
-
-        /// justify-items, align-items, justify-content, and align-content
-        // justifyItems: "start",
-        // alignItems: "flex-start",
-     
-        // justifyContent: "start",
-        // alignContent: "flex-start",
-
         [theme.breakpoints.down('xs')]: {
             gridTemplateColumns: '1fr',
         },
@@ -190,6 +182,8 @@ const isMyPool = (pool: PoolData) : boolean => {
     return !noValue
 }
 
+
+// Returns the list of PoolData for the "active" pools that support the optional 'asset'
 const filterPools = (chainId: number, poolsInfo: PoolData[], poolId: string | undefined, asset: string | undefined, mypools: boolean) => {
     const filtered = poolsInfo.filter( pool => { 
         const info = PoolInfo(chainId, pool.poolId)
@@ -249,7 +243,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     // const selectedStrategy = strategy == -1 ? undefined : strategies[strategy]
 
     const poolsForAssets = filterPools(chainId, [ ...pools, ...indexes], selectedPool, selectedAsset, false).map( pool => pool.poolId  )
-
+    console.log(">>> poolsForAssets:", poolsForAssets, "selectedPool:", selectedPool)
 
     const poolsViews = poolsForAssets?.map( (poolId, idx) => {
 
@@ -400,7 +394,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     const handleSuccess = (info: SnackInfo) => {
         console.log("DepositWorkflow.handleSuccess() >>> ", info)
         if (info.message === "Deposit completed"){
-            console.log("deposit completed!!")
+            console.log("deposit completed")
             setDepositCompleted(true)
         }
         onSuccess && onSuccess(info)

@@ -3,14 +3,19 @@ import { useNotifications } from "@usedapp/core"
 import { BigNumber } from "ethers"
 
 import { Box, Grid, Button, Input, CircularProgress, Typography, Link, makeStyles } from "@material-ui/core"
+import { AlertTitle } from "@material-ui/lab"
+
 import { useTokenBalance } from "../../hooks/useErc20Tokens"
 import { useLpTokensValue, useWithdraw, useFeesForWithdraw } from "../../hooks/usePool"
 import { Token } from "../../types/Token"
 import { toDecimals, fromDecimals } from "../../utils/formatter"
 import { NetworkExplorerHost, NetworkExplorerName } from "../../utils/network"
+import { DepositToken } from "../../utils/pools"
+
+import { StyledAlert } from "../shared/StyledAlert"
 import { SnackInfo } from "../SnackInfo"
 import { Horizontal } from "../Layout"
-import { DepositToken } from "../../utils/pools"
+
 
 
 export interface WithdrawFormProps {
@@ -120,16 +125,15 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
     
     const submitWithdrawal = () => {
         const currentBalance = tokenBalance ? tokenBalance.toString() : balance
-        if ( isVeryCloseValues(amountDecimals ,  currentBalance) ) {
+        if ( isVeryCloseValues(amountDecimals, currentBalance) ) {
             console.log("submitWithdrawal - should withdraw all => ", currentBalance)
         }
         
-        const withdrawAmount = isVeryCloseValues( amountDecimals ,  currentBalance ) ? currentBalance : amountDecimals
+        const withdrawAmount = isVeryCloseValues( amountDecimals, currentBalance ) ? currentBalance : amountDecimals
         return withdraw(withdrawAmount)
     }
 
 
-    const submitButtonTitle = "Withdraw"
     const explorerHost = NetworkExplorerHost(chainId)
     const withdrawLink =  (withdrawState.status === 'Success' && withdrawState.receipt)? `https://${explorerHost}/tx/${withdrawState.receipt.transactionHash}` : ""
 
@@ -148,11 +152,12 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
             }
             setUserMessage({
                 type: "info",
-                title: "Withdrawals completed",
+                title: "Withdrawal completed",
                 message: "Now you can close the window",
             })
             handleSuccess(info)
             setAmountDecimals("")
+            setAmount("")
         }
     }, [notifications, chainId, withdrawLink, handleSuccess])
 
@@ -162,6 +167,15 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
         <Box p={3}>
             
             <div className={classes.container}>
+
+                { userMessage &&
+                    <div className={classes.info}>
+                        <StyledAlert severity={userMessage?.type}>
+                            <AlertTitle> {userMessage?.title} </AlertTitle>
+                            {userMessage?.message}
+                        </StyledAlert>
+                    </div>
+                }
 
                 { Number(balance) >= 0  &&
                     <Box pb={0} >
@@ -188,8 +202,6 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
                                     <Horizontal valign="center">
                                         <Input className={classes.amount} inputProps={{min: 0, style: { textAlign: 'right' }}}  
                                             value={amount} placeholder="0.0" autoFocus onChange={handleInputChange} />  
-                                        
-                                        
                                     </Horizontal>
                                 </Grid> 
                                 <Grid item xs={4} >
@@ -216,12 +228,13 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
                 }
 
                 <Box mb={2} >
-                    <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
-                        onClick={() => submitForm()}>
-                        { submitButtonTitle }
+                    { (!userMessage || userMessage.title !== 'Withdrawal completed') &&
+                    <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount } onClick={() => submitForm()}>
+                        Withdraw
                         { isWithdrawMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
                     </Button>
-                    { userMessage && userMessage.title === 'Withdrawals completed' &&
+                    }
+                    { userMessage && userMessage.title === 'Withdrawal completed' &&
                         <Box mt={2} >
                             <Button variant="contained" color="secondary" fullWidth onClick={handleClose} >
                                 Close
@@ -233,9 +246,9 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
             </div>
         
             { (withdrawState.status === 'Mining' ) ? 
-                    <Typography color="textSecondary" variant="body2" align="center">  Mining... </Typography> : 
+                <Typography color="textSecondary" variant="body2" align="center">  Mining... </Typography> : 
                withdrawState.status === 'Exception' ? 
-                    <Typography color="error" variant="body2" > { withdrawState.errorMessage } </Typography> : ''
+                <Typography color="error" variant="body2" > { withdrawState.errorMessage } </Typography> : ''
             }
 
         </Box>

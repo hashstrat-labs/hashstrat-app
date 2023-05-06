@@ -75,6 +75,15 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
     // formatted values
     const formattedAllowance = allowance && fromDecimals(allowance, token.decimals, 4)
 
+
+    useEffect(() => {
+        console.log(">>> Deposit form opened. userMessage:", userMessage)
+        setUserMessage(undefined)
+	}, [])
+
+    console.log(">>> Deposit allowance: ", allowance?.toString())
+
+
     // Form Handlers
     const handleClose = () => {
         console.log("handleClose")
@@ -184,13 +193,16 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
             })
             handleSuccess(info)
             setAmountDecimals("")
+            setAmount('')
         }
 
     }, [notifications, chainId, approveLink, depositLink, formattedAllowance])
 
     
     const showApproveButton =  (isApproveMining || (!allowanceOk && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    const showDepositButton =  ( !(isApproveMining || (!allowanceOk && !isDepositMining)) && (allowanceOk || isDepositMining)) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showDepositButton =  !showApproveButton && (allowanceOk || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+
+    console.log(">>> userMessage", userMessage)
 
     return (
         <Box p={3}>
@@ -272,7 +284,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                         }
 
 
-                        { showDepositButton && 
+                        { showDepositButton && (!userMessage || userMessage.title !== 'Deposit completed') &&
                         <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
                             onClick={() => submitForm()} >
                             { submitButtonTitle }
