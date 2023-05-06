@@ -15,7 +15,7 @@ interface TransactionsProps {
 const useStyles = makeStyles( theme => ({
     container: {
         backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
-        roundedBorder: 8,
+        borderRadius: 8,
         paddingTop: 10,
         paddingBottom: 20,
         paddingLeft: 20,

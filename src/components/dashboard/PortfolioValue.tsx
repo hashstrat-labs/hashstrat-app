@@ -16,7 +16,7 @@ const useStyles = makeStyles( theme => ({
     container: {
         backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
         padding: 20,
-        roundedBorder: 8,
+        borderRadius: 8,
         [theme.breakpoints.down('xs')]: {
             paddingLeft: 10,
             paddingRight: 10,

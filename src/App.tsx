@@ -36,10 +36,10 @@ const App = () => {
 		palette: {
 			type: lightTheme ? "light" : "dark",
 			primary: {
-				main: lightTheme ? '#0091EA' : '#0091EA',
+				main: lightTheme ? '#0091EA' : '#33cca6', //33cca6
 			},
 			secondary: {
-				main: lightTheme ? '#4e3073' :  '#ffaf49',
+				main: lightTheme ? '#4e3073' :  '#adebeb', //adebeb
 			},
 
 			info: {

@@ -20,7 +20,7 @@ interface TabPanelProps {
 
 const useStyle = makeStyles( theme => ({
     container: {
-        borderTop: `2px solid ${theme.palette.type === 'light' ? theme.palette.grey[200] : 'black'}`,
+        borderTop: `2px solid ${theme.palette.type === 'light' ? theme.palette.grey[200] : '#666'}`,
         marginTop: 20,
         padding: 0,
         borderRadius: 0
@@ -29,14 +29,12 @@ const useStyle = makeStyles( theme => ({
         padding: 0,
         margin: "auto",
         maxWidth: 800,
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
     tab: { 
           padding: 0,
           maxWidth: 800,
           margin: "auto",
           paddingTop: 20,
-          backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
 }))
 

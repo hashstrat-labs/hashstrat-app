@@ -10,7 +10,9 @@ import logoDark from "../img/logo-dark.png"
 
 const useStyle = makeStyles( theme => ({
     footer: {
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
+
+        // backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         textAlign: "center",
         padding: theme.spacing(0)
     }

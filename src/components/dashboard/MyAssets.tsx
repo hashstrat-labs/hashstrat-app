@@ -23,7 +23,7 @@ const useStyles = makeStyles( theme => ({
         paddingTop: 10,
         paddingLeft: 20,
         paddingRight: 20,
-        roundedBorder: 8,
+        borderRadius: 8,
         [theme.breakpoints.down('xs')]: {
             paddingLeft: 10,
             paddingRight: 10,

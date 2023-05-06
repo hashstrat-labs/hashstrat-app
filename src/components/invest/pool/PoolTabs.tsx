@@ -30,6 +30,14 @@ const useStyle = makeStyles( theme => ({
         marginTop: 22,
         paddingBottom: 0,
     },
+    panelContainer: {
+        marginTop: 22,
+        marginBottom: 22,
+        backgroundColor: theme.palette.type === 'light' ? 'white' :'#333',
+        maxWidth: 800,
+        margin: "auto",
+        borderRadius: 8,
+    },
     title: {
         paddingLeft: 20,
         paddingRight: 20,
@@ -40,18 +48,12 @@ const useStyle = makeStyles( theme => ({
     },
     tabList: { 
         padding: 0,
-        margin: "auto",
-        maxWidth: 800,
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
     tab: { 
-          maxWidth: 800,
-          margin: "auto",
-          paddingLeft: 0,
-          paddingRight: 0,
-          paddingTop: 20,
-          paddingBottom: 20,
-          backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: 20,
+        paddingBottom: 20,
     },
 }))
 
@@ -95,49 +97,53 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
                 <Typography variant="h5">{name}</Typography>
             </Box>
 
-            <TabContext value={selectedTokenIndex.toString()}>
-                <TabList onChange={handleChange} className={classes.tabList}>
-                    {<Tab label="My Assets" value="0" key={0} /> }
-                    <Tab label="Pool" value="1" key={1}  />
-                    <Tab label="Strategy" value="2" key={2}  />
-                    <Tab label="Trades" value="3" key={3} />
 
-                </TabList>
-                <TabPanel className={classes.tab} value="0" key={0}>
-                    { (connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
-                        <Box style={{height: 400}} px={2}>
-                            <Vertical >
-                                <ConnectAccountHelper connectedChainId={connectedChainId} userMessage="view your assets" />
-                            </Vertical>
+            <Box className={classes.panelContainer}> 
+
+                <TabContext value={selectedTokenIndex.toString()}>
+                    <TabList onChange={handleChange} className={classes.tabList}>
+                        {<Tab label="My Assets" value="0" key={0} /> }
+                        <Tab label="Pool" value="1" key={1}  />
+                        <Tab label="Strategy" value="2" key={2}  />
+                        <Tab label="Trades" value="3" key={3} />
+
+                    </TabList>
+                    <TabPanel className={classes.tab} value="0" key={0}>
+                        { (connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
+                            <Box style={{height: 400}} px={2}>
+                                <Vertical >
+                                    <ConnectAccountHelper connectedChainId={connectedChainId} userMessage="view your assets" />
+                                </Vertical>
+                            </Box>
+                        }
+                        { connectedChainId && account && !wrongNetwork(connectedChainId) &&
+                            <Box>
+                                <MyStatsView chainId={chainId} poolId={poolId} account={account} depositToken={depositToken} />
+                                <WalletTabs chainId={chainId!} poolId={poolId} account={account} tokens={tokens!} />
+                            </Box>
+                        }
+                    </TabPanel>
+                    <TabPanel className={classes.tab} value="1" key={1}>
+                        <PoolStatsView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
+                    </TabPanel>
+                    <TabPanel className={classes.tab} value="2" key={2}>
+                        <Box pb={4}>
+                        {
+                        isRebalanceStrategy && <RebalanceStrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
+                        }
+                        {
+                        isMeanRevStrategy && <MeanRevStrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
+                        }
+                        {
+                            isTrendFollowStrategy && <TrendFollowtrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
+                        }
                         </Box>
-                    }
-                    { connectedChainId && account && !wrongNetwork(connectedChainId) &&
-                        <Box>
-                            <MyStatsView chainId={chainId} poolId={poolId} account={account} depositToken={depositToken} />
-                            <WalletTabs chainId={chainId!} poolId={poolId} account={account} tokens={tokens!} />
-                        </Box>
-                    }
-                </TabPanel>
-                <TabPanel className={classes.tab} value="1" key={1}>
-                    <PoolStatsView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
-                </TabPanel>
-                <TabPanel className={classes.tab} value="2" key={2}>
-                    <Box pb={4}>
-                    {
-                       isRebalanceStrategy && <RebalanceStrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
-                    }
-                    {
-                       isMeanRevStrategy && <MeanRevStrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
-                    }
-                    {
-                        isTrendFollowStrategy && <TrendFollowtrategyInfoView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
-                    }
-                    </Box>
-                </TabPanel>
-                <TabPanel className={classes.tab} value="3" key={3}>
-                    <TradesView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
-                </TabPanel>
-            </TabContext>
+                    </TabPanel>
+                    <TabPanel className={classes.tab} value="3" key={3}>
+                        <TradesView chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken} />
+                    </TabPanel>
+                </TabContext>
+            </Box>
         </Box>
     )
 }
