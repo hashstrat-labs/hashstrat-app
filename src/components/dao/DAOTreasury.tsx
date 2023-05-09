@@ -134,7 +134,7 @@ export const DAOTreasury = ({ chainId, account, depositToken } : DAOTreasuryProp
                     <Card style={{ width: 250, height: 190 }} variant="outlined" >
                         <CardContent>
                             <div style={{ display:'flex', justifyContent:'center' }}> 
-                                <Typography variant="body1" style={{ marginBottom: 40 }}> Funds held in the Treasury </Typography>
+                                <Typography variant="body1" style={{ marginBottom: 40 }}> Funds in the Treasury </Typography>
                             </div>
                             <div style={{ display:'flex', justifyContent:'center' }}> 
                             { !treasuryBalanceFormatted && <CircularProgress color="secondary" />}

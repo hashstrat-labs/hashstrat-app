@@ -33,7 +33,7 @@ const useStyle = makeStyles( theme => ({
     panelContainer: {
         marginTop: 22,
         marginBottom: 22,
-        backgroundColor: theme.palette.type === 'light' ? 'white' :'#333',
+        backgroundColor: theme.palette.type === 'light' ? 'white' :'#424242',
         maxWidth: 800,
         margin: "auto",
         borderRadius: 8,

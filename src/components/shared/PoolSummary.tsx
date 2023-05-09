@@ -28,7 +28,9 @@ interface PoolSummaryProps {
 
 const useStyles = makeStyles( theme => ({
     container: {
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :  '#000',
+        borderRadius: 8,
+        padding: 20,
     },
     pool: {
         width: 320,

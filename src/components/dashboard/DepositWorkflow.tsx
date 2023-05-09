@@ -44,9 +44,7 @@ interface DespositWorkflowProps {
 
 const useStyles = makeStyles( theme => ({
     container: {
-    //   backgroundColor: 'red',
-    //   marginLeft: 0,
-    //   marginRight: 0,
+        width: '100%'
     },
 
     assetsList: {
@@ -87,27 +85,37 @@ const useStyles = makeStyles( theme => ({
     },
 
     strategy: {
+
         maxWidth: 800,
         margin: 'auto',
 
-        // marginLeft: 70,
-        // marginRight: 70,
-        padding: theme.spacing(2),
+        marginLeft: 70,
+        marginRight: 70,
+        // marginLeft: 20,
+        // marginRight: 20,
+
         // minWidth: 350,
         border: `1px solid ${theme.palette.secondary.main}`,
+        paddingTop: 20,
         borderRadius: 12,
         paddingBottom: 10,
+
         [theme.breakpoints.down('xs')]: {
-            minWidth: 280,
-            marginLeft: 30,
-            marginRight: 30
+            borderRadius: 0,
+            // minWidth: 280,
+            marginLeft: 0,
+            marginRight: 0
         },
     },
 
     strategyDetail: {
         display: 'grid', 
+        paddingLeft: 20,
+        paddingRight: 20,
         gridTemplateColumns: '100px auto',
         [theme.breakpoints.down('xs')]: {
+            paddingLeft: 5,
+            paddingRight: 5,
             gridTemplateColumns: '1fr',
         },
     }, 
@@ -211,7 +219,6 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     
     const tokenBalance = useTokenBalance(depositToken.address, account)
     const formattedTokenBalance = tokenBalance ? fromDecimals(tokenBalance, depositToken.decimals, 2) : ''
-
 
 
     const didSelectAsset = (asset: string) => {
@@ -430,7 +437,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         
 
     return (
-        <Box style={{ width: '100%' }} className={classes.container} >
+        <Box className={classes.container} >
       
             <Box pt={0} pb={4} >
 
@@ -531,7 +538,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                                 fullHeightHover={false}  
                                 navButtonsProps={{ 
                                     style: {
-                                        backgroundColor: '#3F8FE3',
+                                        backgroundColor: "rgba(63, 143, 227, 0.8)",  // '#3F8FE3'
                                         // borderRadius: 0
                                     }
                                 }} 
@@ -554,7 +561,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                             fullHeightHover={false}  
                             navButtonsProps={{ 
                                 style: {
-                                    backgroundColor: '#3F8FE3',
+                                    backgroundColor: "rgba(63, 143, 227, 0.8)",
                                     // borderRadius: 0
                                 }
                             }} 

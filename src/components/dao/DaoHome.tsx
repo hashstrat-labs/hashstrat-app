@@ -24,28 +24,43 @@ const useStyles = makeStyles( theme => ({
     container: {
         maxWidth: 1200,
         margin: 'auto',
-
         paddingTop: theme.spacing(2),
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-
+        
         [theme.breakpoints.down('xs')]: {
-            paddingLeft: theme.spacing(0),
-            paddingRight: theme.spacing(0),
+            padding: 0,
+            margin: 0,
         },
     },
-    tabList: { 
-        maxWidth: 800,
-        padding: 0,
+
+    // container: {
+    //     // maxWidth: 1200,
+    //     // margin: 'auto',
+
+    //     paddingTop: theme.spacing(2),
+    //     paddingLeft: theme.spacing(2),
+    //     paddingRight: theme.spacing(2),
+
+    //     [theme.breakpoints.down('xs')]: {
+    //         paddingLeft: theme.spacing(0),
+    //         paddingRight: theme.spacing(0),
+    //     },
+    // },
+
+    tabsContainer: {
+        marginTop: 22,
+        marginBottom: 22,
+        backgroundColor: theme.palette.type === 'light' ? 'white' :'#424242',
+        maxWidth: 900,
         margin: "auto",
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        borderRadius: 8,
+    },
+
+    tabList: { 
+        padding: 0,
     },
     tab: { 
-        maxWidth: 800,
         padding: 0,
-        margin: "auto",
         paddingTop: 20,
-        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     }
 }))
 
@@ -75,8 +90,6 @@ export const DaoHome = ({ chainId, account, depositToken } : DaoHomeProps ) => {
             <Divider variant="middle" style={{  marginTop: 20,  marginBottom: 20 }}/>
 
 
-
-
             { (connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
                 <ConnectAccountHelper connectedChainId={connectedChainId} userMessage="collect your farmed DAO tokens or dividends" />
             }
@@ -94,47 +107,45 @@ export const DaoHome = ({ chainId, account, depositToken } : DaoHomeProps ) => {
          
             </Box>
 
-           
-            <Box>
-                 <TabContext value={selectedTokenIndex.toString()} >
-                    <TabList onChange={handleChange} className={classes.tabList}>
-                        <Tab label="HST Token" value="0" key={0} />
-                        <Tab label="Dividends" value="1" key={1}  />
-                        <Tab label="Treasury" value="2" key={2}  />
-                        <Tab label="Governance" value="3" key={3}  />
-                    </TabList>
-                    <TabPanel className={classes.tab} value="0" key={0}>
-                        <DAOToken chainId={chainId} account={account} depositToken={depositToken} />
-                    </TabPanel>
-                    <TabPanel className={classes.tab} value="1" key={1}>
-                        <DAORevenues chainId={chainId} account={account} depositToken={depositToken} />
-                    </TabPanel>
-                    <TabPanel className={classes.tab} value="2"key={2}>
-                        <DAOTreasury chainId={chainId} account={account} depositToken={depositToken} />
-                    </TabPanel>
+           <Box className={classes.tabsContainer}>
+                <Box>
+                    <TabContext value={selectedTokenIndex.toString()} >
+                        <TabList onChange={handleChange} className={classes.tabList}>
+                            <Tab label="HST Token" value="0" key={0} />
+                            <Tab label="Dividends" value="1" key={1}  />
+                            <Tab label="Treasury" value="2" key={2}  />
+                            <Tab label="Governance" value="3" key={3}  />
+                        </TabList>
+                        <TabPanel className={classes.tab} value="0" key={0}>
+                            <DAOToken chainId={chainId} account={account} depositToken={depositToken} />
+                        </TabPanel>
+                        <TabPanel className={classes.tab} value="1" key={1}>
+                            <DAORevenues chainId={chainId} account={account} depositToken={depositToken} />
+                        </TabPanel>
+                        <TabPanel className={classes.tab} value="2"key={2}>
+                            <DAOTreasury chainId={chainId} account={account} depositToken={depositToken} />
+                        </TabPanel>
 
-                    <TabPanel className={classes.tab} value="3"key={3}>
-                        <Horizontal align="center">
-                            <Box mt={3} style={{ maxWidth: 800 }} >
-                                <Card variant="outlined" >
-                                    <Box my={3}>
-                                        <CardHeader title="Governance"  />
-                                        <CardContent>
-                                            DAO governance allows HST holders to participate to improvements to the HashStrat protocol.
-                                            HST holders can use the Tally app to create, vote and execute governance proposals.
-                                        </CardContent>
-                                        <CardActions style={{justifyContent: 'center', paddingBottom: 20}}>
-                                            <Link href="https://www.tally.xyz/governance/eip155:137:0xEEE17dd25c6ac652c434977D291b016b9bA61a1A" target="_blank" style={{ textDecoration: 'none' }} > 
-                                                <Button variant="outlined" color="primary" > Launch Tally </Button>
-                                            </Link>
-                                        </CardActions>
-                                    </Box>
-                                </Card>
+                        <TabPanel className={classes.tab} value="3"key={3}>
+                            
+                            <Box mb={3} pb={2}>
+                                {/* <CardHeader title="DAO Governance" /> */}
+                                <CardContent>
+                                    DAO governance allows HST holders to participate to improvements to the HashStrat protocol.
+                                    <br/>
+                                    HST holders can use the Tally app to create, vote and execute governance proposals.
+                                </CardContent>
+                                <CardActions style={{justifyContent: 'center', paddingBottom: 20}}>
+                                    <Link href="https://www.tally.xyz/governance/eip155:137:0xEEE17dd25c6ac652c434977D291b016b9bA61a1A" target="_blank" style={{ textDecoration: 'none' }} > 
+                                        <Button variant="outlined" color="primary" > Launch Tally </Button>
+                                    </Link>
+                                </CardActions>
                             </Box>
-                        </Horizontal>
-                    </TabPanel>
+                           
+                        </TabPanel>
 
-                </TabContext>
+                    </TabContext>
+                </Box>
             </Box>
     
             <Box p={2}>

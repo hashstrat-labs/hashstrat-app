@@ -191,7 +191,7 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 							// aria-haspopup="true"
 							// aria-expanded={open ? 'true' : undefined}
 							variant="outlined"
-							color='secondary'
+							color='primary'
 							disableElevation
 							onClick={handleClick}
 							endIcon={ menuOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown /> }

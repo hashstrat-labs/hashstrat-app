@@ -11,8 +11,6 @@ import logoDark from "../img/logo-dark.png"
 const useStyle = makeStyles( theme => ({
     footer: {
         backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
-
-        // backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         textAlign: "center",
         padding: theme.spacing(0)
     }
@@ -42,7 +40,7 @@ export const Footer = () =>  {
                     <img src={logoImg} style={{ width: 170 }} alt="logo" />
                     <Typography variant="body2"> © 2023 HashStrat. <br/> All rights reserved </Typography>
                 </Box>
-                <Box py={2}>
+                <Box pt={2}>
                     <Socials />
                 </Box>
             </Box>

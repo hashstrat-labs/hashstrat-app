@@ -27,7 +27,9 @@ const useStyle = makeStyles( theme => ({
 
         [theme.breakpoints.down('sm')]: {
             minWidth: 30,
-            gridTemplateColumns: "1fr",
+        },
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: 20,
         },
     },
 

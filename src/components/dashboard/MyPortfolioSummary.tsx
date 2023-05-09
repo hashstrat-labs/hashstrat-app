@@ -15,7 +15,7 @@ import { useDashboardModel } from "./DashboadModel"
 import { useTotalDeposited, useTotalWithdrawals } from "../../hooks/useUserInfo"
 import { DepositWorkflow } from "./DepositWorkflow"
 
-import { Modal } from "../Modal"
+import { Modal } from "../CustomModal"
 import { StyledAlert } from "../shared/StyledAlert"
 import { SnackInfo } from "../SnackInfo"
 import { TreeChart } from "../shared/TreeChart"
@@ -54,6 +54,7 @@ const useStyles = makeStyles( theme => ({
         marginTop:20,
         padding: 10,
         paddingBottom: 0,
+        borderRadius: 8,
         backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
     },
 
@@ -366,7 +367,7 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
               
 
                     { showDepositModal && 
-                        <Modal onClose={(e) => hideModalPreseed()} variant="wide" >
+                        <Modal onClose={ hideModalPreseed } variant="wide" open={true} >
                             <DepositWorkflow  
                                 chainId={chainId} 
                                 depositToken={depositToken} 

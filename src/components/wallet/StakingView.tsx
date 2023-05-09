@@ -8,7 +8,7 @@ import { AlertTitle } from "@material-ui/lab"
 import { PoolInfo } from "../../utils/pools"
 import { StyledAlert } from "../shared/StyledAlert"
 import { TitleValueBox } from '../TitleValueBox'
-import { Modal } from "../Modal"
+import { Modal } from "../CustomModal"
 import { Token } from "../../types/Token"
 import { fromDecimals } from "../../utils/formatter"
 import { SnackInfo } from "../SnackInfo"
@@ -114,8 +114,7 @@ export const StakingView = ( { chainId, poolId, token, formType, handleSuccess, 
           
 
           {showStakeUnstakeModal && account && (
-            <Modal onClose={(e) => hideModalPreseed()}>
-
+            <Modal onClose={ hideModalPreseed } open={true} >
               <StakeForm
                 formType={formType}
                 balance={ formType === 'stake' ? formattedTokenBalance : formattedTokenStakedBalance }

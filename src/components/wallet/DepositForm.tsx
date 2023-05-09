@@ -81,8 +81,6 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
         setUserMessage(undefined)
 	}, [])
 
-    console.log(">>> Deposit allowance: ", allowance?.toString())
-
 
     // Form Handlers
     const handleClose = () => {
@@ -198,11 +196,14 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
     }, [notifications, chainId, approveLink, depositLink, formattedAllowance])
 
-    
-    const showApproveButton =  (isApproveMining || (!allowanceOk && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    const showDepositButton =  !showApproveButton && (allowanceOk || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
 
-    console.log(">>> userMessage", userMessage)
+    const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
+    const showCloseButton = userMessage && userMessage.title === 'Deposit completed' ? true : false
+
+    const showApproveButton =  !showCloseButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+    const showDepositButton =  !showApproveButton && (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+ 
+    console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 
     return (
         <Box p={3}>
@@ -292,7 +293,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                         </Button>
                         }
 
-                        { userMessage && userMessage.title === 'Deposit completed' &&
+                        { showCloseButton &&
                             <Box mt={2} >
                                 <Button variant="contained" color="secondary" fullWidth onClick={handleClose} >
                                     Close

@@ -248,10 +248,17 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
         }
     }, [notifications, chainId, approveLink, depositLink, withdrawLink, formattedAllowance, handleSuccess])
 
-    
-    const showApproveButton =  (isApproveMining || (!allowanceOk && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    const showDepositButton =  ( !(isApproveMining || (!allowanceOk && !isDepositMining)) && (allowanceOk || isDepositMining)) // (allowanceOk || isDepositMining) && !isApproveMining
-    console.log("allowanceOk", allowanceOk, "formattedAllowance: ", formattedAllowance, "amount", amount, "isValidAmount", isValidAmount, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton)
+
+    const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
+    const showCloseButton = userMessage && (
+        userMessage.title === 'Staking completed' || userMessage.title === 'Unstaking completed' 
+    ) ? true : false
+
+    const showApproveButton = !showCloseButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+    const showDepositButton =  !showApproveButton && (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+
+
+    console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 
 
     return (
@@ -321,7 +328,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
                         </Button>
                         }
 
-                        { userMessage && userMessage.title === 'Staking completed' &&
+                        { showCloseButton &&
                             <Box mt={2} >
                                 <Button variant="contained" color="secondary" fullWidth onClick={onClose} >
                                     Close

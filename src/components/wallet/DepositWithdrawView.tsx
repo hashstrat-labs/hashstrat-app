@@ -10,7 +10,7 @@ import { TitleValueBox } from '../TitleValueBox'
 import { DepositForm } from './DepositForm'
 import { WithdrawForm } from './WithdrawForm'
 import { SnackInfo } from "../SnackInfo"
-import { Modal } from "../Modal"
+import { Modal } from "../CustomModal"
 import { Token } from "../../types/Token"
 import { fromDecimals } from "../../utils/formatter"
 import { PoolInfo } from "../../utils/pools"
@@ -129,7 +129,7 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
           
 
           { showUDepositWithdrawModal && account && (
-            <Modal onClose={(e) => hideModalPreseed()}  >
+            <Modal onClose={hideModalPreseed} open={true}  >
               { formTypeValue === "deposit" && 
                 <DepositForm
                   balance={formattedTokenBalance}

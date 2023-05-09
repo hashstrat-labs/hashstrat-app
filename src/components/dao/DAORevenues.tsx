@@ -267,12 +267,11 @@ export const DAORevenues = ({ chainId, account, depositToken } : DAORevenuesProp
                     <>
                     <Card style={{ width: 270, height: 200 }} variant="outlined"  >
                         <CardContent>
-                            <div style={{ display:'flex', justifyContent:'center',  marginBottom: 15 }}> 
+                            <div style={{ display:'flex', justifyContent:'center', paddingTop: 10, marginBottom: 15 }}> 
+                                <span style={{ width: 15 }}> </span>
+                                <Typography variant="body1" style={{ marginBottom: 20 }}> Current  Distribution </Typography>
 
-                                <span style={{ width: 25}}> </span>
-                                <Typography variant="body1" style={{ marginBottom: 30 }}> Current  Distribution </Typography>
-
-                                <Button onClick={handleClick0} style={{ height: 25, width: 25 }} ><Info /></Button>
+                                <Button onClick={handleClick0} style={{ paddingBottom: 10, height: 25, width: 25 }} ><Info /></Button>
                                 <Popover style={{maxWidth: 400}} id={id0} open={open0} anchorEl={anchorEl0} onClose={handleClose0} anchorOrigin={{vertical: 'bottom', horizontal: 'center' }} >
                                     <Box style={{ width: '200px'}}>
                                         <Paper variant="elevation">
@@ -281,8 +280,9 @@ export const DAORevenues = ({ chainId, account, depositToken } : DAORevenuesProp
                                     </Box>
                                 </Popover>
                             </div>
+                            
                             <div style={{ display:'flex', justifyContent:'center' }}> 
-                                <Typography variant="h5" style={{ marginBottom: 40 }} >
+                                <Typography variant="h5" style={{ marginBottom: 30 }} >
                                     { utils.commify( totalDivsFormatted ) } { depositToken.symbol }
                                 </Typography>
                             </div>
@@ -295,12 +295,12 @@ export const DAORevenues = ({ chainId, account, depositToken } : DAORevenuesProp
 
                     <Card style={{ width: 270, height: 200 }} variant="outlined"  >
                         <CardContent>
-                            <div style={{ display:'flex', justifyContent:'center', marginBottom: 15 }}> 
+                            <div style={{ display:'flex', justifyContent:'center', paddingTop: 10, marginBottom: 0 }}> 
 
-                                <span style={{ width: 45}}> </span>
+                                <span style={{ width: 45 }}> </span>
                                 <Typography variant="body1" style={{ marginBottom: 30 }}> Your Dividends </Typography> 
 
-                                <Button onClick={handleClick1} style={{ height: 25, width: 25 }} ><Info /></Button>
+                                <Button onClick={handleClick1} style={{ paddingBottom: 10, height: 25, width: 25 }} ><Info /></Button>
                                 <Popover  id={id1} 
                                             open={open1} anchorEl={anchorEl1} 
                                             onClose={handleClose1} 
