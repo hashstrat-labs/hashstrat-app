@@ -1,10 +1,11 @@
 
 
-import { makeStyles, Box, Typography } from "@material-ui/core"
+import { makeStyles, Box, Typography, CircularProgress } from "@material-ui/core"
 import { useEthers } from "@usedapp/core";
+import { BigNumber } from "ethers"
 
 import { Token } from "../../types/Token"
-import { Horizontal } from "../Layout"
+
 import { useDashboardModel } from "./DashboadModel"
 import { PoolInfo } from "../../utils/pools"
 
@@ -14,7 +15,7 @@ import { PoolExplorer } from "../invest/PoolExprorer"
 import { TreeChart } from "../shared/TreeChart"
 import { MyAssets } from "./MyAssets"
 import { AssetValue } from './AssetValue'
-
+import { Horizontal } from "../Layout";
 
 interface FundAssetsSummaryProps {
     chainId: number,
@@ -65,16 +66,21 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
 	const { account } = useEthers()
 
     // const { poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool, didLoad } = useDashboardModel(chainId, tokens, depositToken, account)
-    const { poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool } = useDashboardModel(chainId, tokens, depositToken)
+    const { didLoad, poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool } = useDashboardModel(chainId, tokens, depositToken)
 
     const poolsWithFunds = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
 
 
-    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances).map( (item ) => {
+    console.log(">>> AAAA didLoad", didLoad)
+
+
+    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances)
+        .filter( item => item.value !== undefined && item.balance !== undefined )
+        .map( item => {
         return {
             symbol: item.symbol,
-            balance: fromDecimals( item.balance, item.decimals, item.symbol === 'USDC' ? 2 : 4),
-            value: fromDecimals( item.value, depositToken.decimals, 2),
+            balance: fromDecimals( item.balance ?? BigNumber.from(0), item.decimals, item.symbol === 'USDC' ? 2 : 4),
+            value: fromDecimals( item.value ?? BigNumber.from(0), depositToken.decimals, 2),
             depositTokenSymbol: depositToken.symbol,
             decimals: item.decimals
        }
@@ -99,13 +105,21 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
     return (
         <div className={classes.container}>
          
-            <Box className={classes.portfolioSummary} > 
-                <Box pb={5} >
-                    <AssetValue value={ Number( totalValueFormatted ?? 0) } />
-                </Box>
+            { !didLoad && 
+                <div style={{height: 300, paddingTop: 140}} >
+                    <Horizontal align="center" > <CircularProgress color="secondary" /> </Horizontal>  
+                </div>
+            }
 
-                <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
-            </Box>
+            { didLoad && 
+                <Box className={classes.portfolioSummary} > 
+                    <Box pb={5} >
+                        <AssetValue value={ Number( totalValueFormatted ?? 0) } />
+                    </Box>
+
+                    <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
+                </Box>
+            }
 
             { poolsWithFunds && poolsWithFunds.length > 0 &&
                 <Box>

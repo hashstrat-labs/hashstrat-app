@@ -79,9 +79,6 @@ export const PortfolioValue = ({ value, gains, roi }: PortfolioValueProps ) => {
     const gainsRounded = gains !== undefined ? Math.round( gains * 100 ) / 100 : 0
     const classes = useStyles()
 
-    console.log(">>> PortfolioValue value: ", value, "gains",gains, "gainsRounded:", gainsRounded, "roi:", roi, roiRounded)
-
-
     return (
         <Box textAlign="center" className={classes.container}>
 

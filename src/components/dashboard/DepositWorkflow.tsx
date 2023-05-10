@@ -250,7 +250,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     // const selectedStrategy = strategy == -1 ? undefined : strategies[strategy]
 
     const poolsForAssets = filterPools(chainId, [ ...pools, ...indexes], selectedPool, selectedAsset, false).map( pool => pool.poolId  )
-    console.log(">>> poolsForAssets:", poolsForAssets, "selectedPool:", selectedPool)
+    console.log(">>>  selectedPool:", selectedPool)
 
     const poolsViews = poolsForAssets?.map( (poolId, idx) => {
 
@@ -259,8 +259,6 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         const strategyName =  strategyNames[info.strategy as keyof typeof strategyNames] || info.strategy
         const strategyImg =  strategyImages[info.strategy as keyof typeof strategyImages] || ''
         const strategyInfo = strategyItems.find( it => it.name === strategyName)
-
-        console.log("strategyImg", strategyImg, "info.strategy ", info.strategy )
 
         return (
             <Box key={idx} className={classes.strategy}>
@@ -589,7 +587,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                     </Box>
                 }
                 
-                { selectedPool !== undefined && account && !depositCompleted && 
+                { selectedPool !== undefined && account && //!depositCompleted && 
                     <Box >
 
                         {/* <DepositWithdrawView 

@@ -2,8 +2,9 @@
 import { useState, useEffect } from "react"
 
 import { makeStyles, Box, Link, Typography, Snackbar, CircularProgress, Divider } from "@material-ui/core"
-
 import { Alert, AlertTitle } from "@material-ui/lab"
+
+import { BigNumber } from "ethers"
 
 import { Token } from "../../types/Token"
 import { fromDecimals } from "../../utils/formatter"
@@ -122,15 +123,18 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
         setShowDepositModal(false)
     }
 
-    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances).map( (item ) => {
+    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances)
+        .filter( item => item.value !== undefined && item.balance !== undefined )
+        .map( (item ) => {
         return {
             symbol: item.symbol,
-            balance: fromDecimals( item.balance, item.decimals, item.symbol === 'USDC' ? 2 : 4),
-            value: fromDecimals( item.value, depositToken.decimals, 2),
+            balance: fromDecimals( item.balance ?? BigNumber.from(0), item.decimals, item.symbol === 'USDC' ? 2 : 4),
+            value: fromDecimals( item.value ?? BigNumber.from(0), depositToken.decimals, 2),
             depositTokenSymbol: depositToken.symbol,
             decimals: item.decimals
        }
     })
+
     
     const userHasDisabledPools = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).reduce( (acc, val ) => {
         return acc = acc || PoolInfo(chainId, val.poolId).disabled === 'true'
@@ -180,14 +184,18 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
 
     // show build portfolio workfow if have no assets
     useEffect(() => {
-        if ( didLoad && totalValueFormatted === "0") {
+        if ( didLoad && portfolioInfo.totalValue?.isZero() ) {
             setShowBuildPortfolio(true)
 		} 
+        if ( didLoad && !portfolioInfo.totalValue?.isZero() )  {
+            setShowBuildPortfolio(false)
+		} 
+        
         if (onPortfolioLoad) {
             onPortfolioLoad(didLoad)
         }
 
-	}, [didLoad, totalValueFormatted, onPortfolioLoad])
+	}, [didLoad, portfolioInfo.totalValue ?? BigNumber.from(0), onPortfolioLoad])
 
     
     /// DepositWorkflow Callbacks
@@ -218,10 +226,12 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
         const info = PoolInfo(chainId, it.poolId)
         return {
             name: info.name,
-            data: it.tokenInfoArray.map ( t => {
+            data: it.tokenInfoArray
+                .filter ( t => t.accountValue !== undefined )
+                .map ( t => {
                 return {
                     x: t.symbol,
-                    y: Number(fromDecimals( t.accountValue, depositToken.decimals, 2)),
+                    y: Number(fromDecimals( t.accountValue , depositToken.decimals, 2)),
                 }
             })
         }
@@ -241,8 +251,7 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                 <Box pb={2} >
                     <Alert severity="warning" > 
                         <AlertTitle><strong>Strategy upgrade</strong></AlertTitle>
-                        Due to security concerns an old version of your strategies has been disabled.
-                        A new version is now available.<br/>
+                        Due to an upgrde, one of your strategies has been disabled and a new version is now available.<br/>
                         <strong>Withdraw your funds now</strong> from the disabled strategies below and deposit into the new upgraded strategies.
                     </Alert>
                 </Box>

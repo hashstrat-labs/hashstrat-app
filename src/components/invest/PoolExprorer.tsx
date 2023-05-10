@@ -107,8 +107,6 @@ const filterPools = (chainId: number, poolsInfo: PoolData[], strategy: string | 
         return b.totalValue.toNumber() - a.totalValue.toNumber()
     })
 
-    console.log("filtered >>> ", filtered)
-    
     return filtered
 }
 

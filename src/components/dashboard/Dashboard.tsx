@@ -91,7 +91,14 @@ export const Dashboard = ({ chainId, depositToken, investTokens, account } : Das
 
             { !(connectedChainId && (!account || wrongNetwork(connectedChainId))) &&
                 <Box  style={{ maxWidth: 1200, margin: "auto" }}>
-                    <MyPortfolioSummary chainId={chainId} connectedChainId={connectedChainId} depositToken={depositToken} investTokens={investTokens} account={account} onPortfolioLoad={(handleDidLoad)} /> 
+                    <MyPortfolioSummary
+                        chainId={chainId} 
+                        connectedChainId={connectedChainId} 
+                        depositToken={depositToken} 
+                        investTokens={investTokens} 
+                        account={account} 
+                        onPortfolioLoad={(handleDidLoad)} 
+                    /> 
                 </Box>
             }
            

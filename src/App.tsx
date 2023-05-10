@@ -25,8 +25,8 @@ const App = () => {
 			[Polygon.chainId]: getDefaultProvider('matic'),
 		},
 		notifications: {
-			expirationPeriod: 1000,
 			checkInterval: 100,
+			expirationPeriod: 1000,
 		},
 		// refresh: "everyBlock",
 	};

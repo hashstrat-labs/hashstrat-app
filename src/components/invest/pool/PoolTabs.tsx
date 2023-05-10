@@ -86,9 +86,8 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
                 <Box pb={2} >
                     <Alert severity="warning" > 
                         <AlertTitle><strong>Strategy upgrade</strong></AlertTitle>
-                        Due to security concerns this Strategy is no longer supported and deposits have been disabled. <br/>
-                        <strong>Withdraw</strong> all your funds and re-deposit into the new upgraded pools. <br/>
-                        If you staked your LP tokens you'll need to unstake them before you can withdraw.
+                        Due to an upgrde, this strategy has been disabled and a new version is now available.<br/>
+                        <strong>Withdraw your funds now</strong> from this strategy and deposit into the new upgraded strategy.
                     </Alert>
                 </Box>
             }

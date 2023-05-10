@@ -1,4 +1,4 @@
-import { makeStyles, Link, Typography, Breadcrumbs, Divider, Box } from "@material-ui/core"
+import { makeStyles, Link, Typography, Breadcrumbs, Divider, Box, CircularProgress } from "@material-ui/core"
 import { Token } from "../../types/Token"
 import { Link as RouterLink } from "react-router-dom"
 import { PoolExplorer } from "./PoolExprorer"
@@ -9,6 +9,9 @@ import { AssetValue } from '../dashboard/AssetValue'
 import { MyAssets } from "../dashboard/MyAssets"
 
 import { fromDecimals } from "../../utils/formatter"
+import { BigNumber } from "ethers"
+import { Horizontal } from "../Layout"
+
 
 interface InvestHomeProps {
     chainId: number,
@@ -55,20 +58,20 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
     const classes = useStyles()
 
     const tokens = [depositToken, ...investTokens]
-    const { portfolioInfo  } = useDashboardModel(chainId, tokens, depositToken)
-
+    const { didLoad, portfolioInfo  } = useDashboardModel(chainId, tokens, depositToken)
     const totalValueFormatted = portfolioInfo.totalValue && fromDecimals( portfolioInfo.totalValue, depositToken.decimals, 2)
 
-    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances).map( (item ) => {
+    const tokensBalanceInfo = Object.values(portfolioInfo.tokenBalances)
+        .filter( item => item.value !== undefined && item.balance !== undefined)
+        .map( (item ) => {
         return {
             symbol: item.symbol,
-            balance: fromDecimals( item.balance, item.decimals, item.symbol === 'USDC' ? 2 : 4),
-            value: fromDecimals( item.value, depositToken.decimals, 2),
+            balance: fromDecimals( item.balance ?? BigNumber.from(0), item.decimals, item.symbol === 'USDC' ? 2 : 4),
+            value: fromDecimals( item.value ?? BigNumber.from(0), depositToken.decimals, 2),
             depositTokenSymbol: depositToken.symbol,
             decimals: item.decimals
        }
     })
-
 
     return (
         <div className={classes.container}>
@@ -80,18 +83,30 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
                 </Breadcrumbs>
             </Box>
 
-            <Box className={classes.portfolioSummary} > 
-                <Box pb={5} >
-                    <AssetValue value={ Number( totalValueFormatted ?? 0) } />
-                </Box>
+            { !didLoad && 
+                <div style={{height: 300, paddingTop: 140}} >
+                    <Horizontal align="center" > <CircularProgress color="secondary" /> </Horizontal>  
+                </div>
+            }
 
-                <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
-            </Box>
+            { didLoad &&
+                <>
+                
+                    <Box className={classes.portfolioSummary} > 
+                        <Box pb={5} >
+                            <AssetValue value={ Number( totalValueFormatted ?? 0) } />
+                        </Box>
 
-            <Divider variant="middle" style={{marginTop: 20, marginBottom: 0}} />
-            <Box className={classes.explorer}>
-                <PoolExplorer chainId={chainId} account={account} depositToken={depositToken} />
-            </Box>
+                        <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
+                    </Box>
+
+                    <Divider variant="middle" style={{marginTop: 20, marginBottom: 0}} />
+                    <Box className={classes.explorer}>
+                        <PoolExplorer chainId={chainId} account={account} depositToken={depositToken} />
+                    </Box>
+                </>
+
+            }
 
         </div>
     )

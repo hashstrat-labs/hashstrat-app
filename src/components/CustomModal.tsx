@@ -38,7 +38,7 @@ export const Modal: React.FC<CustomModalProps> = ({ open, onClose, children, var
                 }}
             >
 
-                <Grid container justify="flex-end">
+                <Grid container justifyContent="flex-end">
                         <Box p={2}
                             color="inherit"
                             onClick={onClose}

@@ -82,7 +82,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
     const { approveErc20, approveErc20State } = useTokenApprove(chainId, poolId, symbol, FarmAddress(chainId, poolId))
 
     const classes = useStyle()
-    const { notifications } = useNotifications()
+    const { notifications, removeNotification } = useNotifications()
 
     // Token stats
     const tokenBalance = useTokenBalance(chainId, poolId, "pool-lp", account);
@@ -96,6 +96,21 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
 
     // formatted values
     const [formattedAllowance, setFormattedAllowance] = useState('');
+
+
+    useEffect(() => {
+        console.log(">>> Stake form opened. userMessage:", userMessage)
+
+        return () => {
+            setUserMessage(undefined)
+            notifications.forEach( e => {
+                removeNotification( { notificationId: e.id, chainId } )
+            })
+
+            console.log(">>> Stake form closed. notifications:", notifications)
+        }
+	}, [])
+
 
 
     useEffect(() => {
@@ -257,9 +272,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
     const showApproveButton = !showCloseButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
     const showDepositButton =  !showApproveButton && (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
 
-
     console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
-
 
     return (
         <Box p={3}>
@@ -330,7 +343,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
 
                         { showCloseButton &&
                             <Box mt={2} >
-                                <Button variant="contained" color="secondary" fullWidth onClick={onClose} >
+                                <Button variant="contained" color="primary" fullWidth onClick={onClose} >
                                     Close
                                 </Button>
                             </Box>

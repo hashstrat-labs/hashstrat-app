@@ -70,7 +70,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
     
     const { approveErc20, approveErc20State } = useTokenApprove(chainId, poolId, symbol, PoolAddress(chainId, poolId))
-    const { notifications } = useNotifications()
+    const { notifications, removeNotification } = useNotifications()
 
     // formatted values
     const formattedAllowance = allowance && fromDecimals(allowance, token.decimals, 4)
@@ -78,13 +78,20 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
     useEffect(() => {
         console.log(">>> Deposit form opened. userMessage:", userMessage)
-        setUserMessage(undefined)
+        return () => {
+            setUserMessage(undefined)
+            notifications.forEach( e => {
+                removeNotification( { notificationId: e.id, chainId } )
+            })
+            console.log(">>> Deposit form closed. notifications:", notifications)
+        }
+
 	}, [])
 
 
     // Form Handlers
     const handleClose = () => {
-        console.log("handleClose")
+        console.log("handleClose - reset user message")
         setUserMessage(undefined)
         onClose()
     }
@@ -172,10 +179,14 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
             })
             handleSuccess(info)
         }
+        // deposit success
         if (notifications.filter((notification) =>
                 notification.type === "transactionSucceed" &&
                 notification.transactionName === "Deposit Tokens"
         ).length > 0) {
+
+            console.log("Deposit notifications:", notifications)
+
             const info : SnackInfo = {
                 type: "info",
                 title: "Success",
@@ -210,14 +221,14 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
             
             <div className={classes.container}>
 
-                {/* { userMessage &&
+                { userMessage &&
                     <div className={classes.info}>
                         <StyledAlert severity={userMessage?.type}>
                             <AlertTitle> {userMessage?.title} </AlertTitle>
                             {userMessage?.message}
                         </StyledAlert>
                     </div>
-                } */}
+                }
                 
                 { Number(balance) > 0  &&
                     <Box pb={3} >
@@ -295,7 +306,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
                         { showCloseButton &&
                             <Box mt={2} >
-                                <Button variant="contained" color="secondary" fullWidth onClick={handleClose} >
+                                <Button variant="contained" color="primary" fullWidth onClick={handleClose} >
                                     Close
                                 </Button>
                             </Box>
