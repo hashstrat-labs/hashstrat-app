@@ -1,7 +1,44 @@
 {
 
     "polygon": {
-    
+        "pool01v4a": {
+            "pool": "0x650056Eb11f9cb68427e2bf4107B9de431848059",
+            "pool_lp": "0x4c7310bfDD5D79BB62FB58E2886a6a54b227276A",
+            "strategy": "0x21c1c5262FB2A51Adefa78a4441De700F6874C21",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool02v4a": {
+            "pool": "0x821555f905c342980539A7904c3bD436855E89b0",
+            "pool_lp": "0x452d065A0e00f268884900ea2E079f9589bf29A4",
+            "strategy": "0x0Bf7f645898eBbE27555d85C00aeb45Bd4a40Dd1",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool03v4a": {
+            "pool": "0xa1f2B57e0f9D0804bFE4F4d40eC7c076915D98a9",
+            "pool_lp": "0x252ac8bb8e22FD6dCDcA6C6926479fDBcF0D9C0f",
+            "strategy": "0xAbA4e06B1E05D7D0b0F8B1fA8d157E487AB3697F",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool04v4a": {
+            "pool": "0x236551ca7f59Cfa1253A22c4BdE172F4d05B2896",
+            "pool_lp": "0xE032c00b3a993EA6245c1cCf37F52E8E279BeFB1",
+            "strategy": "0xFAa9A19AFbeB0A41Ef91b3672866ba3a7718325c",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+        "pool05v4a": {
+            "pool": "0x0cd1840Ae5297fbbA95b4E411D58aD1F07f9a02E",
+            "pool_lp": "0x12c3830Cb5e1239295daD165EEd98EB333bd74D2",
+            "strategy": "0xdc49e814E6CbF19F0b02b7A4FE96809216f13DE6",
+            "price_feed": "0xc907E116054Ad103354f2D350FD2514433D57F6f"
+        },
+        "pool06v4a": {
+            "pool": "0x06976dA5662E7E7787e86156EB0AcA5B29514499",
+            "pool_lp": "0x2878AdE2DF7653E3BF58e735B2cf1AaCa435cE49",
+            "strategy": "0x95E95d740F28aF508d51591064392CE61fcBEF9E",
+            "price_feed": "0xF9680D99D6C9589e2a93a78A04A279e509205945"
+        },
+
+        
         "pool01v4": {
             "pool": "0xaba6D49a6ED92346398b981ffA48157A01c64be1",
             "pool_lp": "0x472eFE6340652E73fcE7f359e6e0D7697Dacb6b9",
@@ -165,6 +202,31 @@
         "dao_operations": "0x7d49433360930dDed0B118fA0C9cAF9a38D18155",
         
         "indexes": {
+            "index01v4": {
+                "pool": "0x6799B9006199f1450c726769fbe2f9e1847045ed",
+                "pool_lp": "0xF94cf0Ef63a3E61e93e19a1dB74A7ACB8a2E104D"
+            },
+            "index02v4": {
+                "pool": "0x399141cE39E5C4fb528cBBa4a0B59929ce32CDd4",
+                "pool_lp": "0x196Ffa4e24B522726C6C59fb1D4c9F9e218f08C0"
+            },
+            "index03v4": {
+                "pool": "0xF5948A8fc6F3FB15b7E302ec7c785fD2bB6ceda6",
+                "pool_lp": "0xa88C0b6D9eD65A19910ce20D8277a802f373bCe1"
+            },
+            "index04v4": {
+                "pool": "0x18FA614930277c75Ba5AAF60e4860E7340CD74F7",
+                "pool_lp": "0x72f582a5a1835358116bBB492b9CDF0790d817D6"
+            },
+            "index05v4": {
+                "pool": "0x939583a4b35671e86532BbD6230236dB15A5330e",
+                "pool_lp": "0x4008D357a817E9d852e25c3C1a30C8fa272bb400"
+            },
+            "index06v4": {
+                "pool": "0xF2EaffD50DA456De8A44e93406bC52875C313F02",
+                "pool_lp": "0xD4763d336703559E6391195Adb2B08e97bdBC2A2"
+            },
+
 
             "index01v3b": {
                 "pool": "0x3707d801bf06E0Ba2874b0C0CF27f8953e90De53",
@@ -178,7 +240,6 @@
                 "pool": "0x47b50e9c779721603D35A9eD463Fcc9B98D5c310",
                 "pool_lp": "0xa427Aca157CEf004eFDa27aA5190da3152c7a26C"
             },
-
             "index04v3b": {
                 "pool": "0x2099ac4a985d145C8E591b9Cb82848b8C179242a",
                 "pool_lp": "0xa4A05C95a6cbBC01544b12Ee0dBdA490ae5551c4"
@@ -191,8 +252,6 @@
                 "pool": "0xc91d0419539686aA065291aeEeE9d30646896188",
                 "pool_lp": "0x0CFC8Fedd3eEa542c8da35Bc9848fa5c437D2c39"
             },
-
-
 
             "index01v3a": {
                 "pool": "0xE61bA2eF1057dD90aAF9f021Fdf24F6B57D902AF",
