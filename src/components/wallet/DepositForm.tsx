@@ -15,6 +15,7 @@ import { StyledAlert } from "../shared/StyledAlert"
 
 
 export interface DepositFormProps {
+    isFirstDeposit: boolean
     chainId: number,
     poolId: string,
     token : Token;
@@ -54,7 +55,7 @@ const useStyle = makeStyles( theme => ({
 
 
 
-export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, handleError, onClose, account} : DepositFormProps ) => {
+export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, handleError, onClose, isFirstDeposit} : DepositFormProps ) => {
 
     const classes = useStyle()
     const { symbol } = token
@@ -91,7 +92,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
     // Form Handlers
     const handleClose = () => {
-        console.log("handleClose - reset user message")
+        console.log("DepositForm.handleClose")
         setUserMessage(undefined)
         onClose()
     }
@@ -198,7 +199,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
             setUserMessage({
                 type: "info",
                 title: "Deposit completed",
-                message: "Now you can close the window",
+                message: isFirstDeposit ? "Now you can view your portfolio" : "Now you can close the window",
             })
             handleSuccess(info)
             setAmountDecimals("")
@@ -209,12 +210,12 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
 
     const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
-    const showCloseButton = userMessage && userMessage.title === 'Deposit completed' ? true : false
+    const showCloseButton = (userMessage && userMessage.title === 'Deposit completed')
 
-    const showApproveButton =  !showCloseButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    const showDepositButton =  !showApproveButton && (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
- 
-    console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
+    const showDepositButton = amount == '' ||  (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showApproveButton =  !showDepositButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+    
+    console.log(">>> amount:", amount, "appprovedTransfer", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 
     return (
         <Box p={3}>
@@ -307,7 +308,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                         { showCloseButton &&
                             <Box mt={2} >
                                 <Button variant="contained" color="primary" fullWidth onClick={handleClose} >
-                                    Close
+                                     { isFirstDeposit ? "View portfolio" : "Close" }
                                 </Button>
                             </Box>
                         }

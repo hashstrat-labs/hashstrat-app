@@ -269,8 +269,12 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
         userMessage.title === 'Staking completed' || userMessage.title === 'Unstaking completed' 
     ) ? true : false
 
-    const showApproveButton = !showCloseButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    const showDepositButton =  !showApproveButton && (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showDepositButton = amount == '' || (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showApproveButton = !showDepositButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+
+    // const showDepositButton = amount == '' ||  (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    // const showApproveButton =  !showDepositButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+    
 
     console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 

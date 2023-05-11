@@ -76,6 +76,7 @@ export const MyAssets = ( { tokens, title }: MyAssetsProps ) => {
         )
     })
 
+    const haveFunds = tokensSorted.filter(t => Number(t.balance) > 0).length > 0
 
     const chartData = tokensSorted.map( t => {  
         return {
@@ -99,11 +100,21 @@ export const MyAssets = ( { tokens, title }: MyAssetsProps ) => {
             </Horizontal> 
 
             <Box py={3}>
-                <StackedBarChart 
-                    direction="horizontal"
-                    data={chartData} 
-                    height={75}
-                />
+                { !haveFunds && 
+                    <Box px={2}>
+                        <Typography style={{fontSize: 18}}>
+                            You have no assets in your portfolio. <br/>
+                            Deposit some funds to create your first portfolio.
+                        </Typography>
+                    </Box>
+                }
+                { haveFunds &&
+                    <StackedBarChart 
+                        direction="horizontal"
+                        data={chartData} 
+                        height={75}
+                    />
+                }
             </Box>
         </Box>
     )

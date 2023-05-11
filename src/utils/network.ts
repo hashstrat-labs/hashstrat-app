@@ -64,18 +64,7 @@ export const FarmAddress = (chainId: number, poolId?: string) => {
     const networkName = networksConfig[chainId.toString() as keyof typeof networksConfig]
     const deployments = networkMappings as any
 
-    // const isDisabled = poolId && (PoolInfo(chainId, poolId).disabled === 'true')
-    // if (isDisabled) return deployments[networkName]["hst_farm_disabled"]
-
     return deployments[networkName]["hst_farm"]
-}   
-
-export const FarmAddressDisabled = (chainId: number, poolId?: string) => {
-    if (!chainId) return constants.AddressZero
-    const networkName = networksConfig[chainId.toString() as keyof typeof networksConfig]
-    const deployments = networkMappings as any
-
-    return deployments[networkName]["hst_farm_disabled"]
 }   
 
 
@@ -202,11 +191,6 @@ export const FarmContract = (chainId: number, poolId?: string) => {
     const abi = abis[ "hst_farm" as keyof typeof abis ] as any
     return new Contract(FarmAddress(chainId, poolId) , new utils.Interface(abi))
 }
-
-// export const DisabledFarmContract = (chainId: number, poolId?: string) => {
-//     const abi = abis[ "hst_farm" as keyof typeof abis ] as any
-//     return new Contract(FarmAddressDisabled(chainId, poolId) , new utils.Interface(abi))
-// }
 
 export const TreasuryContract = (chainId: number) => {
     const abi = abis[ "treasury" as keyof typeof abis ] as any

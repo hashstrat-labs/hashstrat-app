@@ -65,14 +65,16 @@ const useStyles = makeStyles( theme => ({
         margin: "auto",
         padding: theme.spacing(2),
         minWidth: 150,
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
         border: `1px solid ${theme.palette.secondary.main}`,
-        borderRadius: 12,
+        borderRadius: 8,
         paddingBottom: 10,
 
         [theme.breakpoints.down('xs')]: {
+            borderRadius: 0,
             minWidth: 280,
-            marginLeft: 30,
-            marginRight: 30
+            // marginLeft: 30,
+            // marginRight: 30
         },
     },
     asset: {
@@ -85,24 +87,17 @@ const useStyles = makeStyles( theme => ({
     },
 
     strategy: {
-
-        maxWidth: 800,
         margin: 'auto',
-
         marginLeft: 70,
         marginRight: 70,
-        // marginLeft: 20,
-        // marginRight: 20,
-
-        // minWidth: 350,
+        backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
         border: `1px solid ${theme.palette.secondary.main}`,
         paddingTop: 20,
-        borderRadius: 12,
+        borderRadius: 8,
         paddingBottom: 10,
 
         [theme.breakpoints.down('xs')]: {
             borderRadius: 0,
-            // minWidth: 280,
             marginLeft: 0,
             marginRight: 0
         },
@@ -349,9 +344,14 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         </Box>
     ]
 
-
     const hideModalPreseed = () => {
-        reset()
+
+        console.log("DepositWorkflow.hideModalPreseed ")
+        setDepositCompleted(false)
+        setSelectedAsset(undefined)
+        setSelectedPool(undefined)
+
+        onClose && onClose()
     }
 
     const handleAllowanceUpdated = () => {}
@@ -362,11 +362,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     const [activeStep, setActiveStep] = useState(0)
     const [depositCompleted, setDepositCompleted] = useState<boolean>(false)
 
-    const reset = () => {
-        setDepositCompleted(false)
-        setSelectedAsset(undefined)
-        setSelectedPool(undefined)
-    };
+ 
 
     useEffect(() => {
         setDepositCompleted(false)
@@ -401,6 +397,9 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         if (info.message === "Deposit completed"){
             console.log("deposit completed")
             setDepositCompleted(true)
+
+            // // close deposit workflow 
+            // onClose && onClose();
         }
         onSuccess && onSuccess(info)
     }
@@ -410,9 +409,6 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     }
 
 
-    const handleClose = () => {
-        onClose && onClose()
-    }
 
     const assetSelectionStep = selectedAsset ? assetNames[ selectedAsset.toUpperCase() as keyof typeof assetNames] : ''
     const strategySelectionStep = selectedPool && strategyNames[PoolInfo(chainId, selectedPool).strategy as keyof typeof strategyNames]
@@ -425,7 +421,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
         setAnchorEl0(event.currentTarget);
     };
     
-    const handleClose0 = () => {
+    const handleClose = () => {
         setAnchorEl0(null);
     };
 
@@ -477,7 +473,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                             </Button>
                         </Typography>
 
-                        <Popover style={{maxWidth: 500}} id={id0} open={open0} anchorEl={anchorEl0} onClose={handleClose0} anchorOrigin={{vertical: 'bottom', horizontal: 'center' }} >
+                        <Popover style={{maxWidth: 500}} id={id0} open={open0} anchorEl={anchorEl0} onClose={handleClose} anchorOrigin={{vertical: 'bottom', horizontal: 'center' }} >
                             <Box p={3} style={{ minWidth: '320px'}}>
                                
                                     <Typography variant="body1">
@@ -537,7 +533,6 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                                 navButtonsProps={{ 
                                     style: {
                                         backgroundColor: "rgba(63, 143, 227, 0.8)",  // '#3F8FE3'
-                                        // borderRadius: 0
                                     }
                                 }} 
                                 autoPlay={false}
@@ -555,55 +550,49 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                 }
                 { poolsViews && poolsViews.length > 0 && selectedAsset !== undefined && selectedPool === undefined &&
                     <Box pt={3}  >
-                        <Carousel 
-                            fullHeightHover={false}  
-                            navButtonsProps={{ 
-                                style: {
-                                    backgroundColor: "rgba(63, 143, 227, 0.8)",
-                                    // borderRadius: 0
-                                }
-                            }} 
+                        <Horizontal align="center">
+                            <Carousel 
+                                fullHeightHover={false}  
+                                navButtonsProps={{ 
+                                    style: {
+                                        backgroundColor: "rgba(63, 143, 227, 0.8)",
+                                       
+                                    }
+                                }} 
 
-                            autoPlay={false}
-                            navButtonsAlwaysVisible={true}
-                            cycleNavigation={false}
-                            swipe={true}
-                            indicators={true}
-                        >
-                            {poolsViews}
-                        </Carousel>
+                                autoPlay={false}
+                                navButtonsAlwaysVisible={true}
+                                cycleNavigation={false}
+                                swipe={true}
+                                indicators={true}
+                            >
+                                {poolsViews} 
+                            </Carousel>
+                        </Horizontal>
                     </Box>
                 }
 
-                { depositCompleted && 
+                {/* { depositCompleted && 
                     <Box mt={3}>
                         <Box mt={3}>
                             <Horizontal align="center">
-                                <Button color="primary" variant="contained" onClick={handleClose}>
+                                <Button color="primary" variant="contained" onClick={hideModalPreseed}>
                                     View Portfolio
                                 </Button>
                             </Horizontal>
                         </Box>
                     </Box>
-                }
+                } */}
                 
                 { selectedPool !== undefined && account && //!depositCompleted && 
-                    <Box >
-
-                        {/* <DepositWithdrawView 
-                            formType="deposit"
-                            chainId={chainId}
-                            poolId={selectedPool}
-                            token={depositToken}
-                            handleSuccess={handleSuccess}
-                            handleError={handleError}
-                        /> */}
+                    <Box>
 
                         <Horizontal align="center">
                             <Box mt={3}> 
                                 <Paper>
                                     <Box>
                                         <DepositForm
+                                            isFirstDeposit={true}
                                             balance={formattedTokenBalance}
                                             chainId={chainId}
                                             poolId={selectedPool}
@@ -618,7 +607,6 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                                 </Paper>
                             </Box>
                         </Horizontal>
-
 
                     </Box>
                 }

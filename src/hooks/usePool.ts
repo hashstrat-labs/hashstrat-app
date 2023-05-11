@@ -51,8 +51,6 @@ export const usePortfolioValue = (chainId: number, poolId: string, account: stri
 
 export const useLpTokensValue = (chainId: number, poolId: string, amount: string) => {
 
-    console.log("useLpTokensValue: amount: ", chainId, poolId, `amount: '${amount}'`)
-
     const poolContract = PoolContract(chainId, poolId)
     const { value, error } = useCall({
             contract: poolContract,

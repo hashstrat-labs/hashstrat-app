@@ -185,26 +185,27 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
     // show build portfolio workfow if have no assets
     useEffect(() => {
         if ( didLoad && portfolioInfo.totalValue?.isZero() ) {
+            console.log(">>> show build portfolio workflow")
             setShowBuildPortfolio(true)
-		} 
-        if ( didLoad && !portfolioInfo.totalValue?.isZero() )  {
-            setShowBuildPortfolio(false)
 		} 
         
         if (onPortfolioLoad) {
             onPortfolioLoad(didLoad)
         }
 
-	}, [didLoad, portfolioInfo.totalValue ?? BigNumber.from(0), onPortfolioLoad])
+	}, [didLoad, portfolioInfo, onPortfolioLoad])
 
     
     /// DepositWorkflow Callbacks
-    const hidePortfolioWorkflow = () => {
+    const hideModal = () => {
+        console.log(">>> MyPortfolioSummary.hideModal hide build portfolio workflow")
+
         setShowDepositModal(false)
-        setShowBuildPortfolio(false)
+        // setShowBuildPortfolio(false)
     }
 
     const handleSuccess = (info: SnackInfo) => {
+        console.log(">>> MyPortfolioSummary.handleSuccess", info)
         setSnackContent(info)
         setShowSnack(true)
     }
@@ -259,7 +260,7 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
 
             {  didLoad && account &&
                 <div>
-                    { didLoad && showBuildPortfolio && 
+                    {/* { didLoad && showBuildPortfolio && 
                         <Box mb={4}>
                             <Horizontal align="center"> 
                                 <DepositWorkflow  
@@ -274,9 +275,9 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                                 />                     
                             </Horizontal>
                         </Box>
-                    }
-
-                    { !showBuildPortfolio  && 
+                    } */}
+ 
+                    { /* !showBuildPortfolio  &&  */
                         <Box className={classes.portfolioSummary} > 
                             <Box pb={2}>
                                 { roiFormatted !== undefined && 
@@ -373,8 +374,6 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                         </Box>
                     }
 
-              
-
                     { showDepositModal && 
                         <Modal onClose={ hideModalPreseed } variant="wide" open={true} >
                             <DepositWorkflow  
@@ -383,7 +382,7 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                                 investTokens={investTokens} 
                                 isInitialDeposit={false}
                                 account={account} 
-                                onClose={hidePortfolioWorkflow}
+                                onClose={hideModal}
                                 onSuccess={handleSuccess}
                                 onError={handleError}
                             />
