@@ -352,7 +352,6 @@ export class MeanReversion implements Strategy {
         }
 
         const aaa = round( amount * 10 ** 8, 0) 
-        console.log(">>> aaa: ", aaa)
         const priceInt = BigNumber.from( aaa.toString() )
         const price = BigNumber.from(10).pow(decimals - 8).mul( priceInt )
         return price.toString()

@@ -1,10 +1,11 @@
 import { BigNumber } from "ethers"
 
 export type TokenInfo = {
-    value: BigNumber,
-    balance: BigNumber,
-    accountValue: BigNumber,
-    accountBalance: BigNumber
+    value: BigNumber | undefined,
+    balance: BigNumber | undefined,
+    accountValue: BigNumber | undefined,
+    accountBalance: BigNumber | undefined
+    
     decimals: number,
     symbol: string,
 }

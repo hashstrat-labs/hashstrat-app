@@ -68,7 +68,9 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
     // const { poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool, didLoad } = useDashboardModel(chainId, tokens, depositToken, account)
     const { didLoad, poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool } = useDashboardModel(chainId, tokens, depositToken)
 
-    const poolsWithFunds = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
+    const poolsWithFunds = [...indexesInfo, ...poolsInfo]
+            .filter( pool => pool.totalValue && pool.totalValue.isZero() === false )
+            .sort ( (a, b) => { return b.totalValue!.sub(a.totalValue!).toNumber() } )
 
 
     console.log(">>> AAAA didLoad", didLoad)
@@ -91,12 +93,14 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
         const info = PoolInfo(chainId, it.poolId)
         return {
             name: info.name,
-            data: it.tokenInfoArray.map ( t => {
-                return {
-                    x: t.symbol,
-                    y: Number(fromDecimals( t.value, depositToken.decimals, 2)),
-                }
-            })
+            data: it.tokenInfoArray
+                .filter( t => t.value !== undefined)
+                .map ( t => {
+                    return {
+                        x: t.symbol,
+                        y: Number(fromDecimals( t.value!, depositToken.decimals, 2)),
+                    }
+                })
         }
     })
     

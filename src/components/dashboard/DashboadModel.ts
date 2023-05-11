@@ -22,7 +22,7 @@ type TokenBalances = {[ x: string] : {
 export type PoolData =  { 
     poolId: string, 
     tokenInfoArray: TokenInfo[], 
-    totalValue: BigNumber 
+    totalValue: BigNumber | undefined
 }
 
 type PortfolioInfo = {
@@ -165,15 +165,19 @@ const poolsInfoFromBalances = (chainId : number, poolsBalances: TokenBalanceMapf
         const poolTokenSymbols = [depositTokenSymbol, ...investTokenSymbols] as string[]
 
         // tokensBalances
-        const tokenInfoArray =  Object.values(poolsBalances[poolId]) as TokenInfo[]
+        const tokenInfoArray =  Object.values(poolsBalances[poolId])  as TokenInfo[]
         const tokensArrayFiltered = tokenInfoArray.filter( it => poolTokenSymbols.includes(it.symbol) )
 
-        const totalValue : BigNumber = tokensArrayFiltered.reduce( (acc, val)  => {
-            if (account && val.accountValue) acc = acc.add(val.accountValue)
-            else if (val.value) acc = acc.add(val.value)
+        const totalValue : BigNumber | undefined = tokensArrayFiltered.reduce( (acc: BigNumber | undefined, val)  => {
+            if (account && val.accountValue) { 
+                acc =  (acc ?? BigNumber.from(0)).add(val.accountValue)
+            }
+            else if (val.value) {
+                acc = (acc ?? BigNumber.from(0)).add(val.value)
+            }
 
             return acc
-        }, BigNumber.from(0))
+        }, undefined)
 
         return  { poolId, tokenInfoArray: tokensArrayFiltered, totalValue }
     })

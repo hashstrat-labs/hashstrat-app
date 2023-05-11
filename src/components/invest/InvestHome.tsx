@@ -24,13 +24,15 @@ const useStyles = makeStyles( theme => ({
     container: {
         maxWidth: 1200,
         margin: 'auto',
-        
         paddingTop: theme.spacing(2),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
+
         [theme.breakpoints.up('xs')]: {
-            paddingLeft: theme.spacing(0),
-            paddingRight: theme.spacing(0),
+            paddingLeft: 0,
+            paddingRight: 0,
+            marginLeft: 0,
+            marginRight: 0,
         },
     },
 
@@ -83,6 +85,8 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
                 </Breadcrumbs>
             </Box>
 
+            <Divider variant="middle" style={{  marginTop: 20,  marginBottom: 20 }}/>
+            
             { !didLoad && 
                 <div style={{height: 300, paddingTop: 140}} >
                     <Horizontal align="center" > <CircularProgress color="secondary" /> </Horizontal>  

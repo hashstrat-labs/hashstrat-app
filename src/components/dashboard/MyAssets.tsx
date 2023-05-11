@@ -3,9 +3,7 @@ import { utils } from "ethers"
 import { Horizontal, Vertical } from "../Layout"
 
 import myAssetsSrc from  "./img/my-assets.svg"
-// import btc from  "./img/btc.svg"
-// import eth from  "./img/eth.svg"
-// import usdc from  "./img/usdc.svg"
+
 import btc from  "./img/btc.svg"
 import eth from  "./img/eth.svg"
 import usdc from  "./img/usdc.svg"
@@ -104,7 +102,7 @@ export const MyAssets = ( { tokens, title }: MyAssetsProps ) => {
                     <Box px={2}>
                         <Typography style={{fontSize: 18}}>
                             You have no assets in your portfolio. <br/>
-                            Deposit some funds to create your first portfolio.
+                            Deposit some funds to create your portfolio.
                         </Typography>
                     </Box>
                 }

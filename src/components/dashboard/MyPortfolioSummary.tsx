@@ -136,13 +136,15 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
     })
 
     
-    const userHasDisabledPools = [...indexesInfo, ...poolsInfo].filter( pool => pool.totalValue.isZero() === false ).reduce( (acc, val ) => {
-        return acc = acc || PoolInfo(chainId, val.poolId).disabled === 'true'
+    const userHasDisabledPools = [...indexesInfo, ...poolsInfo]
+        .filter( pool => pool.totalValue && pool.totalValue.isZero() === false )
+        .reduce( (acc, val ) => {
+            return acc = acc || PoolInfo(chainId, val.poolId).disabled === 'true'
     }, false)
 
     const poolsWithFunds = [...indexesInfo, ...poolsInfo]
-        .filter( pool => pool.totalValue.isZero() === false )
-        .sort ( (a, b) => { return b.totalValue.sub(a.totalValue).toNumber() } )
+        .filter( pool => pool.totalValue && pool.totalValue.isZero() === false )
+        .sort ( (a, b) => { return b.totalValue!.sub(a.totalValue!).toNumber() } )
      
     const disabledPoolsSummaryViews = poolsWithFunds
         .filter( pool => { 
@@ -179,7 +181,9 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
     const totalWithdrawnFormatted = totalWithdrawn && fromDecimals( totalWithdrawn, depositToken.decimals, 2)
 
     const roiFormatted = (totalValueFormatted && totalWithdrawnFormatted && totalDepositedFormatted && parseFloat(totalDepositedFormatted) > 0) ? 
-                            String(Math.round( 10000 * (parseFloat(totalWithdrawnFormatted) + parseFloat(totalValueFormatted) - parseFloat(totalDepositedFormatted)) / parseFloat(totalDepositedFormatted)) / 100 ) : 'n/a'
+                            Math.round(
+                                10000 * (parseFloat(totalWithdrawnFormatted) + parseFloat(totalValueFormatted) - parseFloat(totalDepositedFormatted)) / parseFloat(totalDepositedFormatted)
+                            ) / 100 : 0
 
 
     // show build portfolio workfow if have no assets
@@ -228,11 +232,11 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
         return {
             name: info.name,
             data: it.tokenInfoArray
-                .filter ( t => t.accountValue !== undefined )
+                .filter ( t => t.accountValue )
                 .map ( t => {
                 return {
                     x: t.symbol,
-                    y: Number(fromDecimals( t.accountValue , depositToken.decimals, 2)),
+                    y: Number(fromDecimals( t.accountValue! , depositToken.decimals, 2)),
                 }
             })
         }
@@ -248,7 +252,7 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
                 </div>
             }
          
-            { userHasDisabledPools && 
+            { didLoad && userHasDisabledPools &&
                 <Box pb={2} >
                     <Alert severity="warning" > 
                         <AlertTitle><strong>Strategy upgrade</strong></AlertTitle>

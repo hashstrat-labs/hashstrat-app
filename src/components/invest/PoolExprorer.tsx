@@ -103,8 +103,10 @@ const filterPools = (chainId: number, poolsInfo: PoolData[], strategy: string | 
 
         // return info.disabled === 'false' && includeStrategy && includeAsset && includeMyPools
         return info.disabled === 'false' && includeStrategy && includeAsset && includeMyPools
-    }).sort( (a: PoolData, b: PoolData) => {
-        return b.totalValue.toNumber() - a.totalValue.toNumber()
+    })
+    .filter ( p => p.totalValue !== undefined )
+    .sort( (a: PoolData, b: PoolData) => {
+        return b.totalValue!.toNumber() - a.totalValue!.toNumber()
     })
 
     return filtered

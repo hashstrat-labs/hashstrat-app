@@ -37,6 +37,7 @@ export type TokenBalanceInfo = {
     loaded: boolean
 }
 
+
 type TokeBalanceInfoForIndex = {
     indexId: string;
     tokensBalances : TokenBalanceInfoMap;

@@ -27,24 +27,12 @@ const useStyles = makeStyles( theme => ({
         paddingTop: theme.spacing(2),
         
         [theme.breakpoints.down('xs')]: {
-            padding: 0,
-            margin: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            marginLeft: 0,
+            marginRight: 0,
         },
     },
-
-    // container: {
-    //     // maxWidth: 1200,
-    //     // margin: 'auto',
-
-    //     paddingTop: theme.spacing(2),
-    //     paddingLeft: theme.spacing(2),
-    //     paddingRight: theme.spacing(2),
-
-    //     [theme.breakpoints.down('xs')]: {
-    //         paddingLeft: theme.spacing(0),
-    //         paddingRight: theme.spacing(0),
-    //     },
-    // },
 
     tabsContainer: {
         marginTop: 22,
