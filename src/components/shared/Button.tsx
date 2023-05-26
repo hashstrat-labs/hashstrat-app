@@ -25,11 +25,12 @@ export const Button = styled(BaseButton)(({ theme }) => (
 
 export const ButtonSecondary = styled(BaseButton)(({ theme }) => (
 {
-    marginLeft: 0,
-    border: `1px solid ${theme.palette.text.primary}`,
     borderRadius: 20,
+    border: `1px solid ${theme.palette.text.primary}`,
     width: 180, 
     height: 40, 
+    marginLeft: 0,
+    
     backgroundColor: theme.palette.type === 'light' ? 'rgba(0,0,0,0)': 'rgba(0,0,0,0)',
     textTransform: "none",
     color: theme.palette.text.primary,

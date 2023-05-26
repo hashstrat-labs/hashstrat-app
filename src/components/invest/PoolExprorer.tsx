@@ -167,11 +167,16 @@ export const PoolExplorer = ({ chainId, account, depositToken } : PoolExplorerPr
     const selectedStrategy = strategy === -1 ? undefined : strategies[strategy]
     const selectedAsset = asset === -1 ? undefined : assets[asset]
 
-    const poolsViews = filterPools(chainId, [...indexes, ...pools], selectedStrategy, selectedAsset, false).map( index => { 
+    const poolsViews = filterPools(chainId, [...indexes, ...pools], selectedStrategy, selectedAsset, false).map( pool => { 
         return (
-            <div key={index.poolId}>
-                <PoolSummary chainId={chainId} poolId={index.poolId} account={account} depositToken={depositToken} tokens={index.tokenInfoArray} />
-            </div>
+            <PoolSummary 
+                key={pool.poolId}
+                chainId={chainId} 
+                poolId={pool.poolId} 
+                account={account} 
+                depositToken={depositToken} 
+                tokens={pool.tokenInfoArray} 
+            />
         )
     })
 
@@ -195,12 +200,12 @@ export const PoolExplorer = ({ chainId, account, depositToken } : PoolExplorerPr
         <Box className={classes.container}>
             <Box mx={2} >
 
-                <Box mb={2} >
-                    <Typography variant="h3"> Pools &amp; Strategies <Button onClick={handleClick0} style={{ height: 40, width: 40 }} ><Info /></Button></Typography>  
+                <Box my={2} >
+                    <Typography variant="h3">Strategies Pools<Button onClick={handleClick0} style={{ height: 40, width: 40 }} ><Info /></Button></Typography>  
                 </Box>
 
                 <Typography variant="body1">
-                    Here are all HashStrat Pools with their associated strategies.  
+                    Here are all HashStrat pools and their associated strategies.  
                 </Typography>  
                 <Typography variant="body1">
                     Filter by a combination of strategies and assets to find a pool to deposit into.
@@ -217,52 +222,49 @@ export const PoolExplorer = ({ chainId, account, depositToken } : PoolExplorerPr
                         </Paper>
                     </Box>
                 </Popover> 
-                    
-                <Horizontal>
-                    <Box my={4}>
-                        <Horizontal align="left">
-                            <FormControl fullWidth={false} >
-                                <InputLabel id="strategy-select-label">Strategies</InputLabel>
-                                <Select style={{minWidth: 320}}
-                                    labelId="strategy-select-label"
-                                    id="strategy-select"
-                                    value={strategy}
-                                    label="Strategies"
-                                    onChange={ e => handleStrategyChange(e) }
-                                    placeholder="Select strategies"
-                                >
-                                    <MenuItem key={-1} value={-1}>All</MenuItem>
-                                    {strategyItems}
-                                </Select>
-                            </FormControl>
-                            
-                            <FormControl fullWidth={false}>
-                                <InputLabel id="assets-select-label">Assets</InputLabel>
-                                <Select style={{minWidth: 180}}
-                                    labelId="assets-select-label"
-                                    id="assets-select"
-                                    value={asset}
-                                    label="Assets"
-                                    onChange={ e => handleAssetChange(e) }
-                                    placeholder="Select assets"
-                                    
-                                >
-                                    <MenuItem key={-1} value={-1}>All</MenuItem>
-                                    {assetItems}
-                                </Select>
-                            </FormControl>
+            
+                <Box my={4}>
+                    <Horizontal align="left">
+                        <FormControl fullWidth={false} >
+                            <InputLabel id="strategy-select-label">Strategies</InputLabel>
+                            <Select style={{minWidth: 320}}
+                                labelId="strategy-select-label"
+                                id="strategy-select"
+                                value={strategy}
+                                label="Strategies"
+                                onChange={ e => handleStrategyChange(e) }
+                                placeholder="Select strategies"
+                            >
+                                <MenuItem key={-1} value={-1}>All</MenuItem>
+                                {strategyItems}
+                            </Select>
+                        </FormControl>
+                        
+                        <FormControl fullWidth={false}>
+                            <InputLabel id="assets-select-label">Assets</InputLabel>
+                            <Select style={{minWidth: 180}}
+                                labelId="assets-select-label"
+                                id="assets-select"
+                                value={asset}
+                                label="Assets"
+                                onChange={ e => handleAssetChange(e) }
+                                placeholder="Select assets"
+                                
+                            >
+                                <MenuItem key={-1} value={-1}>All</MenuItem>
+                                {assetItems}
+                            </Select>
+                        </FormControl>
 
-                        </Horizontal>
-                    </Box>
-                </Horizontal>
+                    </Horizontal>
+                </Box>
+            
 
             </Box>
 
             <Box style={{paddingTop: 30, paddingRight: 0, marginLeft: 0, marginRight: 0}}>
-                { poolsViews && poolsViews.length > 0 && 
-                    <Box py={0} >
-                        <Horizontal align="center"> { poolsViews } </Horizontal>
-                    </Box>
+                {
+                    <Horizontal align="left"> { poolsViews } </Horizontal>
                 }
             </Box>
 

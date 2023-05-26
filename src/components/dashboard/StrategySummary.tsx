@@ -1,5 +1,5 @@
 
-import { makeStyles, Link, Box, Typography, Button } from "@material-ui/core"
+import { makeStyles, Link, Box, Typography, Divider } from "@material-ui/core"
 import { BigNumber, utils } from "ethers"
 import { Link as RouterLink } from "react-router-dom"
 
@@ -9,13 +9,12 @@ import { fromDecimals } from "../../utils/formatter"
 import { Token } from "../../types/Token"
 import { ButtonGo } from "../shared/Button"
 
-import { TitleValueBox } from "../TitleValueBox"
 import { TokenInfo } from "../../types/TokenInfo"
 import { Horizontal } from "../Layout"
 
-import usdc from "../img/usdc.png"
-import wbtc from "../img/wbtc.png"
-import weth from "../img/weth.png"
+import usdc from "./img/usdc.svg"
+import wbtc from "./img/btc.svg"
+import weth from "./img/eth.svg"
 
 
 
@@ -76,15 +75,7 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
         return <div></div>
     }
 
-    // const tokenViews = tokens && tokens.map( token => {
-    //     const accountBalanceFormatted = token.accountBalance && fromDecimals(token.accountBalance ?? BigNumber.from(0), token.decimals, 4 )
-    //     const accountValueFormatted = token.accountValue && fromDecimals(token.accountValue ?? BigNumber.from(0), depositToken.decimals, 2 )
-    //     const valueFormatted = accountBalanceFormatted && accountValueFormatted ?  `${accountBalanceFormatted} ($ ${accountValueFormatted})` : '0'
-
-    //     return <TitleValueBox key={token.symbol} title={token.symbol} value={valueFormatted} mode="small" />
-    // })
-
-    const assetImages = [...investTokens, depositTokenSymbol].map( (item, idx) => {
+    const assetImages = [depositTokenSymbol, ...investTokens].map( (item, idx) => {
        const imageSrc = item === 'WBTC' ? wbtc : item === 'WETH' ? weth : item === 'USDC' ? usdc : ''
        return <img key={idx} src={imageSrc} style={{width: 25, height: 25, marginLeft: 5}} alt="" />
     })
@@ -97,29 +88,49 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
     const formattedWithdrawals = withdrawals ? fromDecimals(withdrawals, depositToken.decimals, 2) : ""
 
     
-    const roiFormatted = (totalAccountValue && formattedWithdrawals && formattedDeposits && parseFloat(formattedDeposits) > 0) ? 
-                        String(Math.round( 10000 * (parseFloat(formattedWithdrawals) + parseFloat(totalAccountValue) - parseFloat(formattedDeposits)) / parseFloat(formattedDeposits)) / 100 ) : 'n/a'
+    const roi = (totalAccountValue && formattedWithdrawals && formattedDeposits && parseFloat(formattedDeposits) > 0) ? 
+                        Math.round( 10000 * (parseFloat(formattedWithdrawals) + parseFloat(totalAccountValue) - parseFloat(formattedDeposits)) / parseFloat(formattedDeposits)) / 100 : undefined
+    const roiFormatted = roi && `${roi}%`
 
 
     const nameShortened = name.replace(/ *\[[^)]*\] */g, "")
-    const nameFormatted = nameShortened.length > 18 ? nameShortened.slice(0, 16) + "..." : nameShortened
+    const nameFormatted = nameShortened.length > 33 ? nameShortened.slice(0, 30) + "..." : nameShortened
 
 
     return (
         <Box color={`${outlineColout}`} className={classes.container} >
             
             <Box className={classes.pool}>
-                <Horizontal spacing="between" >
-                    <Typography variant="h5"> {nameFormatted} { disabled === 'true' && <label>🚫</label>}</Typography>
-                    <Box> {assetImages} </Box>
-                </Horizontal>
-                
+               
+                <Typography color="textPrimary" style={{fontSize: 20, fontWeight: 500, marginBottom: 10}} > {nameFormatted} { disabled === 'true' && <label>🚫</label>}</Typography>
                 <Typography variant="body2" align="left"> {description} </Typography>
 
                 { account && 
-                    <Box pt={3}>
-                        <TitleValueBox title="Asset Value" value={`$${utils.commify(totalAccountValue)}`} mode="bold" />
-                        <TitleValueBox title="ROI" value={roiFormatted} mode="bold" suffix="%" />
+                    <Box>
+
+                        <Divider style={{ marginTop: 15, marginBottom: 20 }} />
+
+                        <Horizontal align="center" valign="center" spacing="between">
+                            <Box textAlign="center">
+                                <Box>
+                                    <Typography color="textPrimary" style={{fontSize: 24, fontWeight: 500}} >${utils.commify(totalAccountValue)}</Typography>  
+                                </Box>
+                                <Box>
+                                    <Typography color="textSecondary" style={{fontSize: 16, fontWeight: 600}}>My Assets</Typography>
+                                </Box>
+                            </Box>
+
+                            <Box textAlign="center">
+                                <Typography color="textPrimary" variant="h5" >{roiFormatted}</Typography>
+                                <Typography color="textSecondary" style={{fontSize: 16, fontWeight: 600}}>ROI</Typography>
+                            </Box>
+                            <Box textAlign="center">
+                                 <Box> {assetImages} </Box>
+                            </Box>
+                        </Horizontal>
+
+                        <Divider style={{ marginTop: 20, marginBottom: 0 }} />
+
                     </Box>
                 }
 

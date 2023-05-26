@@ -98,7 +98,7 @@ export const PortfolioMap = ({ chainId, depositToken, investTokens, account } : 
 
                     <TreeChart 
                         title=""
-                        height={350}
+                        height={ Math.min( Math.round(window.innerWidth/2), 420) }
                         data={portfolioMap}
                     />
                 </Box>

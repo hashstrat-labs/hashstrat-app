@@ -5,7 +5,6 @@ import { makeStyles, Box, Link, Typography, Snackbar, CircularProgress, Divider 
 import { Alert, AlertTitle } from "@material-ui/lab"
 
 import { BigNumber } from "ethers"
-
 import { Token } from "../../types/Token"
 import { fromDecimals } from "../../utils/formatter"
 import { StrategySummary } from "./StrategySummary"
@@ -15,7 +14,6 @@ import { PoolInfo } from "../../utils/pools"
 import { useDashboardModel } from "./DashboadModel"
 import { useTotalDeposited, useTotalWithdrawals } from "../../hooks/useUserInfo"
 import { DepositWorkflow } from "./DepositWorkflow"
-
 import { Modal } from "../CustomModal"
 import { StyledAlert } from "../shared/StyledAlert"
 import { SnackInfo } from "../SnackInfo"
@@ -84,7 +82,7 @@ const useStyles = makeStyles( theme => ({
     strategyMap: {
         margin: 'auto',
         marginBottom: 20,
-        maxWidth: 800, 
+        // maxWidth: 800, 
 
         [theme.breakpoints.down('xs')]: {
             marginLeft: 10,
@@ -103,11 +101,11 @@ const useStyles = makeStyles( theme => ({
 }))
 
 
-export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, investTokens, account, onPortfolioLoad } : MyPortfolioSummaryProps) => {
+export const MyPortfolioSummary = ({ chainId, depositToken, investTokens, account, onPortfolioLoad } : MyPortfolioSummaryProps) => {
     
     const classes = useStyles()
     const tokens = [depositToken, ...investTokens]
-    const { poolsInfo, indexesInfo, portfolioInfo, chartValueByAsset, chartValueByPool, didLoad } = useDashboardModel(chainId, tokens, depositToken, account)
+    const { poolsInfo, indexesInfo, portfolioInfo, didLoad } = useDashboardModel(chainId, tokens, depositToken, account)
 
     const totalDeposited = useTotalDeposited(chainId, account)
     const totalWithdrawn = useTotalWithdrawals(chainId, account)
@@ -325,17 +323,19 @@ export const MyPortfolioSummary = ({ chainId, connectedChainId, depositToken, in
 
                                 <Divider style= {{ marginTop: 10, marginBottom: 30 }}/>
 
-                                <Typography variant="body1" align="left" style={{ margin:10 }}>
+                                <Typography variant="body1" align="left">
                                     Portfolio view showing what strategies are managing the assets in your portfolio.
                                 </Typography>
                             </Box>
    
                             <Box className={ classes.strategyMap }>
-                                <TreeChart 
-                                    title=""
-                                    height={350}
-                                    data={portfolioMap}
-                                />
+                                <Box mx={1}>
+                                    <TreeChart 
+                                        title=""
+                                        height={ Math.min( Math.round(window.innerWidth/2), 420) }
+                                        data={portfolioMap}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     }

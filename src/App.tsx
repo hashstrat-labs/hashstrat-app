@@ -41,6 +41,9 @@ const App = () => {
 			secondary: {
 				main: lightTheme ? '#355E7D' :  '#33cca6', //adebeb
 			},
+			text: {
+				primary: lightTheme ? '#16161A' :  '#E9E9E6'
+			},
 
 			info: {
 				light: lightTheme ? '#4b5f6' : '#222222',

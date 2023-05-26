@@ -98,7 +98,7 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
                     <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
 
                     <Box mt={4} />
-                    <Box  style={{ maxWidth: 1200, margin: "auto" }}>
+                    <Box style={{ maxWidth: 1200, margin: "auto" }}>
                         <PortfolioMap
                             chainId={chainId} 
                             depositToken={depositToken} 

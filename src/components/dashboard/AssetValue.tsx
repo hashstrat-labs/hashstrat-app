@@ -27,10 +27,6 @@ const useStyles = makeStyles( theme => ({
             paddingRight: 10,
         },
     },
-    title: {
-        color: theme.palette.type === 'light' ? theme.palette.grey[900] : theme.palette.grey[900],
-    },
-
     avatar: {
         display: 'flex',
         alignItems: 'center',
@@ -47,7 +43,6 @@ const useStyles = makeStyles( theme => ({
             height: 86,
         },
     }
-
 }))
 
 
@@ -64,7 +59,7 @@ export const AssetValue = ({ value }: AssetValueProps) => {
                     <img src={logo} />
                 </Box>
                 <Box pl={1}>
-                    <Typography className={classes.title }>Total Value Managed</Typography>
+                    <Typography color="textSecondary">Total Value Managed</Typography>
                     <Typography style={{ fontSize: 40, fontWeight: 500 }}>
                         ${ utils.commify( value ) }
                     </Typography>
