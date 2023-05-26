@@ -156,12 +156,14 @@ const valueByPoolChartData = (chainId: number, depositToken : Token, poolBalance
  
     
     // account for the share of each pool owned by the index
-    const valueByPool = Object.values(poolBalances).map( (poolInfo : PoolValueInfo) => {
-        const { name } = PoolInfo(chainId, poolInfo.poolId)
-        return {
-            name: name,
-            value: Number(fromDecimals(poolInfo.value, depositToken.decimals, 2))
-        }
+    const valueByPool = Object.values(poolBalances)
+        .filter( it => it.value !== undefined)
+        .map( (poolInfo : PoolValueInfo) => {
+            const { name } = PoolInfo(chainId, poolInfo.poolId)
+            return {
+                name: name,
+                value:  Number(fromDecimals(poolInfo.value, depositToken.decimals, 2))
+            }
     }).filter(it => it.value > 0)
 
     return valueByPool

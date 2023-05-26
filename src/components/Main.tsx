@@ -35,7 +35,7 @@ interface MainProps {
 const useStyle = makeStyles( theme => ({
     container: {
         transform: "scale(1.0)",
-        margin: "auto",
+
         backgroundColor: theme.palette.type === 'light' ? '#FAFAFA' : '#140F0C',
     }
 }))
@@ -84,6 +84,7 @@ export const Main = ( { lightTheme, toggleTheme } : MainProps  ) =>  {
         <Box className={classes.container} >
             <BrowserRouter>
                 <ScrollToTop />
+          
                 <Header lightTheme={lightTheme} toggleTheme={toggleTheme} setAccount={setAccount} setChainId={setChainId} networkChangedHandler={networkChangedHandler} />
                 
                 <MainWithTitle>

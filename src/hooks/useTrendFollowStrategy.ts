@@ -89,39 +89,3 @@ export const useStrategyMovingAverage = (chainId: number, poolId: string) => {
 }
 
 
-export const useStrategyTargetPricePercUp = (chainId: number, poolId: string) => {
-    const poolContract = StrategyContract(chainId, poolId)
-    const { value, error } = useCall({
-            contract: poolContract,
-            method: 'targetPricePercUp',
-            args: [],
-    }) ?? {}
-
-    error && console.error("error in custom hook: ", error)
-    return value?.[0].toString()
-}
-
-export const useStrategyTargetPricePercDown = (chainId: number, poolId: string) => {
-    const poolContract = StrategyContract(chainId, poolId)
-    const { value, error } = useCall({
-            contract: poolContract,
-            method: 'targetPricePercDown',
-            args: [],
-    }) ?? {}
-
-    error && console.error("error in custom hook: ", error)
-    return value?.[0].toString()
-}
-
-export const useStrategyTokensToSwapPerc = (chainId: number, poolId: string) => {
-    const poolContract = StrategyContract(chainId, poolId)
-    const { value, error } = useCall({
-            contract: poolContract,
-            method: 'tokensToSwapPerc',
-            args: [],
-    }) ?? {}
-
-    error && console.error("error in custom hook: ", error)
-    return value?.[0].toString()
-}
-

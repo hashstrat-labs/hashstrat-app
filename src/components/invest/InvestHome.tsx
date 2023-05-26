@@ -12,6 +12,9 @@ import { fromDecimals } from "../../utils/formatter"
 import { BigNumber } from "ethers"
 import { Horizontal } from "../Layout"
 
+import { PortfolioMap } from "../dashboard/PortfolioMap"
+
+
 
 interface InvestHomeProps {
     chainId: number,
@@ -25,21 +28,13 @@ const useStyles = makeStyles( theme => ({
         maxWidth: 1200,
         margin: 'auto',
         paddingTop: theme.spacing(2),
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-
-        [theme.breakpoints.up('xs')]: {
+        
+        [theme.breakpoints.down('xs')]: {
             paddingLeft: 0,
             paddingRight: 0,
             marginLeft: 0,
             marginRight: 0,
         },
-    },
-
-    portfolioSummary: {
-        maxWidth: 700,
-        margin: "auto",
-        marginBottom: 70,
     },
 
     explorer: {
@@ -76,7 +71,7 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
     })
 
     return (
-        <div className={classes.container}>
+        <Box className={classes.container}>
 
             <Box px={2}>
                 <Breadcrumbs aria-label="breadcrumb">
@@ -96,15 +91,22 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
             { didLoad &&
                 <>
                 
-                    <Box className={classes.portfolioSummary} > 
-                        <Box pb={5} >
-                            <AssetValue value={ Number( totalValueFormatted ?? 0) } />
-                        </Box>
+                    <Box mt={4} /> 
+                    <AssetValue value={ Number( totalValueFormatted ?? 0) } />
+                    
+                    <Box mt={4} />
+                    <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
 
-                        <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
+                    <Box mt={4} />
+                    <Box  style={{ maxWidth: 1200, margin: "auto" }}>
+                        <PortfolioMap
+                            chainId={chainId} 
+                            depositToken={depositToken} 
+                            investTokens={investTokens} 
+                        /> 
                     </Box>
 
-                    <Divider variant="middle" style={{marginTop: 20, marginBottom: 0}} />
+             
                     <Box className={classes.explorer}>
                         <PoolExplorer chainId={chainId} account={account} depositToken={depositToken} />
                     </Box>
@@ -112,7 +114,7 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
 
             }
 
-        </div>
+        </Box>
     )
 }
 

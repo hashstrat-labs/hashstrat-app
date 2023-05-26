@@ -8,11 +8,9 @@ import { useTheme, Button, Link, Menu, MenuProps, MenuItem, Divider, Typography,
 import { Menu as MenuIcon, KeyboardArrowDown, KeyboardArrowUp, WbSunny, Brightness3 } from "@material-ui/icons"
 import { useLocation, Link as RouterLink } from "react-router-dom"
 import { NetworkName } from "../utils/network"
+import { Horizontal } from "./Layout"
 
 import logoLight from "./img/logo-light.png"
-import logoDark from "./img/logo-dark.png"
-
-import { Horizontal } from "./Layout"
 
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -43,6 +41,12 @@ const useStyles = makeStyles(theme => ({
 	container: {
 		backgroundColor: theme.palette.type === 'light' ? '#fff' :'#000',
 
+	},
+
+	wrapper: {
+		maxWidth: 1200,
+		margin: "auto",
+
 		display: "flex",
         justifyContent: "space-between",
         flexDirection: "row",
@@ -59,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	menu: {
-		borderRadius: 10,
+		borderRadius: 8,
 	},
 
 	menuItems: {
@@ -91,7 +95,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	
 	logoFilter: {
-		// filter: "invert(20%)"
+		filter: theme.palette.type === 'light' ?  "invert(0%)" : "invert(100%)"
 	}
 }))
 
@@ -119,7 +123,6 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 	const classes = useStyles()
 	const theme = useTheme();
 	const lightMode = theme.palette.type === 'light'
-	const logoImg = lightMode ? logoLight : logoDark
 
 	// watch the network name to show the user the real network connected
 	const { chainId, account, deactivate } = useEthers()
@@ -174,12 +177,12 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 
 	return (
 
-		<header>
+		<header className={classes.container}>
 
-			<Box className={classes.container}>
+			<Box className={classes.wrapper}>
 
 				<Link component={RouterLink} to="https://hashstrat.com" >
-					<Button> <img src={logoImg} style={{ width: 155, height: 34 }} className={classes.logoFilter} alt="logo" /> </Button>
+					<Button> <img src={logoLight} style={{ width: 150, height: 33 }} className={classes.logoFilter} alt="logo" /> </Button>
 				</Link>
 				
 				<div className={classes.rightItmesContainer}>
@@ -187,9 +190,6 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 					<div>
 						<Button className={classes.menu}
 							id="account-button"
-							// aria-controls={open ? 'account-menu' : undefined}
-							// aria-haspopup="true"
-							// aria-expanded={open ? 'true' : undefined}
 							variant="outlined"
 							color='primary'
 							disableElevation
@@ -214,12 +214,12 @@ export const Header = ({ lightTheme, toggleTheme, setAccount, setChainId, networ
 								
 							<nav>
 								
-								<Link component={RouterLink} to="/dao">
-									<MenuItem onClick={handleClose}> DAO </MenuItem>
-								</Link>
-								
 								<Link component={RouterLink} to="/invest">
 									<MenuItem onClick={handleClose}> Invest </MenuItem>
+								</Link>
+
+								<Link component={RouterLink} to="/dao">
+									<MenuItem onClick={handleClose}> DAO </MenuItem>
 								</Link>
 
 								<Link component={RouterLink} to="/strategies">

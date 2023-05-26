@@ -4,12 +4,10 @@ import React, { useState, useContext } from "react"
 
 import { AppContext } from "../../context/AppContext"
 
-import { makeStyles, Tab, Box, Paper  } from "@material-ui/core"
-import { TabContext, TabList, TabPanel } from "@material-ui/lab"
+import { makeStyles, Box } from "@material-ui/core"
 
 import { Token } from "../../types/Token"
 
-import { FundAssetsSummary } from "./FundAssetsSummary"
 import { MyPortfolioSummary } from "./MyPortfolioSummary"
 import { ConnectAccountHelper } from "./ConnectAccountHelper"
 import { Vertical } from "../Layout"

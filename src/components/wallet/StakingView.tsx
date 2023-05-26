@@ -51,15 +51,15 @@ export const StakingView = ( { chainId, poolId, token, formType, handleSuccess, 
   const { account } = useEthers()
   const tokenBalance = useTokenBalance(address, account)
 
-  const formattedTokenBalance = (tokenBalance && fromDecimals(tokenBalance, token.decimals, 2)) || "0.0"
+  const formattedTokenBalance = (tokenBalance && fromDecimals(tokenBalance, token.decimals, token.decimals)) || "0.0"
 
   const tokenStakedBalance = useStakedTokenBalance(chainId, poolId, account)
   console.log("tokenStakedBalance", tokenStakedBalance, poolId)
 
-  const formattedTokenStakedBalance = (tokenStakedBalance && fromDecimals(tokenStakedBalance, token.decimals, 2)) || "0.0"
+  const formattedTokenStakedBalance = (tokenStakedBalance && fromDecimals(tokenStakedBalance, token.decimals, token.decimals)) || "0.0"
 
   const showModalPressed = () => {
-    if (formType === 'stake' ? Number(formattedTokenBalance) > 0: Number(formattedTokenStakedBalance) > 0) {
+    if (formType === 'stake' ? Number(formattedTokenBalance) > 0 : Number(formattedTokenStakedBalance) > 0) {
       setShowStakeUnstakeModal(true)
     }
   }
@@ -100,10 +100,11 @@ export const StakingView = ( { chainId, poolId, token, formType, handleSuccess, 
             
                   <Grid item xs={12}>
                       <Box >
-                        <Button disabled={ formType === 'stake' ? 
-                                            Number(formattedTokenBalance) === 0 || (PoolInfo(chainId, poolId).disabled === 'true') : // disable stake for disabled pools
-                                            Number(formattedTokenStakedBalance) === 0
-                              } 
+                        <Button style={{ minWidth: 150 }} 
+                                disabled={ formType === 'stake' ? 
+                                    Number(formattedTokenBalance) === 0 || (PoolInfo(chainId, poolId).disabled === 'true') : // disable stake for disabled pools
+                                    Number(formattedTokenStakedBalance) === 0
+                                }
                                 name={formType === 'stake' ?  "Stake" : "Unstake"} variant="contained" color="primary" onClick={(e) => showModalPressed()}>
                             { formType === 'stake' ?  "Stake" : "Unstake" }
                         </Button> 

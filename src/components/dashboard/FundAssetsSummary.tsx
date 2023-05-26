@@ -125,6 +125,7 @@ export const FundAssetsSummary = ({ chainId, depositToken, investTokens } : Fund
                 </Box>
             }
 
+
             { poolsWithFunds && poolsWithFunds.length > 0 &&
                 <Box>
                     <Typography variant="h4" align="center" >HashStrat Strategies</Typography>

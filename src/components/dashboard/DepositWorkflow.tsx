@@ -245,7 +245,7 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
     // const selectedStrategy = strategy == -1 ? undefined : strategies[strategy]
 
     const poolsForAssets = filterPools(chainId, [ ...pools, ...indexes], selectedPool, selectedAsset, false).map( pool => pool.poolId  )
-    console.log(">>>  selectedPool:", selectedPool)
+    // console.log(">>>  selectedPool:", selectedPool)
 
     const poolsViews = poolsForAssets?.map( (poolId, idx) => {
 

@@ -34,14 +34,16 @@ export interface StakeFormProps {
 
 
 const useStyle = makeStyles( theme => ({
+
+    container: {
+        maxWidth: 540,
+        // padding: 0,
+        // width: '100%',
+        // maxWidth: 360,
+    },
     title: {
         fontWeight: 700,
         fontSize: 20,
-    },
-    container: {
-        padding: 0,
-        width: '100%',
-        maxWidth: 360,
     },
     section1: {
         margin: `${theme.spacing(2)}px ${theme.spacing(2)}px`
@@ -115,10 +117,9 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
 
     useEffect(() => {
         if (allowance) {
-            setFormattedAllowance( fromDecimals(allowance, token.decimals, 4) )
+            setFormattedAllowance( fromDecimals(allowance, token.decimals, token.decimals) )
         }
     }, [allowance, token.decimals])
-
 
 
     // Form Handlers
@@ -132,7 +133,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
         updateAmount(newAmount)
     }
 
-    // validates the stake amount and its decimal amount
+
     const updateAmount = (newAmount: string) => {
         setAmount(newAmount)
         const amounDec = Number(newAmount)
@@ -142,6 +143,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
         setAmountDecimals(amountDecimals)
         setIsValidAmount(validAmount)
     }
+
 
 
     // Approve Tokens
@@ -165,6 +167,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
 
 
     const allowanceOk = formattedAllowance && isValidAmount && (parseFloat(formattedAllowance) >= Number(amount) )
+    console.log("formattedAllowance", formattedAllowance, "amount:", amount)
 
     // Deposit and Stake LP Tokens
     const { deposit, depositState } = useDepositAndStartStake(chainId, poolId)
@@ -190,7 +193,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
     }
 
     const submitButtonTitle = (formType === 'stake') ? "Stake" : 
-                               (formType === 'unstake') ? "Unstake" : "n/a"
+                              (formType === 'unstake') ? "Unstake" : ""
 
     const explorerHost = NetworkExplorerHost(chainId)
     const approveLink =  (approveErc20State.status === 'Success' && approveErc20State.receipt)? `https://${explorerHost}/tx/${approveErc20State.receipt.transactionHash}` : ""
@@ -239,6 +242,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
             })
             handleSuccess(info)
             setAmountDecimals("")
+            setAmount('')
         }
 
         if (notifications.filter((notification) =>
@@ -260,23 +264,25 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
             })
             handleSuccess(info)
             setAmountDecimals("")
+            setAmount('')
         }
     }, [notifications, chainId, approveLink, depositLink, withdrawLink, formattedAllowance, handleSuccess])
 
 
-    const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
-    const showCloseButton = userMessage && (
-        userMessage.title === 'Staking completed' || userMessage.title === 'Unstaking completed' 
-    ) ? true : false
-
-    const showDepositButton = amount == '' || (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
-    const showApproveButton = !showDepositButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-
-    // const showDepositButton = amount == '' ||  (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
-    // const showApproveButton =  !showDepositButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
     
+    const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
 
-    console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
+    // const showCloseButton = Number(balance) == 0 || (userMessage && userMessage.title === 'Deposit completed') ? true : false
+
+    const showCloseButton = Number(balance) == 0 || (userMessage && (
+        userMessage.title === 'Staking completed' || userMessage.title === 'Unstaking completed' 
+    )) ? true : false
+
+    const showDepositButton = !showCloseButton && (amount == '' || appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showApproveButton = !showCloseButton && !showDepositButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+
+
+    // console.log(">>> appprovedTransfer:", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 
     return (
         <Box p={3}>
@@ -290,67 +296,76 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
                         </StyledAlert>
                     </div>
                 }
-                
-                <div className={classes.section1}>
-                    <h1 className={classes.title}> { formType === 'stake' ? `Stake ${symbol}` : `Unstake ${symbol}` } </h1>
-                    <Typography color="textSecondary"> 
-                        { formType === 'stake' ? 
-                            "First approve the token transfer and then Stake the tokens" : 
-                            "Unstake LP tokens to withdraw your funds in the Pool" 
-                        }
-                    </Typography>
-                </div>
+
+                {  (formType === 'stake')  &&
+                    <Box pb={1} >
+                        <h1 className={classes.title}>Stake LP tokens</h1>
+                        <ol>
+                            <li>
+                                <Typography color="textSecondary"> Approve token transfer {( (showCloseButton && appprovedTransfer) || (showDepositButton && appprovedTransfer) ) && <span>✅</span> } </Typography> 
+                            </li>
+                            <li>
+                                <Typography color="textSecondary"> Stake LP tokens { appprovedTransfer && showCloseButton && <span>✅</span> }</Typography>
+                            </li>
+                        </ol>
+                    </Box>
+                }
+
+                {  (formType === 'unstake' && Number(balance) > 0)  &&
+                    <Box pb={3} >
+                        <h1 className={classes.title}> Unstake LP tokens </h1>
+                    </Box>
+                }
                 
                 <Divider />
 
-                <Box mt={3} mb={4}>
-                    <Grid container justifyContent="flex-start"> 
-                        <Link href="#" color="inherit" variant="body2" onClick={() => balancePressed()} style={{textDecoration: "underline"}} >
-                            Balance: {balance} 
-                        </Link> 
-                    </Grid>
+                <Box>
+                    <Box mt={3} mb={2}>
+                        <Grid container justifyContent="flex-start"> 
+                            <Link href="#" color="inherit" variant="body2" onClick={() => balancePressed()} style={{textDecoration: "underline"}} >
+                                Balance: {balance} 
+                            </Link> 
+                        </Grid>
 
-                    <Grid container justifyContent="space-between">
-                        {/* first row */}
-                        <Grid item xs={9} >
-                            <Input className={classes.amount} inputProps={{min: 0, style: { textAlign: 'right' }}}  
-                                value={amount} placeholder="0.0" autoFocus onChange={handleInputChange} /> 
-                        </Grid> 
-                        <Grid item xs={3} >
-                            <Box style={{paddingTop: 12, paddingLeft: 5}}>
-                                <Typography color="textSecondary" variant="body1" style={{minWidth:70}}>{symbol}</Typography>
-                            </Box>
-                        </Grid> 
-                        <Grid item xs={2} > </Grid> 
-                    </Grid>
+                        <Grid container justifyContent="space-between">
+                            {/* first row */}
+                            <Grid item xs={9} >
+                                <Input className={classes.amount} inputProps={{min: 0, style: { textAlign: 'right' }}}  
+                                    value={amount} placeholder="0.0" autoFocus onChange={handleInputChange} /> 
+                            </Grid> 
+                            <Grid item xs={3} >
+                                <Box style={{paddingTop: 12, paddingLeft: 5}}>
+                                    <Typography color="textSecondary" variant="body1" style={{minWidth:70}}>LP tokens</Typography>
+                                </Box>
+                            </Grid> 
+                            <Grid item xs={2} > </Grid> 
+                        </Grid>
 
+                    </Box>
                 </Box>
 
                 { formType === 'stake' &&
-                    <Box mb={2} >
+                    <Box mb={2} pt={3} >
                         { showApproveButton &&
-                        <Button variant="contained" color="secondary" fullWidth disabled={ !isValidAmount }
-                            onClick={() => approveButtonPressed()} >
-                            Approve transfer
-                            { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                        </Button>
+                            <Button style={{ minWidth: 150 }} variant="contained" color="secondary" fullWidth
+                                onClick={() => approveButtonPressed()} >
+                                Approve transfer
+                                { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                            </Button>
                         }
 
 
                         { showDepositButton && 
-                        <Button variant="contained" color="primary" fullWidth  
-                            onClick={() => submitForm()} >
-                            { submitButtonTitle }
-                            { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                        </Button>
+                            <Button style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={() => submitForm()} >
+                                { submitButtonTitle }
+                                { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                            </Button>
                         }
 
                         { showCloseButton &&
-                            <Box mt={2} >
-                                <Button variant="contained" color="primary" fullWidth onClick={onClose} >
-                                    Close
-                                </Button>
-                            </Box>
+                            <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={onClose} >
+                                Close
+                            </Button>
                         }
                     </Box>
     
@@ -358,14 +373,16 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
                 { formType === 'unstake' &&
                     <Box mb={2} >
                         { !(userMessage && userMessage.title === 'Unstaking completed') && 
-                            <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
-                                onClick={() => submitForm()}>
-                                { submitButtonTitle }
-                                { isWithdrawMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                            </Button>
+                            <Box pt={2} >
+                                <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
+                                    onClick={() => submitForm()}>
+                                    { submitButtonTitle }
+                                    { isWithdrawMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                                </Button>
+                            </Box>
                         }
                         { userMessage && userMessage.title === 'Unstaking completed' &&
-                            <Box mt={2} >
+                            <Box pt={2} >
                                 <Button variant="contained" color="secondary" fullWidth onClick={onClose} >
                                     Close
                                 </Button>
@@ -378,7 +395,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
         
             {
                 (approveErc20State.status === 'Mining' || depositState.status  === 'Mining' || withdrawState.status === 'Mining' ) ? 
-                    <Typography color="textSecondary" variant="body2" >  Mining... </Typography> : 
+                    <Typography color="textSecondary" variant="body2" align="center">  Mining... </Typography> : 
                 (approveErc20State.status === 'Exception' || depositState.status  === 'Exception' || withdrawState.status === 'Exception' ) ? 
                     <Typography color="error" variant="body2" >  
                         { approveErc20State.errorMessage } { depositState.errorMessage } { withdrawState.errorMessage }

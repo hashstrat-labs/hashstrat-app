@@ -138,13 +138,8 @@ export const DAORevenues = ({ chainId, account, depositToken } : DAORevenuesProp
         </Typography>
     ) : <></>
     
-  
-
 
     const pastDistributions = blockInfo?.blockNumber && blockInfo.blockNumber && periods ? periods.slice().filter( (p : { to: number }) => (p.to < blockInfo.blockNumber! ) ) : undefined
-
-
-    
 
     ///// past distribution table
 

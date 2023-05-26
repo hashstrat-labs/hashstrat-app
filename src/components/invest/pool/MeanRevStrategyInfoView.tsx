@@ -59,9 +59,9 @@ export const MeanRevStrategyInfoView = ( { chainId, poolId, depositToken, invest
     const tokensToSwapPerc = useStrategyTokensToSwapPerc(chainId, poolId)
 
     const formattedPriceTimestant = feedLatestTimestamp !== undefined && new Date(feedLatestTimestamp * 1000).toLocaleTimeString()
-    const formattedPrice = latestFeedPrice ? fromDecimals(BigNumber.from(latestFeedPrice), parseInt(feedDecimals), 2) : undefined
+    const formattedPrice = latestFeedPrice ? fromDecimals(BigNumber.from(latestFeedPrice), parseInt(feedDecimals), 0) : undefined
     
-    const feedPriceText = formattedPrice ? `${formattedPrice} ${depositToken.symbol} at ${formattedPriceTimestant}` : ''
+    const feedPriceText = formattedPrice ? `$${utils.commify(formattedPrice)} at ${formattedPriceTimestant}` : ''
 
     // moving average
     const formattedMovingAverage = movingAverage ? fromDecimals( BigNumber.from(movingAverage), parseInt(feedDecimals), 2) : undefined
@@ -75,10 +75,10 @@ export const MeanRevStrategyInfoView = ( { chainId, poolId, depositToken, invest
 
     const deltaPricePercText = deltaPricePerc ? `${round(deltaPricePerc * 100)}` : ''
 
-    const targetPriceUp = formattedMovingAverage && targetPricePercUp ? round( parseInt(formattedMovingAverage) *  (1 +  parseInt(targetPricePercUp) / 100) ) : ''
-    const targetPriceDown = formattedMovingAverage && targetPricePercDown ? round( parseInt(formattedMovingAverage) *  (1 - parseInt(targetPricePercDown) / 100) ) : ''
-    const buyTargetText = (targetPriceDown) ? `Buy when ${investToken.symbol} ≤ ${targetPriceDown}` : ''
-    const sellTargetText = (targetPriceUp) ? `Sell when ${investToken.symbol} ≥ ${targetPriceUp} ` : ''
+    const targetPriceUp = formattedMovingAverage && targetPricePercUp ? round( parseInt(formattedMovingAverage) *  (1 +  parseInt(targetPricePercUp) / 100), 0) : ''
+    const targetPriceDown = formattedMovingAverage && targetPricePercDown ? round( parseInt(formattedMovingAverage) *  (1 - parseInt(targetPricePercDown) / 100), 0) : ''
+    const buyTargetText = (targetPriceDown) ? `Buy when ${investToken.symbol} ≤ $${utils.commify(targetPriceDown)}` : ''
+    const sellTargetText = (targetPriceUp) ? `Sell when ${investToken.symbol} ≥ $${utils.commify(targetPriceUp)} ` : ''
 
     const targetPricePercUpText = targetPricePercUp ? targetPricePercUp : ''
     const targetPricePercDownText = targetPricePercDown ? `-${targetPricePercDown}` : ''
@@ -95,17 +95,18 @@ export const MeanRevStrategyInfoView = ( { chainId, poolId, depositToken, invest
 
             <RoiChart chainId={chainId} poolId={poolId} depositToken={depositToken} investToken={investToken}  />
 
+            <TitleValueBox title={`${investToken.symbol} price`} value={feedPriceText} mode="small"  />
             <TitleValueBox title={`Trend (${movingAveragePeriod}D MA)`} value={movingAverageText} mode="small"  />
             <TitleValueBox title="Deviation From Trend" value={deltaPricePercText} mode="small"  suffix="%" />
+
+            <TitleValueBox title="Accumulation Target" value={`${buyTargetText}`} mode="small"  />
+            <TitleValueBox title="De-risk Target" value={`${sellTargetText}`} mode="small"  />
+
             <TitleValueBox title="Upper Target Price %" value={targetPricePercUpText} mode="small"  suffix="%" />
             <TitleValueBox title="Lower Target Price %" value={targetPricePercDownText} mode="small"  suffix="%" />
             <TitleValueBox title="Trade Size" value={`${tokensToSwapPerc}`} mode="small"  suffix="%" />
             <TitleValueBox title="Min allocation" value={`${minAllocationPerc}`} mode="small"  suffix="%" />
             
-            <TitleValueBox title="Accumulation Target" value={`${buyTargetText}`} mode="small"  />
-            <TitleValueBox title="De-risk Target" value={`${sellTargetText}`} mode="small"  />
-            <TitleValueBox title={`${investToken.symbol} price`} value={feedPriceText} mode="small"  />
-
             <TitleValueBox title="Chainlink Automation" value="Upkeep Page" url={upkeep} mode="small" />
         </Box>
     )

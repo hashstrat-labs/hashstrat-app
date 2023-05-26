@@ -51,10 +51,10 @@ export const useStakedLP = (chainId: number, account?: string) => {
         const stakedBalance = stakedLpBalanceResults[idx]?.value && stakedLpBalanceResults[idx]?.value[0]
         return stakedBalance
 
-    }).reduce( (total : BigNumber, balance? : BigNumber) => {
-        total =  balance ? total.add(balance) : total
+    }).reduce( (total : BigNumber | undefined, balance : BigNumber | undefined) => {
+        total =  balance ? (total ?? BigNumber.from(0)).add(balance) : total
         return total
-    }, BigNumber.from(0) )
+    }, undefined )
 
     return totalBalance
 }

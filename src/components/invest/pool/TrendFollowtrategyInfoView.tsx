@@ -1,3 +1,4 @@
+import { utils } from "ethers"
 import { Box, makeStyles, Typography } from "@material-ui/core"
 import { TitleValueBox } from "../../TitleValueBox"
 import { Token } from "../../../types/Token"
@@ -5,6 +6,7 @@ import { fromDecimals, round} from "../../../utils/formatter"
 import { BigNumber } from 'ethers'
 import { PoolInfo } from "../../../utils/pools"
 import { RoiChart } from "./PoolRoiChart"
+
 
 
 import { 
@@ -18,10 +20,6 @@ import {
     useStrategyDescription,
     useStrategyMovingAverage,
     useStrategyMovingAveragePeriod,
-    useStrategyTargetPricePercUp,
-    useStrategyTargetPricePercDown,
-    useStrategyTokensToSwapPerc
-
 } from "../../../hooks/useTrendFollowStrategy"
 
 
@@ -48,38 +46,35 @@ export const TrendFollowtrategyInfoView = ( { chainId, poolId, depositToken, inv
     const name = useStrategyName(chainId, poolId)
     const { upkeep } = PoolInfo(chainId, poolId)
 
-    const description = useStrategyDescription(chainId, poolId)
+    const description = useStrategyDescription(chainId, poolId) as string | undefined
     const latestFeedPrice = useFeedLatestPrice(chainId, poolId)
     const feedDecimals = useFeedDecimals(chainId, poolId)
     const feedLatestTimestamp = useFeedLatestTimestamp(chainId, poolId)
 
     const movingAverage = useStrategyMovingAverage(chainId, poolId)
     const movingAveragePeriod = useStrategyMovingAveragePeriod(chainId, poolId)
-    const tokensToSwapPerc = useStrategyTokensToSwapPerc(chainId, poolId)
+    const tokensToSwapPerc = 100
 
+    console.log(">>> tokensToSwapPerc:", tokensToSwapPerc)
+
+    console.log(">>> feedDecimals:", feedDecimals, "description", description, "latestFeedPrice", latestFeedPrice, "feedLatestTimestamp", feedLatestTimestamp)
 
     const formattedPriceTimestant = feedLatestTimestamp ? new Date(feedLatestTimestamp * 1000).toLocaleTimeString() : ''
-    const formattedPrice = latestFeedPrice ? fromDecimals( BigNumber.from(latestFeedPrice), parseInt(feedDecimals), 2) : ''
-    const feedPriceText = `${formattedPrice} ${depositToken.symbol} at ${formattedPriceTimestant}`
+    const formattedPrice = latestFeedPrice ? fromDecimals( BigNumber.from(latestFeedPrice), parseInt(feedDecimals), 0) : ''
+    const feedPriceText = formattedPrice && formattedPriceTimestant ? `$${utils.commify(formattedPrice)} at ${formattedPriceTimestant}` : ''
+
 
     // moving average
-    const formattedMovingAverage = movingAverage ? fromDecimals( BigNumber.from(movingAverage), parseInt(feedDecimals), 2) : ''
-    const movingAverageText = `${formattedMovingAverage} ${depositToken.symbol}`
+    const formattedMovingAverage = movingAverage ? fromDecimals( BigNumber.from(movingAverage), parseInt(feedDecimals), 0) : ''
+    const movingAverageText = formattedMovingAverage ? `$${utils.commify(formattedMovingAverage)}` : ''
 
     // strategy parameters
     // const deltaPricePerc = round((latestFeedPrice - movingAverage) / movingAverage, 4)
     const deltaPricePerc = formattedPrice && formattedMovingAverage ? round( (Number(formattedPrice) - Number(formattedMovingAverage) ) / Number(formattedMovingAverage), 4 ) : undefined
-    const deltaPricePercText = deltaPricePerc ? `${round(deltaPricePerc * 100)}` : ''
+    const deltaPricePercText = deltaPricePerc ? `${round(deltaPricePerc * 100)} %` : ''
 
-
-    const targetPricePercUp = useStrategyTargetPricePercUp(chainId, poolId)
-    const targetPricePercDown = useStrategyTargetPricePercDown(chainId, poolId)
-  
-    const targetPriceUp = round( parseInt(formattedMovingAverage) *  (1 +  parseInt(targetPricePercUp) / 100) )
-    const targetPriceDown = round( parseInt(formattedMovingAverage) *  (1 - parseInt(targetPricePercDown) / 100) )
-    
-    const buyTargetText = (targetPriceDown) ? `Buy when ${investToken.symbol} ≥  ${targetPriceUp}` : ''
-    const sellTargetText = (targetPriceUp) ? `Sell when ${investToken.symbol} < ${targetPriceDown} ` : ''
+    const buyTargetText = (formattedMovingAverage) ? `Buy when ${investToken.symbol} ≥ $${utils.commify(formattedMovingAverage)}` : ''
+    const sellTargetText = (formattedMovingAverage) ? `Sell when ${investToken.symbol} < $${utils.commify(formattedMovingAverage)} ` : ''
 
     const classes = useStyle()
 
@@ -94,7 +89,7 @@ export const TrendFollowtrategyInfoView = ( { chainId, poolId, depositToken, inv
 
             <TitleValueBox title={`${investToken.symbol} price`} value={feedPriceText} mode="small"  />
             <TitleValueBox title={`Trend (${movingAveragePeriod}D MA)`} value={movingAverageText} mode="small"  />
-            <TitleValueBox title="Deviation From Trend" value={deltaPricePercText} mode="small"  suffix="%" />
+            <TitleValueBox title="Deviation From Trend" value={deltaPricePercText} mode="small" suffix="" />
             <TitleValueBox title="Buy Trigger" value={`${buyTargetText}`} mode="small"  />
             <TitleValueBox title="Sell Trigger" value={`${sellTargetText}`} mode="small" />
             <TitleValueBox title="Trade Size" value={`${tokensToSwapPerc}`} mode="small"  suffix="%" />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { utils } from "ethers"
+import { BigNumber, utils } from "ethers"
 import { useNotifications } from "@usedapp/core";
 
 import { Box, Accordion, AccordionDetails, AccordionSummary, makeStyles, 
@@ -60,12 +60,14 @@ const useStyles = makeStyles( theme => ({
 export const DAOToken = ({ chainId, account, depositToken } : DAOTokenProps ) => {
 
     const classes = useStyles()
-    const hstBalance = useTokenBalance(chainId, "", "HST", account)
+    const hstBalance = useTokenBalance(chainId, "", "HST", account) as string | undefined
+
+
 
     const hstMaxSupply  = useMaxSupply(chainId)
     const hstTotalSupply  = useTotalSupply(chainId)
 
-    const tokenStakedBalance = useStakedLP(chainId, account)
+    const tokenStakedBalance = useStakedLP(chainId, account) as BigNumber | undefined
     const claimableRewards = useClaimableRewards(chainId, account)
 
     const [userMessage, setUserMessage] = useState<SnackInfo>()
@@ -124,9 +126,9 @@ export const DAOToken = ({ chainId, account, depositToken } : DAOTokenProps ) =>
     }, [notifications, chainId, claimedLink])
 
   
-    const formattedTokenStakedBalance = tokenStakedBalance? fromDecimals(tokenStakedBalance, depositToken.decimals, 2) : ""
-    const formattedClaimableRewards = claimableRewards? fromDecimals(claimableRewards, 18, 2) : ""
-    const formattedHstBalance = hstBalance? fromDecimals(hstBalance, 18, 2) : ""
+    const formattedTokenStakedBalance = tokenStakedBalance ? fromDecimals(tokenStakedBalance, depositToken.decimals, 0) : undefined
+    const formattedClaimableRewards = claimableRewards ? fromDecimals(claimableRewards, 18, 2) : undefined
+    const formattedHstBalance = hstBalance ? fromDecimals( BigNumber.from(hstBalance), 18, 0) : undefined
     const formattedHstMaxSupply = hstMaxSupply? fromDecimals(hstMaxSupply, 18, 2) : ""
     const formattedHstTotalSupply = hstTotalSupply? fromDecimals(hstTotalSupply, 18, 2) : ""
 
@@ -204,9 +206,9 @@ export const DAOToken = ({ chainId, account, depositToken } : DAOTokenProps ) =>
                         <Card variant="outlined">
                             <CardContent>
                                 <Typography variant="h5" style={{ marginBottom: 10 }}>Your HST Token Farm</Typography>
-                                <TitleValueBox title="LP tokens farming" value={ utils.commify(formattedTokenStakedBalance) } />
-                                <TitleValueBox title="HST collected" value={ utils.commify(formattedHstBalance) } />
-                                <TitleValueBox title="HST available to collect" value={ utils.commify(formattedClaimableRewards) }  />
+                                <TitleValueBox title="LP tokens farming" value={ formattedTokenStakedBalance ? utils.commify(formattedTokenStakedBalance) : '' } />
+                                <TitleValueBox title="HST collected" value={ formattedHstBalance ? utils.commify(formattedHstBalance) : '' } />
+                                <TitleValueBox title="HST available to collect" value={ formattedClaimableRewards ? utils.commify(formattedClaimableRewards) : '' }  />
                             </CardContent>
                             <CardActions   >
                                 <Button variant="contained" color="primary" fullWidth onClick={handleClaimButtonPressed} style={{ margin: 20, height: 40 }} > 

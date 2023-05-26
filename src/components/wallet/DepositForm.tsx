@@ -37,9 +37,7 @@ const useStyle = makeStyles( theme => ({
         fontWeight: 700,
         fontSize: 20,
     },
-    section1: {
-        margin: `${theme.spacing(2)}px ${theme.spacing(2)}px`
-    },
+
     amount: {
         fontSize: 28,
         fontWeight: 200,
@@ -129,7 +127,11 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
     const submitForm = () => {
         setUserMessage(undefined)
-        submitDeposit()
+        if (isValidAmount) {
+            submitDeposit()
+        } else {
+            console.log("invalid amount:", amount, amountDecimals)
+        }
     }
 
 
@@ -210,12 +212,12 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
 
 
     const appprovedTransfer = allowanceOk || (userMessage && userMessage.title === 'Token transfer approved')
-    const showCloseButton = (userMessage && userMessage.title === 'Deposit completed')
+    const showCloseButton = Number(balance) == 0 || (userMessage && userMessage.title === 'Deposit completed') ? true : false
 
-    const showDepositButton = amount == '' ||  (appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
-    const showApproveButton =  !showDepositButton && (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
-    
-    console.log(">>> amount:", amount, "appprovedTransfer", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
+    const showDepositButton = !showCloseButton && (amount == '' ||  appprovedTransfer || isDepositMining) // (allowanceOk || isDepositMining) && !isApproveMining
+    const showApproveButton = !showCloseButton && !showDepositButton &&  (isApproveMining || (!appprovedTransfer && !isDepositMining)) // !allowanceOk  &&  !isDepositMining
+
+    // console.log(">>> balance: ", showCloseButton, ",  amount:", amount, "appprovedTransfer", appprovedTransfer, "allowanceOk", allowanceOk, "isApproveMining", isApproveMining, " ==> showApproveButton", showApproveButton,  "showCloseButton", showCloseButton)
 
     return (
         <Box p={3}>
@@ -232,14 +234,16 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                 }
                 
                 { Number(balance) > 0  &&
-                    <Box pb={3} >
+                    <Box pb={1} >
                         <h1 className={classes.title}> Deposit {symbol} </h1>
-                        {   showApproveButton && 
-                            <Typography color="textSecondary">  Step 1 of 2 - Approve the token transfer </Typography>
-                        }
-                        {   showDepositButton && 
-                            <Typography color="textSecondary">  Step 2 of 2 - Deposit the tokens </Typography>
-                        }       
+                        <ol>
+                            <li>
+                                <Typography color="textSecondary"> Approve token transfer {( showCloseButton || (showDepositButton && appprovedTransfer) ) && <span>✅</span> } </Typography> 
+                            </li>
+                            <li>
+                                <Typography color="textSecondary">  Deposit { showCloseButton && <span>✅</span> }</Typography>
+                            </li>
+                        </ol>   
                     </Box>
                 }
        
@@ -287,30 +291,27 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                 }
 
                 { Number(balance) > 0 &&
-                    <Box mb={2} >
+                    <Box mb={2} pt={3} >
                         { showApproveButton &&
-                        <Button variant="contained" color="secondary" fullWidth disabled={ !isValidAmount }
-                            onClick={() => approveButtonPressed()} >
-                            Approve Transfer
-                            { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                        </Button>
+                            <Button  style={{ minWidth: 150 }} variant="contained" color="secondary" fullWidth
+                                onClick={() => approveButtonPressed()} >
+                                Approve Transfer
+                                { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                            </Button>
                         }
 
-
                         { showDepositButton && (!userMessage || userMessage.title !== 'Deposit completed') &&
-                        <Button variant="contained" color="primary" fullWidth disabled={ !isValidAmount }
-                            onClick={() => submitForm()} >
-                            { submitButtonTitle }
-                            { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                        </Button>
+                            <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth 
+                                onClick={() => submitForm()} >
+                                { submitButtonTitle }
+                                { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                            </Button>
                         }
 
                         { showCloseButton &&
-                            <Box mt={2} >
-                                <Button variant="contained" color="primary" fullWidth onClick={handleClose} >
-                                     { isFirstDeposit ? "View portfolio" : "Close" }
-                                </Button>
-                            </Box>
+                            <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={handleClose} >
+                                    { isFirstDeposit ? "View portfolio" : "Close" }
+                            </Button>
                         }
                     </Box>
                 }  

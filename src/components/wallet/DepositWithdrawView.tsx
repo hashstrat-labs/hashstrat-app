@@ -52,11 +52,10 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
   const { symbol, address } = token
   const { account } = useEthers()
   const tokenBalance = useTokenBalance(address, account)
-  const formattedTokenBalance = tokenBalance ? fromDecimals(tokenBalance, token.decimals, 6) : ''
+  const formattedTokenBalance = tokenBalance ? fromDecimals(tokenBalance, token.decimals, token.decimals) : ''
 
   const tokenStakedBalance = useStakedTokenBalance(chainId, poolId, account)
   const formattedTokenStakedBalance = tokenStakedBalance && fromDecimals(tokenStakedBalance, token.decimals, 2)
-
 
 
   const showModalPressed = (buttonType: 'deposit' | 'withdraw') => {
@@ -109,7 +108,12 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
                 { formType === 'deposit' &&
                   <Grid item xs={12}>
                       <Box >
-                          <Button disabled={ (PoolInfo(chainId, poolId).disabled === 'true') || Number(formattedTokenBalance) === 0 } name="deposit" variant="contained" color="primary" onClick={(e) => showModalPressed("deposit")}>
+                          <Button style={{ minWidth: 150 }}
+                              disabled={ (PoolInfo(chainId, poolId).disabled === 'true') || Number(formattedTokenBalance) === 0 } 
+                              name="deposit" 
+                              variant="contained" 
+                              color="primary" 
+                              onClick={(e) => showModalPressed("deposit")}>
                             Deposit
                           </Button>
                       </Box>
@@ -118,8 +122,13 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
                 { formType === 'withdraw' &&
                   <Grid item xs={12}>
                       <Box>
-                          <Button disabled={ Number(formattedTokenBalance) === 0 } name="withdraw" variant="contained" color="primary" onClick={(e) => showModalPressed("withdraw")}>
-                            Withdraw
+                          <Button style={{ minWidth: 150 }}
+                            disabled={ Number(formattedTokenBalance) === 0 } 
+                            name="withdraw" 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={(e) => showModalPressed("withdraw")} >
+                              Withdraw
                           </Button>
                       </Box>
                   </Grid>

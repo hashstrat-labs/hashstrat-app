@@ -196,7 +196,7 @@ export const PoolExplorer = ({ chainId, account, depositToken } : PoolExplorerPr
             <Box mx={2} >
 
                 <Box mb={2} >
-                    <Typography variant="h3"> Pools &amp; Indexes <Button onClick={handleClick0} style={{ height: 40, width: 40 }} ><Info /></Button></Typography>  
+                    <Typography variant="h3"> Pools &amp; Strategies <Button onClick={handleClick0} style={{ height: 40, width: 40 }} ><Info /></Button></Typography>  
                 </Box>
 
                 <Typography variant="body1">

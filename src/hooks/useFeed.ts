@@ -17,15 +17,13 @@ export const useFeedLatestPrice = (chainId: number, poolId: string) : string | u
 
 export const useFeedDecimals = (chainId: number, poolId: string) => {
     const contract = FeedContract(chainId, poolId)
+
+    console.log("useFeedDecimals: contract: ", contract.address)
     const { value, error } = useCall({
             contract: contract,
             method: 'decimals',
             args: [],
     }) ?? {}
-
-    if (!value) {
-        console.warn("useFeedDecimals - feed decimals is: ", value, " feed contract: ", contract.address)
-    }
 
     error && console.error("error in custom hook: ", error)
     return value?.[0].toString() ?? 8
