@@ -92,17 +92,14 @@ export const PortfolioMap = ({ chainId, depositToken, investTokens, account } : 
 
 
             {  didLoad && (poolsWithFunds && poolsWithFunds.length > 0) &&
-                
                 <Box className={ classes.strategyMap }>
-                    <Typography> Map showing how investors' assets are allocated to different HashStrat strategies </Typography> 
-
+                    <Typography> Map showing how managed assets are allocated to HashStrat strategies </Typography> 
                     <TreeChart 
                         title=""
                         height={ Math.min( Math.round(window.innerWidth/2), 420) }
                         data={portfolioMap}
                     />
                 </Box>
-
             }
          
         </Box>

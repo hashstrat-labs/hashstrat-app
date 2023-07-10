@@ -36,7 +36,7 @@ const useStyles = makeStyles( theme => ({
         padding: 20,
         width: 378,
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("xs")]: {
             width: '100%',
         }
     },

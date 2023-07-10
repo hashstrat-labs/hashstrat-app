@@ -12,7 +12,8 @@ import { StackedBarChart } from "../shared/StackedBarChart"
 
 interface MyAssetsProps {
     tokens: { balance: string, decimals: number, depositTokenSymbol: string, symbol: string, value: string } []
-    title: string
+    title: string,
+    description? : string | undefined
 }
 
 const useStyles = makeStyles( theme => ({
@@ -50,7 +51,7 @@ const useStyles = makeStyles( theme => ({
 
 }))
 
-export const MyAssets = ( { tokens, title }: MyAssetsProps ) => {
+export const MyAssets = ( { tokens, title, description }: MyAssetsProps ) => {
 
     const classes = useStyles()
     const tokensSorted = tokens.sort( (a, b) => { return Number(b.value) - Number(a.value) } )
@@ -93,6 +94,13 @@ export const MyAssets = ( { tokens, title }: MyAssetsProps ) => {
 
             <Divider style={{ marginTop: 10, marginBottom: 30 }} />
 
+            { description && 
+                <Box pb={2}>
+                    <Typography> {description}</Typography>
+                </Box>
+            }
+           
+ 
             <Horizontal spacing="between" >
                 {tokenView}
             </Horizontal> 

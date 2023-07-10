@@ -294,7 +294,10 @@ export const MyPortfolioSummary = ({ chainId, depositToken, investTokens, accoun
                                 }
                                 
                                 <Box className={classes.assetsTransactions}>
-                                    <MyAssets title="My Assets" tokens={ tokensBalanceInfo } />
+                                    <MyAssets 
+                                        title="My Assets" 
+                                        tokens={ tokensBalanceInfo } 
+                                    />
                                     <Transactions 
                                         deposits={ totalDepositedFormatted } 
                                         withdrawals={totalWithdrawnFormatted} 

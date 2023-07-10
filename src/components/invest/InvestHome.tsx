@@ -95,7 +95,12 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
                     <AssetValue value={ Number( totalValueFormatted ?? 0) } />
                     
                     <Box mt={4} />
-                    <MyAssets title="Managed Assets" tokens={ tokensBalanceInfo } />
+                    
+                    <MyAssets 
+                        title="Managed Assets" 
+                        description="Total assets managed by the protocol (AuM)" 
+                        tokens={ tokensBalanceInfo } 
+                    />
 
                     <Box mt={4} />
                     <Box style={{ maxWidth: 1200, margin: "auto" }}>

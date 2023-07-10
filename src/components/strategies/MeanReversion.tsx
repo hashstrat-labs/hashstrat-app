@@ -13,8 +13,9 @@ export const MeanReversionSummary = () => {
             <Typography variant="h5">
                 <strong> Mean Reversion</strong>
             </Typography>
-            <Typography>
-                A strategy for dollar-cost averaging in and out a risk asset when its price diverges substantially from its long term trend
+
+            <Typography style={{marginTop: 10}}>
+                A strategy for dollar-cost averaging in and out a risk asset when its price diverges substantially from its long term trend.
             </Typography>
 
             <div style={{marginTop: 10}}>
@@ -40,9 +41,9 @@ export const MeanReversionDetails = () => {
             <div>     
                 <strong>Rule</strong> <br/>
                 Given a Pool holding BTC (or ETH) and USDC, <br />
-                When BTC (ETH) price is 33% below its 350D moving average then buy BTC (ETH) with 5% of the USDC in the Pool.  <br />
-                When BTC (ETH) price is 66% above its 350D moving average then sell 5% of the BTC (ETH) in the Pool. 
-                Also ensure the pool has at least 20% of its value in both BTC (ETH) and USDC
+                when the BTC price is 33% below its 350D moving average then accumulate BTC periodically buying with 5% of all USDC in the Pool, <br />
+                when the BTC price is 66% above its 350D moving average then divest BTC by periodically selling 5% of all BTC in the Pool. <br />
+                Also ensure the pool holds at least 20% of its value in both BTC and USDC
             </div>
             <br />
             <div>     
@@ -53,8 +54,8 @@ export const MeanReversionDetails = () => {
             <div>     
                 <strong>Pools</strong> <br/>
                 <Horizontal>
-                    <Link component={RouterLink} to="/pools/pool03v3a">BTC-USDC MEANREV01</Link>
-                    <Link component={RouterLink} to="/pools/pool04v3a">ETH-USDC MEANREV01</Link>
+                    <Link component={RouterLink} to="/pools/pool03v4a">BTC-USDC</Link>
+                    <Link component={RouterLink} to="/pools/pool04v4a">ETH-USDC</Link>
                 </Horizontal>
             </div>
         </Box>

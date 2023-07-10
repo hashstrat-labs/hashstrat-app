@@ -13,7 +13,8 @@ export const TrendFollowingSummary = () => {
             <Typography variant="h5">
                 <strong> Trend Following </strong>
             </Typography>
-            <Typography>
+
+            <Typography style={{marginTop: 10}}>
                 A momentum strategy trading in the direction of the underlying trend.
             </Typography>
             
@@ -39,8 +40,8 @@ export const TrendFollowingDetails = () => {
             <div>     
                 <strong>Rule</strong> <br/>
                 Given a Pool containing BTC (or ETH) and USDC, <br />
-                When BTC (ETH) price is above its 40D moving average, then buy BTC (ETH) with all USDC in the Pool <br />
-                When BTC (ETH) price is below its 40D moving average, then sell all BTC (ETH) into USDC. 
+                When the BTC price is above its 40D moving average, then buy BTC with all USDC in the Pool <br />
+                When the BTC price is below its 40D moving average, then sell all BTC into USDC. 
             </div>
             <br />
             <div>     
@@ -51,8 +52,8 @@ export const TrendFollowingDetails = () => {
             <div>     
                 <strong>Pools</strong> <br/>
                 <Horizontal>
-                    <Link component={RouterLink} to="/pools/pool05v3a">BTC-USDC TRDFLW01</Link>
-                    <Link component={RouterLink} to="/pools/pool06v3a">ETH-USDC TRDFLW01</Link>
+                    <Link component={RouterLink} to="/pools/pool05v4a">BTC-USDC</Link>
+                    <Link component={RouterLink} to="/pools/pool06v4a">ETH-USDC</Link>
                 </Horizontal>
             </div>
         </Box>

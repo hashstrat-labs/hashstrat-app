@@ -130,7 +130,7 @@ export const DAOToken = ({ chainId, account, depositToken } : DAOTokenProps ) =>
     const formattedClaimableRewards = claimableRewards ? fromDecimals(claimableRewards, 18, 2) : undefined
     const formattedHstBalance = hstBalance ? fromDecimals( BigNumber.from(hstBalance), 18, 0) : undefined
     const formattedHstMaxSupply = hstMaxSupply? fromDecimals(hstMaxSupply, 18, 2) : ""
-    const formattedHstTotalSupply = hstTotalSupply? fromDecimals(hstTotalSupply, 18, 2) : ""
+    const formattedHstTotalSupply = hstTotalSupply? fromDecimals(hstTotalSupply, 18, 0) : ""
 
     const circulatingPerc = (formattedHstTotalSupply && formattedHstMaxSupply ) ? 
              `${ Math.round(10000 * Number(formattedHstTotalSupply) /  Number(formattedHstMaxSupply)) / 100 }% ` : 'n/a'

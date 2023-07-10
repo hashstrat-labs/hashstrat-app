@@ -45,14 +45,11 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
                 '#000',
             borderRadius: 8,
             padding: 20,
-        },
-        pool: {
-            maxWidth: 400,
-            color: theme.palette.text.secondary,
-            textTransform: "none",
-            [theme.breakpoints.down("sm")]: {
-                margin: 'auto',
-            },
+            width: 378,
+
+            [theme.breakpoints.down("xs")]: {
+                width: '100%',
+            }
         }
     }))
 
@@ -100,7 +97,7 @@ export const StrategySummary = ({ chainId, poolId, tokens, depositToken, account
     return (
         <Box color={`${outlineColout}`} className={classes.container} >
             
-            <Box className={classes.pool}>
+            <Box>
                
                 <Typography color="textPrimary" style={{fontSize: 20, fontWeight: 500, marginBottom: 10}} > {nameFormatted} { disabled === 'true' && <label>🚫</label>}</Typography>
                 <Typography variant="body2" align="left"> {description} </Typography>

@@ -248,12 +248,12 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                 }
        
 
-                { Number(balance) === 0  &&
+                { userMessage === undefined && Number(balance) === 0 &&
                     <div >
                         <StyledAlert severity="warning">
                             <AlertTitle> You have no USDC to deposit </AlertTitle>
                             You can get {token.symbol} tokens directly on Polygon using <Link href="https://quickswap.exchange/#/swap" target="_blank"> QuickSwap</Link>,
-                            or transfer {token.symbol} from Ethereum to Polygon via the <Link href="https://wallet.polygon.technology/bridge" target="_blank">Polygon Bridge</Link>
+                            or transfer {token.symbol} from Ethereum to Polygon via the <Link href="https://wallet.polygon.technology/" target="_blank">Polygon Bridge</Link>
                         </StyledAlert>
                     </div>
                 }
@@ -290,32 +290,31 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                     </Box>
                 }
 
-                { Number(balance) > 0 &&
-                    <Box mb={2} pt={3} >
-                        { showApproveButton &&
-                            <Button  style={{ minWidth: 150 }} variant="contained" color="secondary" fullWidth
-                                onClick={() => approveButtonPressed()} >
-                                Approve Transfer
-                                { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                            </Button>
-                        }
+           
+                <Box mb={2} pt={3} >
+                    { showApproveButton &&
+                        <Button  style={{ minWidth: 150 }} variant="contained" color="secondary" fullWidth
+                            onClick={() => approveButtonPressed()} >
+                            Approve Transfer
+                            { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                        </Button>
+                    }
 
-                        { showDepositButton && (!userMessage || userMessage.title !== 'Deposit completed') &&
-                            <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth 
-                                onClick={() => submitForm()} >
-                                { submitButtonTitle }
-                                { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
-                            </Button>
-                        }
+                    { showDepositButton && (!userMessage || userMessage.title !== 'Deposit completed') &&
+                        <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth 
+                            onClick={() => submitForm()} >
+                            { submitButtonTitle }
+                            { isDepositMining && <Horizontal >  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
+                        </Button>
+                    }
 
-                        { showCloseButton &&
-                            <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={handleClose} >
-                                    { isFirstDeposit ? "View portfolio" : "Close" }
-                            </Button>
-                        }
-                    </Box>
-                }  
-            
+                    { showCloseButton &&
+                        <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={handleClose} >
+                                { isFirstDeposit ? "View portfolio" : "Close" }
+                        </Button>
+                    }
+                </Box>
+        
             </div>
         
             { (approveErc20State.status === 'Mining' || depositState.status  === 'Mining') ? 

@@ -13,8 +13,9 @@ export const RebalancingSummary = () => {
             <Typography variant="h5">
                 <strong> Rebalancing </strong>
             </Typography>
-            <Typography>
-                A strategy to automatically rebalance a 2 asset portfolio using a 60/40% rebalancing target and a 10% rebalancing band
+
+            <Typography style={{marginTop: 10}}>
+                A strategy to automatically rebalance a 2 asset portfolio using a 60/40% rebalancing target and a 10% rebalancing band.
             </Typography>
             
             <div style={{marginTop: 10}}>
@@ -40,9 +41,9 @@ export const RebalancingDetails = () => {
         <br />
         <div>     
             <strong>Rule</strong> <br/>
-            Given a Pool holding BTC (or ETH) and USDC with 60%/40% target allocation and 10% rebalance trigger, <br />
-            When the value of BTC (ETH) rises above 70% (drops below 50%) of the overall value in the Pool<br />
-            Then the Pool get rebalanced by selling or buying BTC (ETH) to restore the original 60%/40% allocation.
+            Given a Pool holding BTC (or ETH) and USDC with 60%/40% target allocation and ±10% rebalancing trigger, <br />
+            when the value of all BTC in the pool rises above 70% (drops below 50%) of the overall value in the pool,<br />
+            then the pool is rebalanced by selling (or buying) BTC to restore the target 60%/40% allocation.
         </div>
         <br />
         <div>     
@@ -53,8 +54,8 @@ export const RebalancingDetails = () => {
         <div>     
             <strong>Pools</strong> <br/>
             <Horizontal>
-                <Link component={RouterLink} to="/pools/pool01v3a">BTC-USDC REB01</Link>
-                <Link component={RouterLink} to="/pools/pool02v3a">ETH-USDC REB01</Link>
+                <Link component={RouterLink} to="/pools/pool01v4a">BTC-USDC</Link>
+                <Link component={RouterLink} to="/pools/pool02v4a">ETH-USDC</Link>
             </Horizontal>
         </div>
     </Box>

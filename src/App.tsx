@@ -15,7 +15,6 @@ const App = () => {
 		localStorage.getItem("theme") !== "dark"
 	);
 
-
 	const useDappConfig = {
 		defaultNetwork: Polygon.chainId,
 		// networks: [Goerli, Polygon],
@@ -28,7 +27,7 @@ const App = () => {
 			checkInterval: 500,
 			expirationPeriod: 5000,
 		},
-		// refresh: "everyBlock",
+		fastMulticallEncoding: true
 	};
 	  
 
