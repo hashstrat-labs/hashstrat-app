@@ -236,7 +236,7 @@ export const WithdrawForm = ({ chainId, poolId, token, balance, handleSuccess, h
                     }
                     { userMessage && userMessage.title === 'Withdrawal completed' &&
                         <Box mt={2} >
-                            <Button variant="contained" color="secondary" fullWidth onClick={handleClose} >
+                            <Button variant="contained" color="primary" fullWidth onClick={handleClose} >
                                 Close
                             </Button>
                         </Box>

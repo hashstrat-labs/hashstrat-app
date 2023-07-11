@@ -383,7 +383,7 @@ export const StakeForm = ({ formType, chainId, poolId, token, balance, account, 
                         }
                         { userMessage && userMessage.title === 'Unstaking completed' &&
                             <Box pt={2} >
-                                <Button variant="contained" color="secondary" fullWidth onClick={onClose} >
+                                <Button variant="contained" color="primary" fullWidth onClick={onClose} >
                                     Close
                                 </Button>
                             </Box>

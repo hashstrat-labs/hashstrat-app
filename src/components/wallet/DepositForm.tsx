@@ -15,7 +15,7 @@ import { StyledAlert } from "../shared/StyledAlert"
 
 
 export interface DepositFormProps {
-    isFirstDeposit: boolean
+    isFromDashboard: boolean
     chainId: number,
     poolId: string,
     token : Token;
@@ -53,7 +53,7 @@ const useStyle = makeStyles( theme => ({
 
 
 
-export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, handleError, onClose, isFirstDeposit} : DepositFormProps ) => {
+export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, handleError, onClose, isFromDashboard} : DepositFormProps ) => {
 
     const classes = useStyle()
     const { symbol } = token
@@ -201,7 +201,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
             setUserMessage({
                 type: "info",
                 title: "Deposit completed",
-                message: isFirstDeposit ? "Now you can view your portfolio" : "Now you can close the window",
+                message: isFromDashboard ? "Now you can view your portfolio" : "Now you can close the window",
             })
             handleSuccess(info)
             setAmountDecimals("")
@@ -248,12 +248,12 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                 }
        
 
-                { userMessage === undefined && Number(balance) === 0 &&
+                { userMessage === undefined && balance && Number(balance) === 0 &&
                     <div >
                         <StyledAlert severity="warning">
-                            <AlertTitle> You have no USDC to deposit </AlertTitle>
-                            You can get {token.symbol} tokens directly on Polygon using <Link href="https://quickswap.exchange/#/swap" target="_blank"> QuickSwap</Link>,
-                            or transfer {token.symbol} from Ethereum to Polygon via the <Link href="https://wallet.polygon.technology/" target="_blank">Polygon Bridge</Link>
+                            <AlertTitle> You need {token.symbol} to deposit</AlertTitle>
+                            You can get {token.symbol} tokens on Polygon using <Link href="https://quickswap.exchange/#/swap" target="_blank"> QuickSwap</Link>,
+                            or transfer {token.symbol} from Ethereum to Polygon via the <Link href="https://wallet.polygon.technology/" target="_blank">Polygon Bridge</Link> or an exchange.
                         </StyledAlert>
                     </div>
                 }
@@ -293,7 +293,7 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
            
                 <Box mb={2} pt={3} >
                     { showApproveButton &&
-                        <Button  style={{ minWidth: 150 }} variant="contained" color="secondary" fullWidth
+                        <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth
                             onClick={() => approveButtonPressed()} >
                             Approve Transfer
                             { isApproveMining && <Horizontal>  &nbsp; <CircularProgress size={22} color="inherit" />  </Horizontal>  }  
@@ -308,9 +308,9 @@ export const DepositForm = ({ chainId, poolId, token, balance, handleSuccess, ha
                         </Button>
                     }
 
-                    { showCloseButton &&
+                    { showCloseButton && !isFromDashboard && 
                         <Button  style={{ minWidth: 150 }} variant="contained" color="primary" fullWidth onClick={handleClose} >
-                                { isFirstDeposit ? "View portfolio" : "Close" }
+                            { isFromDashboard ? "View portfolio" : "Close" }
                         </Button>
                     }
                 </Box>

@@ -141,7 +141,7 @@ export const DepositWithdrawView = ( { formType, chainId, poolId, token, handleS
             <Modal onClose={hideModalPreseed} open={true}  >
               { formTypeValue === "deposit" && 
                 <DepositForm
-                  isFirstDeposit={false}
+                  isFromDashboard={false}
                   balance={formattedTokenBalance}
                   chainId={chainId}
                   poolId={poolId}
