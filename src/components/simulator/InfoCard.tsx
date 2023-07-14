@@ -14,7 +14,7 @@ interface InfoCardProps {
 export const InfoCard = ({type, title, value, detailTitle, detailValue }: InfoCardProps) => {
 
     return (
-        <Card style={{ maxWidth: 220, borderRadius: 12, borderColor: "#aaa" }} variant="outlined" >
+        <Card style={{ maxWidth: 220, borderRadius: 12, borderColor: "#aaa", margin: 'auto' }} variant="outlined" >
             <CardContent>
                 <div style={{ display:'flex', justifyContent:'center' }}> 
                     <Typography variant="body1" style={{ marginBottom: 20, fontWeight: 600 }}>{title} </Typography>

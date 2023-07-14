@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import moment from 'moment'
+import Carousel from 'react-material-ui-carousel'
 import { makeStyles, Box, Paper, TextField, Typography, MenuItem } from  "@material-ui/core"
 
 import { SimulatorInastance, StrategyName } from "../../services/simulator/SimulatorService"
@@ -51,17 +52,20 @@ const useStyle = makeStyles( theme => ({
     },
 
     metrics: {
-        // maxHeight: 250,
+        marginTop: 20,
         marginBottom: 20,
-        overflowX: 'auto',
-        overflowY: 'hidden',
-        whiteSpace: 'nowrap',
+        [theme.breakpoints.down('xs')]: {
+           display: 'none' 
+		},
     },
 
-    banner: {
-        marginTop: 10,
-        width: 600,
+    metricsSmall: {
+        marginTop: 20,
+        marginBottom: 20,
         margin: 'auto',
+        [theme.breakpoints.up('sm')]: {
+           display: 'none' 
+		},
     },
 
     formField: {
@@ -323,27 +327,64 @@ export const SimHome = ({ chainId } : SimHomeProps) => {
                     <Box px={1}>
                         <Typography variant='h4'>Performance </Typography>
                     </Box>
-                    <Box py={0} className={classes.metrics}>
+                    <Box className={classes.metrics}>
+                        <Horizontal valign="center" align="left">
+                            <InfoCard 
+                                type="amount"
+                                title="Portfolio Value" value={Math.round(lastRoi?.strategyValue ?? 0)} 
+                                detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldValue ?? 0)} 
+                            /> 
+                            <InfoCard 
+                                type="percentage"
+                                title="Strategy ROI" value={Math.round(lastRoi?.strategyROI ?? 0)} 
+                                detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldROI ?? 0)} 
+                            /> 
+                            <InfoCard 
+                                type="percentage"
+                                title="Max Drawdown" value={Math.round(lastRoi?.maxStrategyDrawdownPerc ?? 0)} 
+                                detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.maxBuyAndHoldDrawdownPerc ?? 0)} 
+                            /> 
+                        </Horizontal>
+                    </Box>
 
-                        <div className={classes.banner}>
-                            <Horizontal valign="center" align="center">
-                                <InfoCard 
-                                    type="amount"
-                                    title="Portfolio Value" value={Math.round(lastRoi?.strategyValue ?? 0)} 
-                                    detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldValue ?? 0)} 
-                                /> 
-                                <InfoCard 
-                                    type="percentage"
-                                    title="Strategy ROI" value={Math.round(lastRoi?.strategyROI ?? 0)} 
-                                    detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldROI ?? 0)} 
-                                /> 
-                                <InfoCard 
-                                    type="percentage"
-                                    title="Max Drawdown" value={Math.round(lastRoi?.maxStrategyDrawdownPerc ?? 0)} 
-                                    detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.maxBuyAndHoldDrawdownPerc ?? 0)} 
-                                /> 
-                            </Horizontal>
-                        </div>
+                    <Box className={classes.metricsSmall}>
+                                <Carousel 
+                                    animation="slide"
+                                    fullHeightHover={true}  
+                                    navButtonsProps={{ 
+                                        style: {
+                                            backgroundColor: "rgba(63, 143, 227, 0.9)",
+                                        }
+                                    }} 
+
+                                    autoPlay={false}
+                                    navButtonsAlwaysVisible={true}
+                                    cycleNavigation={true}
+                                    swipe={true}
+                                    indicators={true}
+                                >
+                                    <Box style={{ margin: 'auto'}}>
+                                        <InfoCard 
+                                            type="amount"
+                                            title="Portfolio Value" value={Math.round(lastRoi?.strategyValue ?? 0)} 
+                                            detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldValue ?? 0)} 
+                                        /> 
+                                    </Box>
+                                    <Box textAlign="center">
+                                        <InfoCard 
+                                            type="percentage"
+                                            title="Strategy ROI" value={Math.round(lastRoi?.strategyROI ?? 0)} 
+                                            detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.buyAndHoldROI ?? 0)} 
+                                        /> 
+                                    </Box>
+                                    <Box textAlign="center">
+                                        <InfoCard 
+                                            type="percentage"
+                                            title="Max Drawdown" value={Math.round(lastRoi?.maxStrategyDrawdownPerc ?? 0)} 
+                                            detailTitle="Buy-and-hold" detailValue={Math.round(lastRoi?.maxBuyAndHoldDrawdownPerc ?? 0)} 
+                                        /> 
+                                    </Box>
+                                </Carousel>
                     </Box>
                 </Box>
 
