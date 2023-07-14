@@ -121,6 +121,33 @@ const useStyles = makeStyles( theme => ({
         },
     },
 
+    strategySelectionWrapper: {
+        marginLeft: 60, 
+        marginRight: 40,
+        [theme.breakpoints.down("sm")]: {
+            marginLeft: 20, 
+            marginRight: 0,
+        },
+    },
+
+    strategyCard: {
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+        paddingBottom: 20,
+
+        borderRadius: 22,
+        border: `1px solid ${ theme.palette.type === 'light' ? '#ddd' :'#333' }`,
+
+        [theme.breakpoints.down("sm")]: {
+            marginTop: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            borderRadius: 0,
+            border: '',
+        },
+    },
+
     assetContainer: {
         margin: "auto",
         padding: theme.spacing(2),
@@ -133,15 +160,11 @@ const useStyles = makeStyles( theme => ({
         [theme.breakpoints.down('xs')]: {
             borderRadius: 0,
             minWidth: 280,
-            // marginLeft: 30,
-            // marginRight: 30
         },
     },
 
-
     asset: {
         margin: "auto",
-        // padding: theme.spacing(1),
         minWidth: 150,
         [theme.breakpoints.down('sm')]: {
             minWidth: 130,
@@ -634,8 +657,14 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
 
                     { step === 'select-strategy' &&
                      //poolsViews && poolsViews.length > 0 && selectedAsset !== undefined && selectedPool === undefined &&
-                        <Box pt={3}  >
-                            <Horizontal align="center">
+                        <>
+                            <Box className={classes.strategySelectionWrapper}>
+                                <Box className={classes.assetsSelectionHeader}>
+                                    <Typography variant="h6"> Select your Strategy </Typography>
+                                    <Typography variant="body2" color="textSecondary" style={{marginTop: 10}}> Choose the strategy that will be managing your assets. </Typography>
+                                </Box>
+                            </Box>
+                            <Box className={classes.strategyCard}>
                                 <Carousel 
                                     index={selectedPoolIdx}
                                     animation="slide"
@@ -654,8 +683,8 @@ export const DepositWorkflow = ({ chainId, depositToken, investTokens, isInitial
                                 >
                                     {poolsViews} 
                                 </Carousel>
-                            </Horizontal>
-                        </Box>
+                            </Box>
+                        </>
                     }
 
                     { step === 'deposit' && selectedPool && account &&
