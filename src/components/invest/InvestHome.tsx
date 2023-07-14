@@ -24,16 +24,15 @@ interface InvestHomeProps {
 }
 
 const useStyles = makeStyles( theme => ({
+
     container: {
         maxWidth: 1200,
         margin: 'auto',
         paddingTop: theme.spacing(2),
         
         [theme.breakpoints.down('xs')]: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            marginLeft: 0,
-            marginRight: 0,
+            paddingLeft: theme.spacing(0),
+            paddingRight: theme.spacing(0),
         },
     },
 
@@ -100,6 +99,7 @@ export const InvestHome = ({ chainId, account, depositToken, investTokens }: Inv
                         title="Managed Assets" 
                         description="Total assets managed by the protocol (AuM)" 
                         tokens={ tokensBalanceInfo } 
+                        height={60}
                     />
 
                     <Box mt={4} />

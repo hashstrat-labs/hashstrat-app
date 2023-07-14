@@ -179,8 +179,8 @@ export const MyPortfolioSummary = ({ chainId, depositToken, investTokens, accoun
     const totalWithdrawnFormatted = totalWithdrawn && fromDecimals( totalWithdrawn, depositToken.decimals, 2)
 
     const roiFormatted = (totalValueFormatted && totalWithdrawnFormatted && totalDepositedFormatted && parseFloat(totalDepositedFormatted) > 0) ? 
-                            Math.round(
-                                10000 * (parseFloat(totalWithdrawnFormatted) + parseFloat(totalValueFormatted) - parseFloat(totalDepositedFormatted)) / parseFloat(totalDepositedFormatted)
+                            Math.round( 10000 *
+                                (parseFloat(totalWithdrawnFormatted) + parseFloat(totalValueFormatted) - parseFloat(totalDepositedFormatted)) / parseFloat(totalDepositedFormatted)
                             ) / 100 : 0
 
 
@@ -297,6 +297,7 @@ export const MyPortfolioSummary = ({ chainId, depositToken, investTokens, accoun
                                     <MyAssets 
                                         title="My Assets" 
                                         tokens={ tokensBalanceInfo } 
+                                        height={60}
                                     />
                                     <Transactions 
                                         deposits={ totalDepositedFormatted } 

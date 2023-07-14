@@ -13,7 +13,6 @@ interface PortfolioValueProps {
 }
 
 
-
 export const PortfolioValue = ({ value, gains, roi }: PortfolioValueProps ) => {
 
     const { account } = useEthers()
@@ -81,15 +80,6 @@ export const PortfolioValue = ({ value, gains, roi }: PortfolioValueProps ) => {
                 flexDirection: 'column'
             },
         },
-
-        // roi: {
-        //     paddingTop: 0,
-        //     paddingLeft: 50,
-        //     [theme.breakpoints.down('xs')]: {
-        //         paddingTop: 0,
-        //         paddingLeft: 0,
-        //     },
-        // },
 
         roiBox: {
             paddingLeft: 30,

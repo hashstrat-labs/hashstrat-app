@@ -3,7 +3,7 @@
         {
             "poolId": "pool01v4a",
             "name": "Rebalancing [BTC]",
-            "description": "A self-balancing strategy targeting an allocation of 60% BTC and 40% USDC",
+            "description": "A self-balancing strategy targeting an allocation of 60% BTC and 40% USDC.",
             "detail": "Provides a good exposure to BTC, allows to acquire more at lower prices and offload some risk at higher prices.",
             "scope": "Works best during periods of significant market volatility, in either direction.",
             "depositToken": "USDC",
@@ -15,7 +15,7 @@
         {
             "poolId": "pool02v4a",
             "name": "Rebalancing [ETH]",
-            "description": "A self-balancing strategy targeting an allocation of 60% ETH and 40% USDC",
+            "description": "A self-balancing strategy targeting an allocation of 60% ETH and 40% USDC.",
             "detail": "Provides a good exposure to ETH, allows to acquire more at lower prices and offload some risk at higher prices.",
             "scope": "Works best during periods of significant market volatility, in either direction.",
             "depositToken": "USDC",
@@ -27,7 +27,7 @@
         {
             "poolId": "pool03v4a",
             "name": "Mean Reversion [BTC]",
-            "description": "Strategy to dollar-cost average in and out BTC, according to its long-term trend",
+            "description": "Strategy to dollar-cost average in and out BTC, according to its long-term trend.",
             "detail": "Designed to accumulate BTC when its price is significantly undervalued, and progressively divest when it's significantly overvalued.",
             "scope": "Works best when the market is forming a bottom or a top.",
             "depositToken": "USDC",
@@ -39,7 +39,7 @@
         {
             "poolId": "pool04v4a",
             "name": "Mean Reversion [ETH]",
-            "description": "Strategy to dollar-cost average in and out ETH, according to its long-term trend",
+            "description": "Strategy to dollar-cost average in and out ETH, according to its long-term trend.",
             "detail": "Designed to accumulate ETH when its price is significantly undervalued, and progressively divest when it's significantly overvalued.",
             "scope": "Works best when the market is forming a bottom or a top.",
             "depositToken": "USDC",
@@ -51,7 +51,7 @@
         {
             "poolId": "pool05v4a",
             "name": "Trend Following [BTC]",
-            "description": "Strategy allocating to BTC during an uptrend and to USDC otherwise",
+            "description": "Strategy allocating to BTC during an uptrend and to USDC otherwise.",
             "detail": "Allows to capture value in BTC during uptrends, and sell into USDC during downtrends.",
             "scope": "Works best when there is a defined trend in the market.",
             "depositToken": "USDC",
@@ -63,7 +63,7 @@
         {
             "poolId": "pool06v4a",
             "name": "Trend Following [ETH]",
-            "description": "Strategy allocating to ETH during an uptrend and to USDC otherwise",
+            "description": "Strategy allocating to ETH during an uptrend and to USDC otherwise.",
             "detail": "Allows to capture value in ETH during uptrends, and sell into USDC during downtrends.",
             "scope": "Works best when there is a defined trend in the market.",
             "depositToken": "USDC",

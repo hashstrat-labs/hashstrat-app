@@ -1,16 +1,15 @@
-import { makeStyles, Box, Accordion, AccordionDetails, AccordionSummary, Typography } from  "@material-ui/core"
-import { utils } from "ethers"
+import { makeStyles, CircularProgress, Box, Typography } from  "@material-ui/core"
 
-import { TitleValueBox } from "../../TitleValueBox"
 import { Token } from  "../../../types/Token"
 import { useGetDeposits, useGetWithdrawals } from "../../../hooks/useIndex"
 import { useIndexModel } from "./IndexModel"
 
 import { fromDecimals } from "../../../utils/formatter"
-import { BigNumber } from "ethers"
 import { InvestTokens } from "../../../utils/pools"
-import { ExpandMore } from "@material-ui/icons"
 
+import { MyAssets } from "../../dashboard/MyAssets"
+import { AssetValue } from "../../shared/AssetValue"
+import { Horizontal } from "src/components/Layout"
 
 const useStyle = makeStyles( theme => ({
     container: {
@@ -21,6 +20,18 @@ const useStyle = makeStyles( theme => ({
         maxWidth: 640,
         margin: "auto",
         padding: theme.spacing(1)
+    },
+    layout: {
+        maxWidth: 900,
+        margin: "auto",
+        
+        display: 'grid',
+        paddingLeft: 0,
+        paddingRight: 0,
+        gridTemplateColumns: '250px auto',
+        [theme.breakpoints.down('xs')]: {
+            gridTemplateColumns: '1fr',
+        },
     }
 }))
 
@@ -43,51 +54,61 @@ export const MyStatsView = ( { chainId, poolId, account, depositToken } : MyStat
     const withdrawals = useGetWithdrawals(chainId, poolId, account)
     
     
-    const formattedPortfolioValue = portfolioInfo.totalValue ? fromDecimals(portfolioInfo.totalValue, depositToken.decimals, 2) : undefined
-    const formattedDeposits = deposits ? fromDecimals(deposits, depositToken.decimals, 2) : ""
-    const formattedWithdrawals = withdrawals ? fromDecimals(withdrawals, depositToken.decimals, 2) : ""
-    const roiFormatted = (formattedPortfolioValue && formattedWithdrawals && formattedDeposits && parseFloat(formattedDeposits) > 0) ? 
-                        String(Math.round( 10000 * (parseFloat(formattedWithdrawals) + parseFloat(formattedPortfolioValue) - parseFloat(formattedDeposits)) / parseFloat(formattedDeposits)) / 100 ) : 'n/a'
+    const totalValueFormatted = portfolioInfo.totalValue ? fromDecimals(portfolioInfo.totalValue, depositToken.decimals, 2) : undefined
+    const totalDepositedFormatted = deposits ? fromDecimals(deposits, depositToken.decimals, 2) : ""
+    const totalWithdrawnFormatted = withdrawals ? fromDecimals(withdrawals, depositToken.decimals, 2) : ""
+    const roiFormatted = (totalValueFormatted && totalWithdrawnFormatted && totalDepositedFormatted && parseFloat(totalDepositedFormatted) > 0) ? 
+                        String(Math.round( 10000 * 
+                            (parseFloat(totalWithdrawnFormatted) + parseFloat(totalValueFormatted) - parseFloat(totalDepositedFormatted)) / parseFloat(totalDepositedFormatted)) 
+                            / 100 
+                        ) : undefined
 
     
-    const assetViews = indexInfo?.tokenInfoArray?.map( token => {
-        const balance = token.accountBalance ?? BigNumber.from(0)
-        const value = token.accountValue ?? BigNumber.from(0)
+    const tokensBalanceInfo = indexInfo.tokenInfoArray.map( token => {
+        const balance = token.accountBalance
+        const value = token.accountValue
         const decimals = token.decimals
-        // fromDecimals( item.balance, item.decimals, item.symbol === 'USDC' ? 2 : 4),
-        const accountBalanceFormatted = fromDecimals(balance, decimals, token.symbol === 'USDC' ? 2 : 4 ) as any
-        const accountValueFormatted = fromDecimals(value, depositToken.decimals, 2 ) as any
-        const valueFormatted = `${utils.commify(accountBalanceFormatted)} (${utils.commify(accountValueFormatted)} ${ depositToken.symbol }) `
 
-        return { symbol: token.symbol, valueFormatted, balance, value }
-    }).map( it => <TitleValueBox key={it.symbol} title={it.symbol} value={it.valueFormatted} /> )
+        const accountBalanceFormatted = balance ? fromDecimals(balance, decimals, token.symbol === 'USDC' ? 2 : 4 ) : ''
+        const accountValueFormatted = value ? fromDecimals(value, depositToken.decimals, 2 ) : ''
 
+        return {
+            symbol: token.symbol,
+            balance: accountBalanceFormatted,
+            value: accountValueFormatted,
+            depositTokenSymbol: depositToken.symbol,
+            decimals: decimals
+        }
+    }).filter( item => item.balance !== '')
+
+    const loading = tokensBalanceInfo.length === 0
+    const haveAssets = Number(totalValueFormatted) > 0
 
     return (
-        <Box className={classes.container}  >
-            <Box className={classes.portfolioInfo} >
+        <Box className={classes.container}>
 
-                { assetViews }
-
-                <div style={{marginBottom: 20}} />
-
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1bh-content" >
-                        <Typography > Portfolio Info </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails >
-                        <Box>
-                            <TitleValueBox mode="small" title="Assets Value" value={utils.commify(formattedPortfolioValue??"")} suffix={depositToken.symbol} />
-                            {/* <TitleValueBox mode="small" title="My Index share" value={lpPercFormatted} suffix="%" /> */}
-                            <TitleValueBox mode="small" title="Deposits" value={utils.commify(formattedDeposits)} suffix={depositToken.symbol} />
-                            <TitleValueBox mode="small" title="Withdrawals" value={utils.commify(formattedWithdrawals)} suffix={depositToken.symbol} />
-                            <TitleValueBox mode="small" title="ROI" value={roiFormatted??""} suffix="%" />
-                        </Box>
-                    </AccordionDetails>
-                </Accordion>
-              
+            <Box textAlign="center">
+                { loading && <CircularProgress color="secondary" /> }
             </Box>
+
+            { !loading && !haveAssets && 
+                <Typography align="center"> You have no assets in this Index. </Typography>
+            }
+
+            { !loading && haveAssets &&
+                <Box className={classes.layout}>
+                    <AssetValue 
+                        roi={ Number(roiFormatted ?? 0) / 100 } 
+                        value={ Number( totalValueFormatted ?? 0) }
+                        gains={ Number( totalValueFormatted ?? 0) + Number( totalWithdrawnFormatted ?? 0) - Number( totalDepositedFormatted ?? 0) }
+                    />
+                    <MyAssets 
+                        tokens={ tokensBalanceInfo } 
+                        showNoFundsMesssage={false}
+                    />
+                </Box>
+            }
+
         </Box>
     )
 }
-

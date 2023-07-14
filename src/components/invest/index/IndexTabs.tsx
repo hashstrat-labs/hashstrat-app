@@ -30,7 +30,7 @@ const useStyle = makeStyles( theme => ({
         marginTop: 22,
         marginBottom: 22,
         backgroundColor: theme.palette.type === 'light' ? 'white' :'#000',
-        maxWidth: 800,
+        maxWidth: 1200,       
         margin: "auto",
         borderRadius: 8,
     },
@@ -68,7 +68,7 @@ export const IndexTabs = ( { chainId, poolId, account, tokens } : IndexTabsProps
         setSelectedTokenIndex(parseInt(newValue))
     }
 
-    const { name, strategy, disabled } = PoolInfo(chainId, poolId)
+    const { name, description, detail, scope, disabled } = PoolInfo(chainId, poolId)
 
     return (
         <Box className={classes.container}>
@@ -85,6 +85,7 @@ export const IndexTabs = ( { chainId, poolId, account, tokens } : IndexTabsProps
 
             <Box className={classes.title}>
                 <Typography variant="h5">{name}</Typography>
+                <Typography variant="body2" style={{ paddingTop: 10 }}>{description} {scope}</Typography>
             </Box>
 
             <Box className={classes.panelContainer}> 

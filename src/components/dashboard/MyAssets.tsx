@@ -1,4 +1,4 @@
-import { Typography, Box, Divider, makeStyles } from "@material-ui/core"
+import { Typography, Box, Divider, CircularProgress, makeStyles } from "@material-ui/core"
 import { utils } from "ethers"
 import { Horizontal, Vertical } from "../Layout"
 
@@ -11,9 +11,11 @@ import usdc from  "./img/usdc.svg"
 import { StackedBarChart } from "../shared/StackedBarChart"
 
 interface MyAssetsProps {
-    tokens: { balance: string, decimals: number, depositTokenSymbol: string, symbol: string, value: string } []
-    title: string,
-    description? : string | undefined
+    tokens : { balance: string, decimals: number, depositTokenSymbol: string, symbol: string, value: string } []
+    title? : string | undefined,
+    description? : string | undefined,
+    showNoFundsMesssage?: boolean
+    height?: number
 }
 
 const useStyles = makeStyles( theme => ({
@@ -51,7 +53,7 @@ const useStyles = makeStyles( theme => ({
 
 }))
 
-export const MyAssets = ( { tokens, title, description }: MyAssetsProps ) => {
+export const MyAssets = ( { tokens, title, description, showNoFundsMesssage = true, height = 75}: MyAssetsProps ) => {
 
     const classes = useStyles()
     const tokensSorted = tokens.sort( (a, b) => { return Number(b.value) - Number(a.value) } )
@@ -87,12 +89,15 @@ export const MyAssets = ( { tokens, title, description }: MyAssetsProps ) => {
     
     return (
         <Box className={classes.container}>
-            <Horizontal>
-                <img style={{ width: 32, height: 32 }}  src={myAssetsSrc} />
-                <Typography  style={{ fontSize: 20, fontWeight: 500}}> {title} </Typography> 
-            </Horizontal> 
-
-            <Divider style={{ marginTop: 10, marginBottom: 30 }} />
+            { title && 
+                <Box>
+                    <Horizontal>
+                        <img style={{ width: 32, height: 32 }}  src={myAssetsSrc} />
+                        <Typography  style={{ fontSize: 20, fontWeight: 500}}> {title} </Typography> 
+                    </Horizontal> 
+                    <Divider style={{ marginTop: 10, marginBottom: 30 }} />
+                </Box>
+            }
 
             { description && 
                 <Box pb={2}>
@@ -100,13 +105,13 @@ export const MyAssets = ( { tokens, title, description }: MyAssetsProps ) => {
                 </Box>
             }
            
- 
-            <Horizontal spacing="between" >
+            
+            <Horizontal spacing="between">
                 {tokenView}
             </Horizontal> 
 
             <Box py={3}>
-                { !haveFunds && 
+                { !haveFunds && showNoFundsMesssage &&
                     <Box px={2}>
                         <Typography style={{fontSize: 18}}>
                             You have no assets in your portfolio. <br/>
@@ -118,7 +123,7 @@ export const MyAssets = ( { tokens, title, description }: MyAssetsProps ) => {
                     <StackedBarChart 
                         direction="horizontal"
                         data={chartData} 
-                        height={75}
+                        height={height}
                     />
                 }
             </Box>

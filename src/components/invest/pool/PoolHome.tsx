@@ -21,9 +21,10 @@ interface PoolHomeProps {
 const useStyles = makeStyles( theme => ({
 
     container: {
+        maxWidth: 1200,
+        margin: 'auto',
         paddingTop: theme.spacing(2),
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
+  
         [theme.breakpoints.up('xs')]: {
             paddingLeft: theme.spacing(0),
             paddingRight: theme.spacing(0),

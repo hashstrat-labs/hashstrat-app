@@ -15,6 +15,7 @@ import { ConnectAccountHelper } from "../../dashboard/ConnectAccountHelper"
 import { Vertical } from "../../Layout"
 
 import { AppContext } from "../../../context/AppContext"
+import { MyAssets } from "../../dashboard/MyAssets"
 
 
 interface PoolTabsProps {
@@ -34,7 +35,7 @@ const useStyle = makeStyles( theme => ({
         marginTop: 22,
         marginBottom: 22,
         backgroundColor: theme.palette.type === 'light' ? 'white' :'#424242',
-        maxWidth: 800,
+        maxWidth: 1200,
         margin: "auto",
         borderRadius: 8,
     },
@@ -72,7 +73,7 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
         setSelectedTokenIndex(parseInt(newValue))
     }
 
-    const { name, strategy, disabled } = PoolInfo(chainId, poolId)
+    const { name, description, scope, detail, strategy, disabled } = PoolInfo(chainId, poolId)
 
     const isRebalanceStrategy = strategy === "rebalance_01" 
     const isMeanRevStrategy = strategy === "meanrev_01"
@@ -94,6 +95,7 @@ export const PoolTabs = ( { chainId, poolId, account, tokens, investToken } : Po
 
             <Box className={classes.title}>
                 <Typography variant="h5">{name}</Typography>
+                <Typography variant="body2" style={{ paddingTop: 10 }} >{description} {scope}</Typography>
             </Box>
 
 
